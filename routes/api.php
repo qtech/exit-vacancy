@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('Apitoken')->prefix('v1')->group(function(){
+    
+    //REGISTRATION
+    Route::post('/customer/register', 'API\loginController@customer_register');
+    Route::post('/hotel/register', 'API\loginController@hotel_register');
+
+    //LOGIN
+    Route::post('/login', 'API\loginController@check_login');
+});
