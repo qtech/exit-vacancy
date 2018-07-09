@@ -89,6 +89,11 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                <form method="POST" enctype="multipart/form-data" action="{{route('excel')}}">
+                    {{csrf_field()}}
+                    <input type="file" name="file">
+                    <input type="submit" value="Submit">
+                </form>
             </div>
         </div>
     </body>

@@ -19,10 +19,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('Apitoken')->prefix('v1')->group(function(){
     
-    //REGISTRATION
+    // REGISTRATION
     Route::post('/customer/register', 'API\loginController@customer_register');
     Route::post('/hotel/register', 'API\loginController@hotel_register');
 
-    //LOGIN
+    // LOGIN
     Route::post('/login', 'API\loginController@check_login');
+
+    // NEARBY HOTELS
+    Route::post('/nearbyhotels', 'API\nearbyhotelController@nearbyHotel');
+
+    // SEARCH HOTEL
+    Route::post('/searchhotel', 'API\nearbyhotelController@search_hotels');
+
+    // RESET PASSWORD
+    Route::post('/resetpass', 'API\resetpassController@resetpass');
+
+    // EMAIL VERIFICATION
+    Route::post('/sendcode', 'API\verificationController@emailverify');
+    Route::post('/checkcode', 'API\verificationController@verifycode');
+
+    // RATE AND REVIEWS
+    Route::post('/storeratings', 'API\RatereviewController@store_ratings');
 });
