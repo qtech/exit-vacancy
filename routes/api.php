@@ -26,8 +26,8 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // LOGIN
     Route::post('/login', 'API\loginController@check_login');
 
-    // NEARBY HOTELS
-    Route::post('/nearbyhotels', 'API\nearbyhotelController@nearbyHotel');
+    // NEARBY HOTELS WITH DIRECTIONS
+    Route::post('/nearbyhotels', 'API\nearbyhotelController@nearbyhotel_directions');
 
     // SEARCH HOTEL
     Route::post('/searchhotel', 'API\nearbyhotelController@search_hotels');
