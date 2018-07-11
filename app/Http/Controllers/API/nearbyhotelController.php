@@ -39,7 +39,7 @@ class nearbyhotelController extends Controller
                 }
                 else
                 {
-                    if($request->direction == "")
+                    if($request->direction == 0)
                     {
                         $data = [];
 

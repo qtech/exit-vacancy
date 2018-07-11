@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('viewlogin');
 });
 
-Route::post('/excel', 'excelController@excel')->name('excel');
+Route::get('/login', 'SigninController@view')->name('login');
+Route::post('/checklogin', 'SigninController@checkLogin')->name('checklogin');
+
+Route::get('/dashboard', 'DashboardController@view')->name('dashboard');
+//Route::post('/excel', 'excelController@excel')->name('excel');
