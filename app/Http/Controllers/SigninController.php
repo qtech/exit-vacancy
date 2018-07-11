@@ -56,4 +56,21 @@ class SigninController extends Controller
         }
         return response()->json($response);
     }
+
+    public function logout()
+    {
+        try
+        {
+            Auth::logout();
+            return redirect()->route('login')->with('success', 'Logout Successful');
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()."".$e->getLine(),
+                'status' => 0
+            ];
+        }
+        return response()->json($response);
+    }
 }
