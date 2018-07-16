@@ -16,7 +16,7 @@
         <!-- Begin page -->
         <div class="accountbg"></div>
         <div class="wrapper-page">
-            <div class="panel panel-color panel-primary panel-pages">
+            <div class="panel panel-color panel-primary panel-pages" style="height:410px;">
 
                 <div class="panel-body">
                     <h3 class="text-center m-t-0 m-b-15">
@@ -24,11 +24,13 @@
                     </h3>
                     <h4 class="text-muted text-center m-t-0"><b>Log In</b></h4>
                     @include('include.msg')
-                    <div id="error" class="label label-danger" style="display:none">
-                        <strong style="font-weight: 700; font-size: 24px;"></strong>
+                    <div id="error" class="alert alert-danger alert-dismissible fade in" style="display:none">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                        </button>
                     </div>
-                    <div id="success" class="label label-info" style="display:none">
-                        <strong style="font-weight: 700; font-size: 24px;"></strong>
+                    <div id="success" class="alert alert-success alert-dismissible fade in" style="display:none">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                        </button>
                     </div>
                     <form class="form-horizontal m-t-20">
 
@@ -46,7 +48,7 @@
 
                         <div class="form-group text-center m-t-40" style="position:relative">
                             <div class="col-xs-12">
-                                <input id="button" class="btn btn-primary btn-block btn-lg" type="submit" onclick="checklogin(); event.preventDefault();" value="Login">
+                                <input id="button" class="btn btn-primary btn-block btn-lg" type="submit" onclick="checklogin(); event.preventDefault();" style="font-weight:700" value="Login">
                                     <div>
                                         <img id='loader' style="display:none;position:absolute;top:0px;left:45%;" class="gifloader" height="45px" width="45px" src='loader.gif'/>
                                     </div>
@@ -69,27 +71,27 @@
               document.getElementById("button").disabled = true;
               document.getElementById("button").value = "";
               document.getElementById("loader").style.display = "block";
-      
               var ajx = new XMLHttpRequest();
               ajx.onreadystatechange = function () {
                   if (ajx.readyState == 4 && ajx.status == 200) {
                       var demo = JSON.parse(ajx.responseText);
                       if(demo.status == 1)
                       {
-                          document.getElementById('success').style.display = "block";
-                          document.getElementById('success').innerHTML = demo.msg;
-                          setTimeout(function(){
-                              window.location.href = "{{route('dashboard')}}";
-                          },1000);
+                        document.getElementById("loader").style.display = "none";
+                        document.getElementById('success').style.display = "block";
+                        document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
+                        setTimeout(function(){
+                            window.location.href = "{{route('dashboard')}}";
+                        },1000);
                       }
                       else
-                      {   
-                          document.getElementById('error').style.display = "block";
-                          document.getElementById('error').innerHTML = demo.msg;
-                          setTimeout(function(){
-                              window.location.href = "{{route('login')}}";
-                              document.getElementById("button").disabled = false;
-                          },3000);
+                      {
+                        document.getElementById("loader").style.display = "none";   
+                        document.getElementById('error').style.display = "block";
+                        document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
+                        setTimeout(function(){
+                            window.location.href = "{{route('login')}}";
+                        },1000);
                       }
                   }
               };
@@ -97,7 +99,7 @@
               ajx.setRequestHeader("Content-type", "application/json");
               ajx.send(JSON.stringify(param));
           }
-      </script>
+        </script>
 
         <!-- jQuery  -->
         <script src="{{asset('/assets/js/jquery.min.js')}}"></script>

@@ -3,7 +3,7 @@
     <div class="topbar-left">
         <!--<a href="index.html" class="logo"><span>Up</span>Bond</a>-->
         <!--<a href="index.html" class="logo-sm"><span>U</span></a>-->
-        <a class="logo"><img src="logo.png" height="45" width="100" alt="logo"></a>
+        <a class="logo"><img src="{{asset('logo.png')}}" height="45" width="100" alt="logo"></a>
     </div>
     <!-- Button mobile view to collapse sidebar menu -->
     <div class="navbar navbar-default" role="navigation">
@@ -11,7 +11,7 @@
             <div class="">
                 <div class="pull-left">
                     <button type="button" class="button-menu-mobile open-left waves-effect waves-light">
-                        <i class="ion-navicon"></i>
+                        <i class="ion-arrow-left-c"></i>
                     </button>
                     <span class="clearfix"></span>
                 </div>

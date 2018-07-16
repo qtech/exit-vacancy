@@ -7,16 +7,30 @@
         <div id="sidebar-menu">
             <ul>
                 <li>
-                    <a href="index.html" class="waves-effect"><i class="ti-home"></i><span> Dashboard</span></a>
+                    <a href="#" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span><strong>Dashboard</strong></span></a>
+                </li>
+
+                <li>
+                    <a href="{{route('appusers')}}" class="waves-effect"><i class="mdi mdi-account-multiple"></i><span><strong>App Users</strong></span></a>
+                </li>
+
+                <li>
+                    <a href="#" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
+                </li>
+
+                <li>
+                <a href="{{route('notifications')}}" class="waves-effect"><i class="mdi mdi-notification-clear-all"></i><span><strong>Notifications</strong></span></a>
+                </li>
+
+                <li>
+                    <a href="# class="waves-effect"><i class="mdi mdi-message-text-outline"></i><span><strong>Mobile SMS</strong></span></a>
                 </li>
 
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="ti-list"></i><span> Tables </span><span class="pull-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="#" class="waves-effect"><i class="mdi mdi-history"></i><span><strong>Service History</strong></span><span class="pull-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="tables-basic.html">Basic Tables</a></li>
-                        <li><a href="tables-datatable.html">Data Table</a></li>
-                        <li><a href="tables-responsive.html">Responsive Table</a></li>
-                        <li><a href="tables-editable.html">Editable Table</a></li>
+                        <li><a href="#"><i class="mdi mdi-check"></i><strong>Completed</strong></a></li>
+                        <li><a href="#"><i class="mdi mdi-minus"></i><strong>Cancelled</strong></a></li>
                     </ul>
                 </li>
             </ul>

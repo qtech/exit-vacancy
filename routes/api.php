@@ -20,8 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('Apitoken')->prefix('v1')->group(function(){
     
     // REGISTRATION
-    Route::post('/customer/register', 'API\loginController@customer_register');
-    Route::post('/hotel/register', 'API\loginController@hotel_register');
+    Route::post('/user/register', 'API\AppuserController@customer_register');
+    Route::post('/hotel/register', 'API\AppuserController@hotel_register');
+
+    // EDIT CUSTOMER PROFILE
+    Route::post('/user/editprofile', 'API\AppuserController@edit_customer_profile');
 
     // LOGIN
     Route::post('/login', 'API\loginController@check_login');
@@ -39,6 +42,21 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     Route::post('/sendcode', 'API\verificationController@emailverify');
     Route::post('/checkcode', 'API\verificationController@verifycode');
 
+    // MOBILE VERIFICATION
+    Route::post('/sendotp', 'API\verificationController@mobileverify');
+    Route::post('/checkotp', 'API\verificationController@verifyotp');
+
     // RATE AND REVIEWS
     Route::post('/storeratings', 'API\RatereviewController@store_ratings');
+    Route::post('/showratings', 'API\RatereviewController@show_ratings');
+
+    // LIKED HOTELS BY USER
+    Route::post('/likehotel', 'API\LikedhotelsController@like_hotel');
+    Route::post('/dislikehotel', 'API\LikedhotelsController@dislike_hotel');
+    Route::post('/showlikedhotels', 'API\LikedhotelsController@show_liked_hotels');
+
+    // BOOK A HOTEL
+    Route::post('/storebooking', 'API\BookingController@storeBooking');
 });
+
+Route::get('/check', 'API\ApitudeController@check');

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-    
-<!-- Mirrored from themesdesign.in/upbond_1.1/layouts/green/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 11 Jul 2018 12:12:56 GMT -->
 <head>
         <title>{{config('app.name')}}</title>
         
-        <link rel="shortcut icon" href="{{asset('/assets/images/favicon.ico')}}">
+        <link rel="shortcut icon" href="{{asset('logo.png')}}">
+
+        {{-- DATA-TABLES --}}
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
         <!--Morris Chart CSS -->
         <link rel="stylesheet" href="{{asset('/assets/plugins/morris/morris.css')}}">
@@ -13,7 +15,7 @@
         <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('/assets/css/icons.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('/assets/css/style.css')}}" rel="stylesheet" type="text/css">
-
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     </head>
 
 
@@ -29,12 +31,11 @@
             @include('include.sidebar')
             <!-- Left Sidebar End -->
             <!-- Start right Content here -->
-
+			@yield('content')
             <!-- End Right content here -->
 
         </div>
         <!-- END wrapper -->
-
 
         <!-- jQuery  -->
         <script src="{{asset('/assets/js/jquery.min.js')}}"></script>
@@ -57,7 +58,14 @@
 
         <script src="{{asset('/assets/js/app.js')}}"></script>
 
+        {{-- DATA-TABLES --}}
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#example').DataTable();
+            } );
+        </script>
     </body>
-
-<!-- Mirrored from themesdesign.in/upbond_1.1/layouts/green/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 11 Jul 2018 12:14:04 GMT -->
 </html>

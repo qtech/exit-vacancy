@@ -20,9 +20,7 @@ class verificationController extends Controller
             if(count($check_email) > 0)
             {
                 $code = randomPassword::randomPassword(7);
-                $check_email->verify_code = $code;
-                $check_email->save();
-
+                
                 $data = [
                     'fname' => $check_email->fname,
                     'lname' => $check_email->lname,
@@ -34,7 +32,8 @@ class verificationController extends Controller
 
                 $response = [
                     'msg' => "Verification Code is sent to your Email",
-                    'status' => 1
+                    'status' => 1,
+                    'code' => $code
                 ];
             }
             else
@@ -59,25 +58,71 @@ class verificationController extends Controller
     {
         try
         {
-            $check_code = User::where(['email' => $request->email,'verify_code' => $request->code])->first();
+            $check_code = User::where(['user_id' => $request->user_id])->first();
 
-            if(count($check_code) > 0)
-            {
-                $check_code->is_email_verify = 1;
-                $check_code->save();
+            $check_code->is_email_verify = 1;
+            $check_code->save();
 
-                $response = [
-                    'msg' => 'Email verification successful',
-                    'status' => 1
-                ];
-            }
-            else
-            {
-                $response = [
-                    'msg' => 'Your verification code is not valid',
-                    'status' => 0
-                ];
-            }
+            $response = [
+                'msg' => 'Email verification successful',
+                'status' => 1
+            ];
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage(),
+                'status' => 0
+            ];
+        }
+        return response()->json($response);
+    }
+
+    public function mobileverify(Request $request)
+    {
+        try
+        {
+            $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
+            $client = new \Nexmo\Client($basic);
+
+            $otp = mt_rand(999,9999);
+
+            $message = $client->message()->send([
+                'to' => $request->phone,
+                'from' => '+919727959595',
+                'text' => "Your OTP for ExitVacancy App is ".$otp
+            ]);
+
+            $response = [
+                'msg' => 'OTP sent to the user',
+                'status' => 1,
+                'OTP' => $otp
+            ];
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function verifyotp(Request $request)
+    {
+        try
+        {
+            $check_otp = User::where(['user_id' => $request->user_id])->first();
+
+            $check_otp->is_mobile_verify = 1;
+            $check_otp->save();
+
+            $response = [
+                'msg' => 'Mobile verification successful',
+                'status' => 1
+            ];            
         }
         catch(\Exception $e)
         {
