@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\User;
 use App\Customer;
+use Illuminate\Support\Facades\Hash;
+use App\Hotel;
 
 class AppuserController extends Controller
 {

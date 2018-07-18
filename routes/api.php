@@ -58,5 +58,5 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // BOOK A HOTEL
     Route::post('/storebooking', 'API\BookingController@storeBooking');
 });
-
+Route::get('/getimages', 'API\GetimagesController@getImages');
 Route::get('/check', 'API\ApitudeController@check');

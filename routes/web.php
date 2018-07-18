@@ -21,7 +21,7 @@ Route::post('/checklogin', 'SigninController@checkLogin')->name('checklogin');
 Route::get('/logout', 'SigninController@logout')->name('logout');
 
 
-Route::middleware('auth')->prefix('admin')->group(function(){
+Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
     // DASHBOARD
     Route::prefix('dashboard')->group(function(){
         Route::get('/', 'DashboardController@view')->name('dashboard');
@@ -40,6 +40,35 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::get('/delete/{id}', 'NotificationController@delete')->name('deletenotification');
     });
 });
+
+Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function(){
+    // DASHBOARD
+    Route::prefix('dashboard')->group(function(){
+        Route::get('/', 'DashboardController@view')->name('h.dashboard');
+    });
+
+    Route::prefix('rooms')->group(function(){
+        Route::prefix('standard')->group(function(){
+            Route::get('/', 'Hotel\AddroomController@add_standard_room')->name('h.s.room');
+            Route::put('/update', 'Hotel\AddroomController@update_standard_room')->name('h.s.update');
+            Route::get('/addimage', 'Hotel\AddroomController@add_standard_room_images')->name('s.addimages');
+        });
+
+        Route::prefix('deluxe')->group(function(){
+            Route::get('/', 'Hotel\AddroomController@add_deluxe_room')->name('h.d.room');
+            Route::put('/update', 'Hotel\AddroomController@update_deluxe_room')->name('h.d.update');
+            Route::get('/addimage', 'Hotel\AddroomController@add_deluxe_room_images')->name('d.addimages');
+        });
+
+        Route::prefix('superdeluxe')->group(function(){
+            Route::get('/', 'Hotel\AddroomController@add_superdeluxe_room')->name('h.sd.room');
+            Route::put('/update', 'Hotel\AddroomController@update_superdeluxe_room')->name('h.sd.update');
+            Route::get('/addimage', 'Hotel\AddroomController@add_superdeluxe_room_images')->name('sd.addimages');
+        });
+    });
+});
+
+
 
 
 

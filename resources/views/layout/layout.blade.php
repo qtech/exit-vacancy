@@ -4,6 +4,18 @@
         <title>{{config('app.name')}}</title>
         
         <link rel="shortcut icon" href="{{asset('logo.png')}}">
+        <style>
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                margin: 0; 
+            }
+        </style>
+        
+        {{-- DROP-ZONE --}}
+        <link href="{{asset('/assets/plugins/dropzone/dist/dropzone.css')}}" rel="stylesheet" type="text/css">
 
         {{-- DATA-TABLES --}}
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -36,7 +48,7 @@
 
         </div>
         <!-- END wrapper -->
-
+    
         <!-- jQuery  -->
         <script src="{{asset('/assets/js/jquery.min.js')}}"></script>
         <script src="{{asset('/assets/js/bootstrap.min.js')}}"></script>
@@ -53,10 +65,11 @@
         <!--Morris Chart-->
         <script src="{{asset('/assets/plugins/morris/morris.min.js')}}"></script>
         <script src="{{asset('/assets/plugins/raphael/raphael-min.js')}}"></script>
-
         <script src="{{asset('/assets/pages/dashborad.js')}}"></script>
-
         <script src="{{asset('/assets/js/app.js')}}"></script>
+
+        {{-- DROP-ZONE --}}
+        <script src="{{asset('/assets/plugins/dropzone/dist/dropzone.js')}}"></script>
 
         {{-- DATA-TABLES --}}
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>

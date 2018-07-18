@@ -48,8 +48,9 @@ class nearbyhotelController extends Controller
                             $temp = [
                                 'hotel_id' => $value->hotel_data_id,
                                 'hotel_name' => $value->hotel_name,
-                                'image' => ($value->image != NULL) ? url('/')."/".$value->image : "",
+                                'image' => ($value->image != NULL) ? $value->image : "",
                                 'price' => $value->price,
+                                'ratings' => $value->ratings,
                                 'country' => $value->country,
                                 'stars' => $value->stars,
                                 'city' => $value->city,
@@ -58,8 +59,30 @@ class nearbyhotelController extends Controller
                                 'url' => $value->url,
                                 'latitude' => $value->latitude,
                                 'longitude' => $value->longitude,
-                                'distance' => $value->distance
+                                'distance' => $value->distance,
                             ];
+
+                            $temp['rooms'] = [
+                                [
+                                    'room_type' => "Standard",
+                                    'room_available' => $value->standard_room,
+                                    'room_image' => ($value->standard_room_image != NULL) ? url("/")."/".$value->standard_room_image : "",
+                                    'room_price' => $value->standard_room_price,
+                                ],
+                                [
+                                    'room_type' => "Deluxe",
+                                    'room_available' => $value->deluxe_room,
+                                    'room_image' => ($value->deluxe_room_image != NULL) ? url("/")."/".$value->deluxe_room_image : "",
+                                    'room_price' => $value->deluxe_room_price,
+                                ],
+                                [
+                                    'room_type' => "Super Deluxe",
+                                    'room_available' => $value->superdeluxe_room,
+                                    'room_image' => ($value->superdeluxe_room_image != NULL) ? url("/")."/".$value->superdeluxe_room_image : "",
+                                    'room_price' => $value->superdeluxe_room_price,
+                                ]
+                            ];
+                             
                             array_push($data,$temp);
                         }
 
@@ -118,8 +141,9 @@ class nearbyhotelController extends Controller
                             $data = [
                                 'hotel_id' => $value->hotel_data_id,
                                 'hotel_name' => $value->hotel_name,
-                                'image' => ($value->image != NULL) ? url('/')."/".$value->image : "",
+                                'image' => ($value->image != NULL) ? $value->image : "",
                                 'price' => $value->price,
+                                'ratings' => $value->ratings,
                                 'country' => $value->country,
                                 'stars' => $value->stars,
                                 'city' => $value->city,
@@ -130,6 +154,27 @@ class nearbyhotelController extends Controller
                                 'longitude' => $value->longitude,
                                 'distance' => $value->distance,
                                 'direction' => $direction
+                            ];
+
+                            $data['rooms'] = [
+                                [
+                                    'room_type' => "Standard",
+                                    'room_available' => $value->standard_room,
+                                    'room_image' => ($value->standard_room_image != NULL) ? url("/")."/".$value->standard_room_image : "",
+                                    'room_price' => $value->standard_room_price,
+                                ],
+                                [
+                                    'room_type' => "Deluxe",
+                                    'room_available' => $value->deluxe_room,
+                                    'room_image' => ($value->deluxe_room_image != NULL) ? url("/")."/".$value->deluxe_room_image : "",
+                                    'room_price' => $value->deluxe_room_price,
+                                ],
+                                [
+                                    'room_type' => "Super Deluxe",
+                                    'room_available' => $value->superdeluxe_room,
+                                    'room_image' => ($value->superdeluxe_room_image != NULL) ? url("/")."/".$value->superdeluxe_room_image : "",
+                                    'room_price' => $value->superdeluxe_room_price,
+                                ]
                             ];
 
                             if($data['direction'] == "North" || $data['direction'] == "North-East" || $data['direction'] == "North-West")
@@ -210,7 +255,7 @@ class nearbyhotelController extends Controller
                     $data = [
                         'hotel_id' => $search->hotel_data_id,
                         'hotel_name' => $search->hotel_name,
-                        'image' => ($search->image != NULL) ? url('/')."/".$search->image : "",
+                        'image' => ($search->image != NULL) ? $search->image : "",
                         'stars' => $search->stars,
                         'country' => $search->country,
                         'address' => $search->address,
@@ -235,7 +280,7 @@ class nearbyhotelController extends Controller
                         $tmp = [
                             'hotel_id' => $value->hotel_data_id,
                             'hotel_name' => $value->hotel_name,
-                            'image' => ($search->image != NULL) ? url('/')."/".$search->image : "",
+                            'image' => ($search->image != NULL) ? $search->image : "",
                             'stars' => $value->stars,
                             'country' => $value->country,
                             'address' => $value->address,

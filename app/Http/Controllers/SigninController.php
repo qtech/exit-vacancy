@@ -18,7 +18,7 @@ class SigninController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'uname' => 'required',
+                'email' => 'required',
                 'password' => 'required'
             ]);
 
@@ -31,12 +31,22 @@ class SigninController extends Controller
             }
             else
             {
-                if(Auth::attempt(['fname' => $request->uname, 'password' => $request->password, 'role' => 1]))
+                if(Auth::attempt(['email' => $request->email, 'password' => $request->password]))
                 {
-                    $response = [
-                        'msg' => 'Login Successful',
-                        'status' => 1
-                    ];
+                    if(Auth()->user()->role == 1)
+                    {
+                        $response = [
+                            'msg' => 'Welcome Admin',
+                            'status' => 1
+                        ];
+                    }
+                    else
+                    {
+                        $response = [
+                            'msg' => 'Welcome Hotel Owner',
+                            'status' => 2
+                        ];
+                    }
                 }
                 else
                 {

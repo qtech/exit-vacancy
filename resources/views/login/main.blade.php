@@ -36,7 +36,7 @@
 
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" name="uname" id="uname" type="text" placeholder="Username">
+                                <input class="form-control" name="email" id="email" type="text" placeholder="Email">
                             </div>
                         </div>
 
@@ -61,10 +61,10 @@
 
         <script type="text/javascript">
           function checklogin() {
-              var uname = document.getElementById("uname").value;
+              var email = document.getElementById("email").value;
               var password = document.getElementById("password").value;
               var param = {
-                  "uname":uname,
+                  "email":email,
                   "password":password,
                   "_token":'{{csrf_token()}}'
               }
@@ -82,6 +82,15 @@
                         document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
                         setTimeout(function(){
                             window.location.href = "{{route('dashboard')}}";
+                        },1000);
+                      }
+                      else if(demo.status == 2)
+                      {
+                        document.getElementById("loader").style.display = "none";
+                        document.getElementById('success').style.display = "block";
+                        document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
+                        setTimeout(function(){
+                            window.location.href = "{{route('h.dashboard')}}";
                         },1000);
                       }
                       else

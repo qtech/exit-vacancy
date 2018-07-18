@@ -1,4 +1,4 @@
-@extends('layout.layout')
+@extends('layout.layout');
 
 @section('content')
 <div class="content-page">
@@ -18,22 +18,29 @@
                     <div class="col-sm-12">
                         <div class="panel panel-primary" style="box-shadow:0px 0px 10px 4px #cccccc">
                             <div class="panel-body">
-                                <h4 class="m-t-0 m-b-30">Add Notification</h4>
+                                <h4 class="m-t-0 m-b-30">Deluxe Room details</h4>
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label">Title</label>
+                                        <label class="col-md-2 control-label">Amenities</label>
                                         <div class="col-md-10">
-                                            <input name="title" id="title" type="text" class="form-control" placeholder="Notification Title">
+                                        <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->hoteldata->deluxe_room_amenity}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label">Description</label>
+                                        <label class="col-md-2 control-label">Price</label>
                                         <div class="col-md-10">
-                                            <textarea name="message" id="message" style="resize:none" class="form-control" rows="5" placeholder="Notification Message"></textarea>
+                                            <input name="price" id="price" type="number" class="form-control" value="{{$room->hoteldata->deluxe_room_price}}">
                                         </div>
                                     </div>
-                                    <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary" value="Add">
-                                    <a href="{{route('notifications')}}" class="btn btn-inverse" style="color:black; box-shadow:0px 0px 7px 0.3px grey;">Cancel</a>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Rooms Available</label>
+                                        <div class="col-md-10">
+                                            <input name="rooms" id="rooms" type="number" class="form-control" value="{{$room->hoteldata->deluxe_room}}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <a href="{{route('d.addimages')}}" class="btn btn-warning">Add Images</a>
+                                    <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
                                 </form>      
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
@@ -43,13 +50,16 @@
         </div> <!-- Page content Wrapper -->
     </div> <!-- content -->
 </div>
+
 <script type="text/javascript">
     function addnotification(){
-        var title = document.getElementById("title").value;
-        var message = document.getElementById("message").value;
+        var amenity = document.getElementById("amenities").value;
+        var price = document.getElementById("price").value;
+        var number = document.getElementById("rooms").value;
         var param = {
-            "title":title,
-            "message":message,
+            "amenity":amenity,
+            "price":price,
+            "rooms":number,
             "_token":'{{csrf_token()}}'
         }
 
@@ -62,7 +72,7 @@
                     document.getElementById('success').style.display = "block";
                     document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
                     setTimeout(function(){
-                        window.location.href = "{{route('notifications')}}";   
+                        window.location.href = "{{route('h.d.room')}}";   
                     },1000);
                 }
                 else
@@ -70,12 +80,12 @@
                     document.getElementById('error').style.display = "block";
                     document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
                     setTimeout(function(){
-                        window.location.href = "{{route('addnotification')}}";
+                        window.location.href = "{{route('h.d.room')}}";
                     },1000);
                 }
             }
         };
-        ajx.open("POST", "{{route('storenotification')}}", true);
+        ajx.open("PUT", "{{route('h.d.update')}}", true);
         ajx.setRequestHeader("Content-type", "application/json");
         ajx.send(JSON.stringify(param));
     }
