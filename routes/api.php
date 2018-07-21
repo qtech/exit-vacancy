@@ -29,8 +29,8 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // LOGIN
     Route::post('/login', 'API\loginController@check_login');
 
-    // NEARBY HOTELS WITH DIRECTIONS
-    Route::post('/nearbyhotels', 'API\nearbyhotelController@nearbyhotel_directions');
+    // NEARBY HOTELS WITH DIRECTIONS AND NOTIFICATIONS
+    Route::post('/nearbyhotels', 'API\nearbyhotelController@nearbyhotel_notifications');
 
     // SEARCH HOTEL
     Route::post('/searchhotel', 'API\nearbyhotelController@search_hotels');
@@ -57,6 +57,14 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 
     // BOOK A HOTEL
     Route::post('/storebooking', 'API\BookingController@storeBooking');
+
+    // ROOM DETAILS
+    Route::post('/roomdetails', 'API\RoomsController@getRoomdetails');
+    Route::post('/updatestandardroom', 'API\RoomsController@update_standardRoom');
+    Route::post('/updatedeluxeroom', 'API\RoomsController@update_deluxeRoom');
+    Route::post('/updatesuperdeluxeroom', 'API\RoomsController@update_superdeluxeRoom');
 });
-Route::get('/getimages', 'API\GetimagesController@getImages');
-Route::get('/check', 'API\ApitudeController@check');
+
+
+// Route::get('/getimages', 'API\GetimagesController@getImages');
+// Route::get('/check', 'API\ApitudeController@check');

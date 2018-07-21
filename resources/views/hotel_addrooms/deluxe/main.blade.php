@@ -23,19 +23,19 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Amenities</label>
                                         <div class="col-md-10">
-                                        <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->hoteldata->deluxe_room_amenity}}">
+                                        <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->deluxe_room_amenity}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Price</label>
                                         <div class="col-md-10">
-                                            <input name="price" id="price" type="number" class="form-control" value="{{$room->hoteldata->deluxe_room_price}}">
+                                            <input name="price" id="price" type="number" class="form-control" value="{{$room->deluxe_room_price}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Rooms Available</label>
                                         <div class="col-md-10">
-                                            <input name="rooms" id="rooms" type="number" class="form-control" value="{{$room->hoteldata->deluxe_room}}">
+                                            <input name="rooms" id="rooms" type="number" class="form-control" value="{{$room->deluxe_room}}">
                                         </div>
                                     </div>
                                     <br>

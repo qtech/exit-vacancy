@@ -8,7 +8,7 @@ use Validator;
 use App\User;
 use App\Customer;
 use Illuminate\Support\Facades\Hash;
-use App\Hotel;
+use App\Hoteldata;
 
 class AppuserController extends Controller
 {
@@ -64,7 +64,7 @@ class AppuserController extends Controller
                     $customer = Customer::create($customer);
 
                     $response = [
-                        'msg' => "Registration successful",
+                        'msg' => "User registration successful",
                         'status' => 1
                     ];
                 }
@@ -127,12 +127,24 @@ class AppuserController extends Controller
                     $user['role'] = 3;
                     $user = User::create($user);
 
-                    $hotel = $request->all();
-                    $hotel['user_id'] = $user->user_id;
-                    $hotel = Hotel::create($hotel);
+                    $hotel = Hoteldata::orderBy('user_id', 'ASC')->first();
+                    $hotel->hotel_name = $request->hotel_name;
+                    $hotel->user_id = $user->user_id;
+                    $hotel->number = $request->number;
+                    $hotel->building = $request->building;
+                    $hotel->street = $request->street;
+                    $hotel->landmark = $request->landmark;
+                    $hotel->city = $request->city;
+                    $hotel->state = $request->state;
+                    $hotel->country = $request->country;
+                    $hotel->zipcode = $request->zipcode;
+                    $hotel->terms_status = $request->terms_status;
+                    $hotel->latitude = $request->latitude;
+                    $hotel->longitude = $request->longitude;
+                    $hotel->save();
 
                     $response = [
-                        'msg' => 'Registration Successful',
+                        'msg' => 'Hotel registration Successful',
                         'status' => 1
                     ];
                 }

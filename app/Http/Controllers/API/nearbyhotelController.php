@@ -5,18 +5,24 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
-use App\Hoteldata;
 use Validator;
+use App\User;
+use App\Notifications;
+use App\Hoteldata;
+use App\Customer;
 
 class nearbyhotelController extends Controller
 {
-    public function nearbyhotel_directions(Request $request)
+    public function nearbyhotel_notifications(Request $request)
     {
         try
         {
             $validator = Validator::make($request->all(),[
                 'latitude' => 'required',
-                'longitude' => 'required'
+                'longitude' => 'required',
+                'user_id' => 'required',
+                'distance' => 'required',
+                'direction' => 'required'
             ]);
 
             if($validator->fails())
@@ -47,6 +53,7 @@ class nearbyhotelController extends Controller
                         {
                             $temp = [
                                 'hotel_id' => $value->hotel_data_id,
+                                'user_id' => $value->user_id, 
                                 'hotel_name' => $value->hotel_name,
                                 'image' => ($value->image != NULL) ? $value->image : "",
                                 'price' => $value->price,
@@ -55,7 +62,7 @@ class nearbyhotelController extends Controller
                                 'stars' => $value->stars,
                                 'city' => $value->city,
                                 'address' => $value->address,
-                                'location' => $value->location,
+                                'state' => $value->state,
                                 'url' => $value->url,
                                 'latitude' => $value->latitude,
                                 'longitude' => $value->longitude,
@@ -86,10 +93,33 @@ class nearbyhotelController extends Controller
                             array_push($data,$temp);
                         }
 
+                        $user = User::where(['user_id' => $request->user_id])->first();
+                        $customer = Customer::where(['user_id' => $request->user_id])->first();
+
+                        $collect = [
+                            'name' => $user->fname." ".$user->lname,
+                            'email' => $user->email,
+                            'number' => $customer->number,
+                            'building' => $customer->building,
+                            'street' => $customer->street,
+                            'landmark' => $customer->landmark,
+                            'city' => $customer->city,
+                            'state' => $customer->state
+                        ];
+                        
+                        foreach($data as $value)
+                        {
+                            if($value['user_id'] != 0)
+                            {
+                                $notify = User::where(['user_id' => $value['user_id']])->first();
+                                $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                            }
+                        }
+
                         $response = [
                             'msg' => count($nearby).' hotels available nearby your current location',
                             'status' => 1,
-                            'data' => $data
+                            'notify' => 'Notification sent'
                         ];
                     }
                     else
@@ -140,6 +170,7 @@ class nearbyhotelController extends Controller
 
                             $data = [
                                 'hotel_id' => $value->hotel_data_id,
+                                'user_id' => $value->user_id,
                                 'hotel_name' => $value->hotel_name,
                                 'image' => ($value->image != NULL) ? $value->image : "",
                                 'price' => $value->price,
@@ -148,7 +179,7 @@ class nearbyhotelController extends Controller
                                 'stars' => $value->stars,
                                 'city' => $value->city,
                                 'address' => $value->address,
-                                'location' => $value->location,
+                                'state' => $value->state,
                                 'url' => $value->url,
                                 'latitude' => $value->latitude,
                                 'longitude' => $value->longitude,
@@ -197,34 +228,70 @@ class nearbyhotelController extends Controller
 
                         if($request->direction == 1)
                         {
+                            foreach($north as $value)
+                            {
+                                if($value['user_id'] != 0)
+                                {
+                                    $notify = User::where(['user_id' => $value['user_id']])->first();
+                                    $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                }
+                            }
+
                             $response = [
                                 'msg' => count($north).' hotels available in selected direction',
                                 'status' => 1,
-                                'data' => $north
+                                'notify' => 'Notification sent'
                             ];
                         }
                         if($request->direction == 2)
                         {
+                            foreach($east as $value)
+                            {
+                                if($value['user_id'] != 0)
+                                {
+                                    $notify = User::where(['user_id' => $value['user_id']])->first();
+                                    $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                }
+                            }
+
                             $response = [
                                 'msg' => count($east).' hotels available in selected direction',
                                 'status' => 1,
-                                'data' => $east
+                                'notify' => 'Notification sent'
                             ];
                         }
                         if($request->direction == 3)
                         {
+                            foreach($south as $value)
+                            {
+                                if($value['user_id'] != 0)
+                                {
+                                    $notify = User::where(['user_id' => $value['user_id']])->first();
+                                    $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                }
+                            }
+
                             $response = [
                                 'msg' => count($south).' hotels available in selected direction',
                                 'status' => 1,
-                                'data' => $south
+                                'notify' => 'Notification sent'
                             ];
                         }
                         if($request->direction == 4)
                         {
+                            foreach($west as $value)
+                            {
+                                if($value['user_id'] != 0)
+                                {
+                                    $notify = User::where(['user_id' => $value['user_id']])->first();
+                                    $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                }
+                            }
+
                             $response = [
                                 'msg' => count($west).' hotels available in selected direction',
                                 'status' => 1,
-                                'data' => $west
+                                'notify' => 'Notification sent'
                             ];
                         }
                     }
@@ -259,7 +326,7 @@ class nearbyhotelController extends Controller
                         'stars' => $search->stars,
                         'country' => $search->country,
                         'address' => $search->address,
-                        'location' => $search->location,
+                        'state' => $search->state,
                         'url' => $search->url,
                         'latitude' => $search->latitude,
                         'longitude' => $search->longitude
@@ -284,7 +351,7 @@ class nearbyhotelController extends Controller
                             'stars' => $value->stars,
                             'country' => $value->country,
                             'address' => $value->address,
-                            'location' => $value->location,
+                            'state' => $value->state,
                             'url' => $value->url,
                             'latitude' => $value->latitude,
                             'longitude' => $value->longitude

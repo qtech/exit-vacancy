@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Customer;
-use App\Hotel;
+use App\Hoteldata;
 use Validator;
 
 class loginController extends Controller
@@ -39,13 +39,63 @@ class loginController extends Controller
                     {
                         $check_login->fcm_id = $request->fcm_id;
                         $check_login->save();
+                        
+                        if($check_login->role == 2)
+                        {
+                            $customer = Customer::where(['user_id' => $check_login->user_id])->first();
 
-                        $response = [
-                            'msg' => 'Login Successful',
-                            'status' => 1,
-                            'id' => $check_login->user_id,
-                            'role' => $check_login->role
-                        ];
+                            $data = [
+                                'user_id' => $check_login->user_id,
+                                'fname' => $check_login->fname,
+                                'lname' => $check_login->lname,
+                                'role' => $check_login->role,
+                                'number' => $customer->number,
+                                'building' => $customer->building,
+                                'street' => $customer->street,
+                                'landmark' => $customer->landmark,
+                                'city' => $customer->city,
+                                'state' => $customer->state,
+                                'country' => $customer->country,
+                                'zipcode' => $customer->zipcode
+                            ];
+
+                            $response = [
+                                'msg' => 'Login Successful',
+                                'status' => 1,
+                                'data' => $data
+                            ];
+                        }
+                        else
+                        {
+                            $hotel = Hoteldata::where(['user_id' => $check_login->user_id])->first();
+
+                            $data = [
+                                'hotel_user_id' => $check_login->user_id,
+                                'hotel_id' => $hotel->hotel_data_id,
+                                'fname' => $check_login->fname,
+                                'lname' => $check_login->lname,
+                                'hotel_name' => $hotel->hotel_name,
+                                'hotel_stars' => $hotel->stars,
+                                'hotel_ratings' => $hotel->ratings,
+                                'hotel_image' => ($hotel->image != NULL) ? $hotel->image : "",
+                                'hotel_base_price' => $hotel->price,
+                                'role' => $check_login->role,
+                                'number' => $hotel->number,
+                                'building' => $hotel->building,
+                                'street' => $hotel->street,
+                                'landmark' => $hotel->landmark,
+                                'city' => $hotel->city,
+                                'state' => $hotel->state,
+                                'country' => $hotel->country,
+                                'zipcode' => $hotel->zipcode
+                            ];
+
+                            $response = [
+                                'msg' => 'Login Successful',
+                                'status' => 1,
+                                'data' => $data
+                            ];
+                        }
                     }
                     else
                     {

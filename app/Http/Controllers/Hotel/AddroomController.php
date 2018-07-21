@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Hotel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-use App\Hotel;
 use App\Hoteldata;
 use App\User;
 
@@ -15,7 +14,7 @@ class AddroomController extends Controller
     {
         try
         {
-            $room = Hotel::with('hoteldata')->where(['user_id' => Auth()->user()->user_id])->first();
+            $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
             return view('hotel_addrooms.standard.main')->with('room', $room);
         }
         catch(\Exception $e)
@@ -55,11 +54,11 @@ class AddroomController extends Controller
             }
             else
             {
-                $room = Hotel::with('hoteldata')->where(['user_id' => Auth()->user()->user_id])->first();
-                $room->hoteldata->standard_room_amenity = $request->amenity;
-                $room->hoteldata->standard_room_price = $request->price;
-                $room->hoteldata->standard_room = $request->rooms;
-                $room->hoteldata->save();
+                $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
+                $room->standard_room_amenity = $request->amenity;
+                $room->standard_room_price = $request->price;
+                $room->standard_room = $request->rooms;
+                $room->save();
 
                 $response = [
                     'msg' => 'Room details updated successfully',
@@ -82,7 +81,7 @@ class AddroomController extends Controller
     {
         try
         {
-            $room = Hotel::with('hoteldata')->where(['user_id' => Auth()->user()->user_id])->first();
+            $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
             return view('hotel_addrooms.deluxe.main')->with('room', $room);
         }
         catch(\Exception $e)
@@ -110,11 +109,11 @@ class AddroomController extends Controller
             }
             else
             {
-                $room = Hotel::with('hoteldata')->where(['user_id' => Auth()->user()->user_id])->first();
-                $room->hoteldata->deluxe_room_amenity = $request->amenity;
-                $room->hoteldata->deluxe_room_price = $request->price;
-                $room->hoteldata->deluxe_room = $request->rooms;
-                $room->hoteldata->save();
+                $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
+                $room->deluxe_room_amenity = $request->amenity;
+                $room->deluxe_room_price = $request->price;
+                $room->deluxe_room = $request->rooms;
+                $room->save();
 
                 $response = [
                     'msg' => 'Room details updated successfully',
@@ -149,7 +148,7 @@ class AddroomController extends Controller
     {
         try
         {
-            $room = Hotel::with('hoteldata')->where(['user_id' => Auth()->user()->user_id])->first();
+            $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
             return view('hotel_addrooms.superdeluxe.main')->with('room', $room);
         }
         catch(\Exception $e)
@@ -177,11 +176,11 @@ class AddroomController extends Controller
             }
             else
             {
-                $room = Hotel::with('hoteldata')->where(['user_id' => Auth()->user()->user_id])->first();
-                $room->hoteldata->superdeluxe_room_amenity = $request->amenity;
-                $room->hoteldata->superdeluxe_room_price = $request->price;
-                $room->hoteldata->superdeluxe_room = $request->rooms;
-                $room->hoteldata->save();
+                $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
+                $room->superdeluxe_room_amenity = $request->amenity;
+                $room->superdeluxe_room_price = $request->price;
+                $room->superdeluxe_room = $request->rooms;
+                $room->save();
 
                 $response = [
                     'msg' => 'Room details updated successfully',

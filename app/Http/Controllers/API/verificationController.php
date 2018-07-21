@@ -20,7 +20,8 @@ class verificationController extends Controller
             if(count($check_email) > 0)
             {
                 $code = randomPassword::randomPassword(7);
-                
+                $user_id = $check_email->user_id;
+
                 $data = [
                     'fname' => $check_email->fname,
                     'lname' => $check_email->lname,
@@ -33,7 +34,8 @@ class verificationController extends Controller
                 $response = [
                     'msg' => "Verification Code is sent to your Email",
                     'status' => 1,
-                    'code' => $code
+                    'code' => $code,
+                    'user_id' => $user_id
                 ];
             }
             else
