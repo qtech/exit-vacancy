@@ -1,4 +1,4 @@
-@extends('layout.layout');
+@extends('layout.layout')
 
 @section('content')
 <div class="content-page">
@@ -18,29 +18,39 @@
                     <div class="col-sm-12">
                         <div class="panel panel-primary" style="box-shadow:0px 0px 10px 4px #cccccc">
                             <div class="panel-body">
-                                <h4 class="m-t-0 m-b-30">Standard Room details</h4>
+                                <h4 class="m-t-0 m-b-30">Hotel Profile</h4>
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label">Amenities</label>
+                                        <label class="col-md-2 control-label">Number</label>
                                         <div class="col-md-10">
-                                        <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->standard_room_amenity}}">
+                                        <input name="number" id="number" type="number" class="form-control" value="{{$getdetails->hotel->number}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label">Price</label>
+                                        <label class="col-md-2 control-label">Base Price</label>
                                         <div class="col-md-10">
-                                            <input name="price" id="price" type="number" class="form-control" value="{{$room->standard_room_price}}">
+                                            <input name="price" id="price" type="number" class="form-control" value="{{$getdetails->hotel->price}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Class</label>
+                                        <div class="col-md-10">
+                                            <input name="hotelclass" id="hotelclass" type="number" class="form-control" value="{{$getdetails->hotel->stars}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Rooms Available</label>
-                                        <div class="col-md-10">
-                                            <input name="rooms" id="rooms" type="number" class="form-control" value="{{$room->standard_room}}">
+                                        <div class="col-md-10" style="padding-top:5px;">
+                                            @if($getdetails->hotel->king_room > 0)
+                                            <label class="label label-success">{{$getdetails->hotel->king_room}} King</label>
+                                            @endif 
+                                            @if($getdetails->hotel->queen_room > 0)
+                                            <label class="label label-warning">{{$getdetails->hotel->queen_room}} Two-Queen</label>
+                                            @endif
                                         </div>
                                     </div>
                                     <br>
-                                    <a href="{{route('s.addimages')}}" class="btn btn-warning">Add Images</a>
-                                    <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
+                                    <input onclick="editprofile(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
                                 </form>      
                             </div> <!-- panel-body -->
                         </div> <!-- panel -->
@@ -49,17 +59,17 @@
             </div><!-- container -->
         </div> <!-- Page content Wrapper -->
     </div> <!-- content -->
-</div>
+</div>   
 
 <script type="text/javascript">
-    function addnotification(){
-        var amenity = document.getElementById("amenities").value;
+    function editprofile(){
+        var number = document.getElementById("number").value;
         var price = document.getElementById("price").value;
-        var number = document.getElementById("rooms").value;
+        var hotelclass = document.getElementById("hotelclass").value;
         var param = {
-            "amenity":amenity,
+            "number":number,
             "price":price,
-            "rooms":number,
+            "hotelclass":hotelclass,
             "_token":'{{csrf_token()}}'
         }
 
@@ -72,7 +82,7 @@
                     document.getElementById('success').style.display = "block";
                     document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
                     setTimeout(function(){
-                        window.location.href = "{{route('h.s.room')}}";   
+                        window.location.href = "{{route('hotelprofile')}}";   
                     },1000);
                 }
                 else
@@ -80,12 +90,12 @@
                     document.getElementById('error').style.display = "block";
                     document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
                     setTimeout(function(){
-                        window.location.href = "{{route('h.s.room')}}";
+                        window.location.href = "{{route('hotelprofile')}}";
                     },1000);
                 }
             }
         };
-        ajx.open("PUT", "{{route('h.s.update')}}", true);
+        ajx.open("PUT", "{{route('updatehotelprofile')}}", true);
         ajx.setRequestHeader("Content-type", "application/json");
         ajx.send(JSON.stringify(param));
     }

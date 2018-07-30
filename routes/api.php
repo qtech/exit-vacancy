@@ -26,8 +26,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // EDIT CUSTOMER PROFILE
     Route::post('/user/editprofile', 'API\AppuserController@edit_customer_profile');
 
-    // LOGIN
+    // LOGIN AND LOGOUT
     Route::post('/login', 'API\loginController@check_login');
+    Route::post('/logout', 'API\loginController@logout');
 
     // NEARBY HOTELS WITH DIRECTIONS AND NOTIFICATIONS
     Route::post('/nearbyhotels', 'API\nearbyhotelController@nearbyhotel_notifications');
@@ -58,11 +59,28 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // BOOK A HOTEL
     Route::post('/storebooking', 'API\BookingController@storeBooking');
 
+    // HOTEL BOOKING DETAILS
+    Route::post('/hotelbookingdetails', 'API\HotelbookingdetailsController@bookingdetails_hotel');
+
+    // VISITING AND VISITED GUEST
+    Route::post('/visiting', 'API\HotelbookingdetailsController@visiting_guest');
+    Route::post('/visited', 'API\HotelbookingdetailsController@visited_guest');
+
+    // HOTEL DETAILS FOR USER (User side)
+    Route::post('/hoteldetails', 'API\HotelbookingdetailsController@hotel_details_for_user');
+
+    // USER ARRIVED HOTEL
+    Route::post('/uservisited', 'API\BookingController@hotel_is_visited');
+
     // ROOM DETAILS
     Route::post('/roomdetails', 'API\RoomsController@getRoomdetails');
-    Route::post('/updatestandardroom', 'API\RoomsController@update_standardRoom');
-    Route::post('/updatedeluxeroom', 'API\RoomsController@update_deluxeRoom');
-    Route::post('/updatesuperdeluxeroom', 'API\RoomsController@update_superdeluxeRoom');
+    Route::post('/updatekingroom', 'API\RoomsController@update_kingRoom');
+    Route::post('/updatequeenroom', 'API\RoomsController@update_queenRoom');
+
+    // HOTEL ACCEPT/DECLINE NOTIFICATIONS
+    Route::post('/hotelaccepted', 'API\BookingController@hotel_accepted');
+    Route::post('/hoteldeclined', 'API\BookingController@hotel_declined');
+    Route::post('/hotelnoresponse', 'API\BookingController@hotel_noresponse');
 });
 
 

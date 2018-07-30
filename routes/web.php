@@ -47,29 +47,30 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
         Route::get('/', 'DashboardController@view')->name('h.dashboard');
     });
 
+    Route::prefix('hotelprofile')->group(function(){
+        Route::get('/', 'Hotel\HotelprofileController@view')->name('hotelprofile');
+        Route::put('/update', 'Hotel\HotelprofileController@update')->name('updatehotelprofile');
+    });
+
+    Route::prefix('bookings')->group(function(){
+        Route::get('/', 'Hotel\HotelbookingController@view')->name('hotelbookings');
+        Route::get('/delete/{id}', 'Hotel\HotelbookingController@delete')->name('deletebooking');
+    });
+
     Route::prefix('rooms')->group(function(){
-        Route::prefix('standard')->group(function(){
-            Route::get('/', 'Hotel\AddroomController@add_standard_room')->name('h.s.room');
-            Route::put('/update', 'Hotel\AddroomController@update_standard_room')->name('h.s.update');
-            Route::get('/addimage', 'Hotel\AddroomController@add_standard_room_images')->name('s.addimages');
+        Route::prefix('king')->group(function(){
+            Route::get('/', 'Hotel\AddroomController@add_king_room')->name('h.s.room');
+            Route::put('/update', 'Hotel\AddroomController@update_king_room')->name('h.s.update');
+            Route::get('/addimage', 'Hotel\AddroomController@add_king_room_images')->name('s.addimages');
         });
 
-        Route::prefix('deluxe')->group(function(){
-            Route::get('/', 'Hotel\AddroomController@add_deluxe_room')->name('h.d.room');
-            Route::put('/update', 'Hotel\AddroomController@update_deluxe_room')->name('h.d.update');
-            Route::get('/addimage', 'Hotel\AddroomController@add_deluxe_room_images')->name('d.addimages');
-        });
-
-        Route::prefix('superdeluxe')->group(function(){
-            Route::get('/', 'Hotel\AddroomController@add_superdeluxe_room')->name('h.sd.room');
-            Route::put('/update', 'Hotel\AddroomController@update_superdeluxe_room')->name('h.sd.update');
-            Route::get('/addimage', 'Hotel\AddroomController@add_superdeluxe_room_images')->name('sd.addimages');
+        Route::prefix('queen')->group(function(){
+            Route::get('/', 'Hotel\AddroomController@add_queen_room')->name('h.d.room');
+            Route::put('/update', 'Hotel\AddroomController@update_queen_room')->name('h.d.update');
+            Route::get('/addimage', 'Hotel\AddroomController@add_queen_room_images')->name('d.addimages');
         });
     });
 });
-
-
-
 
 
 //Route::post('/excel', 'excelController@excel')->name('excel');

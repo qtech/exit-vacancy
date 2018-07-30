@@ -10,12 +10,12 @@ use App\User;
 
 class AddroomController extends Controller
 {
-    public function add_standard_room()
+    public function add_king_room()
     {
         try
         {
             $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-            return view('hotel_addrooms.standard.main')->with('room', $room);
+            return view('hotel_rooms.king.main')->with('room', $room);
         }
         catch(\Exception $e)
         {
@@ -23,11 +23,11 @@ class AddroomController extends Controller
         }
     }
 
-    public function add_standard_room_images()
+    public function add_king_room_images()
     {
         try
         {
-            return view('hotel_addrooms.standard.addimage');
+            return view('hotel_rooms.king.addimage');
         }
         catch(\Exception $e)
         {
@@ -35,7 +35,7 @@ class AddroomController extends Controller
         }
     }
 
-    public function update_standard_room(Request $request)
+    public function update_king_room(Request $request)
     {
         try
         {
@@ -55,9 +55,9 @@ class AddroomController extends Controller
             else
             {
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $room->standard_room_amenity = $request->amenity;
-                $room->standard_room_price = $request->price;
-                $room->standard_room = $request->rooms;
+                $room->king_room_amenity = $request->amenity;
+                $room->king_room_price = $request->price;
+                $room->king_room = $request->rooms;
                 $room->save();
 
                 $response = [
@@ -77,12 +77,12 @@ class AddroomController extends Controller
         return response()->json($response);
     }
 
-    public function add_deluxe_room()
+    public function add_queen_room()
     {
         try
         {
             $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-            return view('hotel_addrooms.deluxe.main')->with('room', $room);
+            return view('hotel_rooms.queen.main')->with('room', $room);
         }
         catch(\Exception $e)
         {
@@ -90,7 +90,7 @@ class AddroomController extends Controller
         }
     }
 
-    public function update_deluxe_room(Request $request)
+    public function update_queen_room(Request $request)
     {
         try
         {
@@ -110,9 +110,9 @@ class AddroomController extends Controller
             else
             {
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $room->deluxe_room_amenity = $request->amenity;
-                $room->deluxe_room_price = $request->price;
-                $room->deluxe_room = $request->rooms;
+                $room->queen_room_amenity = $request->amenity;
+                $room->queen_room_price = $request->price;
+                $room->queen_room = $request->rooms;
                 $room->save();
 
                 $response = [
@@ -132,78 +132,11 @@ class AddroomController extends Controller
         return response()->json($response);
     }
 
-    public function add_deluxe_room_images()
+    public function add_queen_room_images()
     {
         try
         {
-            return view('hotel_addrooms.deluxe.addimage');
-        }
-        catch(\Exception $e)
-        {
-            return $e->getMessage()." ".$e->getLine();
-        }
-    }
-
-    public function add_superdeluxe_room()
-    {
-        try
-        {
-            $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-            return view('hotel_addrooms.superdeluxe.main')->with('room', $room);
-        }
-        catch(\Exception $e)
-        {
-            return $e->getMessage()." ".$e->getLine();
-        }
-    }
-
-    public function update_superdeluxe_room(Request $request)
-    {
-        try
-        {
-            $validator = Validator::make($request->all(),[
-                'amenity' => 'required',
-                'price' => 'required',
-                'rooms' => 'required'
-            ]);
-
-            if($validator->fails())
-            {
-                $response = [
-                    'msg' => 'Oops! Something is missing',
-                    'status' => 0
-                ];
-            }
-            else
-            {
-                $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $room->superdeluxe_room_amenity = $request->amenity;
-                $room->superdeluxe_room_price = $request->price;
-                $room->superdeluxe_room = $request->rooms;
-                $room->save();
-
-                $response = [
-                    'msg' => 'Room details updated successfully',
-                    'status' => 1
-                ];
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
-                'status' => 0
-            ];
-        }
-
-        return response()->json($response);
-    }
-
-    public function add_superdeluxe_room_images()
-    {
-        try
-        {
-            return view('hotel_addrooms.superdeluxe.addimage');
+            return view('hotel_rooms.queen.addimage');
         }
         catch(\Exception $e)
         {

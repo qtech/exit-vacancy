@@ -10,18 +10,18 @@
                         <div class="col-md-12">
                             <div class="panel panel-primary">
                                 <div class="panel-body">
-                                    <h4 class="m-b-30 m-t-0">Application Users</h4>
+                                    <h4 class="m-b-30 m-t-0">Bookings</h4>
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <table id="example" class="table table-striped table-bordered">
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Name</th>
+                                                    <th>Customer</th>
                                                     <th>Email</th>
                                                     <th>Number</th>
-                                                    <th>Email</th>
-                                                    <th>Mobile</th>
+                                                    <th>Location</th>
+                                                    <th>Status</th>
                                                     <th>Actions</th>
                                                 </tr>
                                                 </thead>
@@ -30,29 +30,33 @@
                                                     @php
                                                         $i = 1;
                                                     @endphp
-                                                    @foreach($users as $value)
+                                                    @foreach($getdetails as $value)
+                                                    @php    
+                                                        $client = App\User::with('customer')->where(['user_id' => $value->user_id])->first();
+                                                    @endphp
                                                     <tr>
                                                         <td>{{$i++}}</td>
-                                                        <td>{{$value->fname}} {{$value->lname}}</td>
-                                                        <td>{{$value->email}}</td>
-                                                        <td>{{$value->customer->number}}</td>
+                                                        <td>{{$client->fname}} {{$client->lname}}</td>
+                                                        <td>{{$client->email}}</td>
+                                                        <td>{{$client->customer->number}}</td>
+                                                        <td>{{$client->customer->city}}, {{$client->customer->state}}</td>
                                                         <td>
-                                                            @if($value->is_email_verify == 1)
-                                                                <label class="label label-info">Verified</label>
-                                                            @else
-                                                                <label class="label label-danger">Not Verified</label>
+                                                            @if($value->status == 0)
+                                                            <label class="label label-warning">Pending</label>
                                                             @endif
-                                                        </td>
-                                                        <td>
-                                                            @if($value->is_mobile_verify == 1)
-                                                                <label class="label label-info">Verified</label>
-                                                            @else
-                                                                <label class="label label-danger">Not Verified</label>
+                                                            @if($value->status == 1)
+                                                            <label class="label label-info">Accepted</label>
+                                                            @endif
+                                                            @if($value->status == 2)
+                                                            <label class="label label-danger">Declined</label>
+                                                            @endif
+                                                            @if($value->status == 3)
+                                                            <label class="label label-success">No response</label>
                                                             @endif
                                                         </td>
 <td>
-<a href="#" data-toggle="modal" data-target="#custom-width-modal{{$value->user_id}}"><i class="ti-trash" style="color:red; font-size:1.3em;"></i></a>
-<div id="custom-width-modal{{$value->user_id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none">
+<a href="#" data-toggle="modal" data-target="#custom-width-modal{{$value->booking_id}}"><i class="ti-trash" style="color:red; font-size:1.3em;"></i></a>
+<div id="custom-width-modal{{$value->booking_id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none">
     <div class="modal-dialog" style="width:55%">
         <div class="modal-content">
             <div class="modal-header">
@@ -60,11 +64,11 @@
                 <h4 class="modal-title" id="custom-width-modalLabel">Confirm Action</h4>
             </div>
             <div class="modal-body">
-            <h4>Are you sure you want to delete this user: <code>{{$value->fname}} {{$value->lname}}</code> ?</h4>
+            <h4>Are you sure you want to delete this booking: <code>{{$client->fname}} {{$client->lname}}</code> ?</h4>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                <a href="{{route('deletenotification',['id' => $value->user_id])}}" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Closeeee</button>
+                <a href="{{route('deletebooking',['id' => $value->booking_id])}}" class="btn btn-danger">Delete</a>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -83,5 +87,5 @@
                 </div><!-- container -->
             </div> <!-- Page content Wrapper -->
         </div> <!-- content -->
-    </div>
+    </div>   
 @endsection

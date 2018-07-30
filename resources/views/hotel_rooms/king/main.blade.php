@@ -18,28 +18,29 @@
                     <div class="col-sm-12">
                         <div class="panel panel-primary" style="box-shadow:0px 0px 10px 4px #cccccc">
                             <div class="panel-body">
-                                <h4 class="m-t-0 m-b-30">Deluxe Room details</h4>
+                                <h4 class="m-t-0 m-b-30">King Room details</h4>
                                 <form class="form-horizontal">
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Amenities</label>
                                         <div class="col-md-10">
-                                        <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->deluxe_room_amenity}}">
+                                            <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput">
+                                        {{-- <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->king_room_amenity}}"> --}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Price</label>
                                         <div class="col-md-10">
-                                            <input name="price" id="price" type="number" class="form-control" value="{{$room->deluxe_room_price}}">
+                                            <input name="price" id="price" type="number" class="form-control" value="{{$room->king_room_price}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Rooms Available</label>
                                         <div class="col-md-10">
-                                            <input name="rooms" id="rooms" type="number" class="form-control" value="{{$room->deluxe_room}}">
+                                            <input name="rooms" id="rooms" type="number" class="form-control" value="{{$room->king_room}}">
                                         </div>
                                     </div>
                                     <br>
-                                    <a href="{{route('d.addimages')}}" class="btn btn-warning">Add Images</a>
+                                    <a href="{{route('s.addimages')}}" class="btn btn-warning">Add Images</a>
                                     <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
                                 </form>      
                             </div> <!-- panel-body -->
@@ -72,7 +73,7 @@
                     document.getElementById('success').style.display = "block";
                     document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
                     setTimeout(function(){
-                        window.location.href = "{{route('h.d.room')}}";   
+                        window.location.href = "{{route('h.s.room')}}";   
                     },1000);
                 }
                 else
@@ -80,12 +81,12 @@
                     document.getElementById('error').style.display = "block";
                     document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
                     setTimeout(function(){
-                        window.location.href = "{{route('h.d.room')}}";
+                        window.location.href = "{{route('h.s.room')}}";
                     },1000);
                 }
             }
         };
-        ajx.open("PUT", "{{route('h.d.update')}}", true);
+        ajx.open("PUT", "{{route('h.s.update')}}", true);
         ajx.setRequestHeader("Content-type", "application/json");
         ajx.send(JSON.stringify(param));
     }
