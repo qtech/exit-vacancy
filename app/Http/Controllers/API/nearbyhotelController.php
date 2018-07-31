@@ -141,7 +141,8 @@ class nearbyhotelController extends Controller
                                 'landmark' => $customer->landmark,
                                 'city' => $customer->city,
                                 'state' => $customer->state,
-                                'reference_id' => $ref->booking_ref_id
+                                'reference_id' => $ref->booking_ref_id,
+                                'roomtype' => ($request->roomtype == 'king_room > 0') ? 1 : 2,
                             ];
                             
                             foreach($data as $value)

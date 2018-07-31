@@ -256,7 +256,7 @@ class HotelbookingdetailsController extends Controller
                 if($request->roomtype == 1)
                 {
                     $data['room'] = [
-                        'room_type' => "King Room",
+                        'room_type' => "King Size Room",
                         'room_price' => $gethotel->king_room_price,
                         'room_image' => url("/")."/".$gethotel->king_room_image,
                         'room_amenity' => $gethotel->king_room_amenity

@@ -80,6 +80,7 @@ class Notifications extends Model
                 "user_city":"'.$collect['city'].'",
                 "user_state":"'.$collect['state'].'",
                 "reference_id":"'.$collect['reference_id'].'",
+                "roomtype":"'.$collect['roomtype'].'",
                  "notiType":"1"
                }
         }';

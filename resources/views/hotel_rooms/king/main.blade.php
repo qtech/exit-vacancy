@@ -23,7 +23,13 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Amenities</label>
                                         <div class="col-md-10">
-                                            <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput">
+                                            @php
+                                                
+                                            @endphp
+                                            <select name="amenities" class="selectpicker" multiple>
+                                                <option value="{{$room->king_room_amenity}}">{{$room->king_room_amenity}}</option>
+                                            </select>
+                                                      
                                         {{-- <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->king_room_amenity}}"> --}}
                                         </div>
                                     </div>

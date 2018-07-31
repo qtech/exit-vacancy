@@ -13,6 +13,8 @@
                 margin: 0; 
             }
         </style>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
         
         {{-- DROP-ZONE --}}
         <link href="{{asset('/assets/plugins/dropzone/dist/dropzone.css')}}" rel="stylesheet" type="text/css">
@@ -48,7 +50,8 @@
 
         </div>
         <!-- END wrapper -->
-    
+        
+
         <!-- jQuery  -->
         <script src="{{asset('/assets/js/jquery.min.js')}}"></script>
         <script src="{{asset('/assets/js/bootstrap.min.js')}}"></script>
@@ -63,16 +66,16 @@
         <script src="{{asset('/assets/js/jquery.scrollTo.min.js')}}"></script>
 
         <!--Morris Chart-->
-        <script src="{{asset('/assets/plugins/morris/morris.min.js')}}"></script>
+        {{-- <script src="{{asset('/assets/plugins/morris/morris.min.js')}}"></script> --}}
         <script src="{{asset('/assets/plugins/raphael/raphael-min.js')}}"></script>
-        <script src="{{asset('/assets/pages/dashborad.js')}}"></script>
+        {{-- <script src="{{asset('/assets/pages/dashborad.js')}}"></script> --}}
         <script src="{{asset('/assets/js/app.js')}}"></script>
 
         {{-- DROP-ZONE --}}
         <script src="{{asset('/assets/plugins/dropzone/dist/dropzone.js')}}"></script>
 
         {{-- DATA-TABLES --}}
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        {{-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> --}}
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
         <script>
@@ -80,5 +83,7 @@
                 $('#example').DataTable();
             } );
         </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     </body>
 </html>
