@@ -16,45 +16,49 @@ class HotelprofileController extends Controller
         return view('hotel_profile.main')->with('getdetails', $getdetails);
     }
 
-    public function update(Request $request)
-    {
-        try
-        {
-            $validator = Validator::make($request->all(),[
-                'number' => 'required',
-                'price' => 'required',
-                'hotelclass' => 'required'
-            ]);
+    // public function update(Request $request)
+    // {
+    //     try
+    //     {
+    //         $validator = Validator::make($request->all(),[
+    //             'number' => 'nullable',
+    //             'price' => 'nullable',
+    //             'hotelclass' => 'nullable',
+    //             'amenities' => 'nullable'
+    //         ]);
     
-            if($validator->fails())
-            {
-                $response = [
-                    'msg' => 'Oops! Some field is missing',
-                    'status' => 0
-                ];
-            }
-            else
-            {
-                $update = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $update->number = $request->number;
-                $update->price = $request->price;
-                $update->stars = $request->hotelclass;
-                $update->save();
+    //         if($validator->fails())
+    //         {
+    //             $response = [
+    //                 'msg' => 'Oops! Some field is missing',
+    //                 'status' => 0
+    //             ];
+    //         }
+    //         else
+    //         {
+    //             $amenities = implode(",", $request->amenities);
 
-                $response = [
-                    'msg' => 'Hotel Profile updated',
-                    'status' => 1
-                ];
-            }
-        }   
-        catch(\Exception $e)
-        {
-            $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
-                'status' => 0
-            ];
-        }
+    //             $update = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
+    //             $update->number = $request->number;
+    //             $update->price = $request->price;
+    //             $update->stars = $request->hotelclass;
+    //             $update->amenities = $amenities;
+    //             $update->save();
 
-        return response()->json($response);
-    }
+    //             $response = [
+    //                 'msg' => 'Hotel Profile updated',
+    //                 'status' => 1
+    //             ];
+    //         }
+    //     }   
+    //     catch(\Exception $e)
+    //     {
+    //         $response = [
+    //             'msg' => $e->getMessage()." ".$e->getLine(),
+    //             'status' => 0
+    //         ];
+    //     }
+
+    //     return response()->json($response);
+    // }
 }

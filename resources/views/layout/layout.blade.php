@@ -14,7 +14,11 @@
             }
         </style>
 
+        {{-- MULTI SELECT CSS --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+        {{-- TAGS INPUT CSS --}}
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
         
         {{-- DROP-ZONE --}}
         <link href="{{asset('/assets/plugins/dropzone/dist/dropzone.css')}}" rel="stylesheet" type="text/css">
@@ -29,6 +33,7 @@
         <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('/assets/css/icons.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('/assets/css/style.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('/css/custom.css')}}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     </head>
 
@@ -83,6 +88,8 @@
                 $('#example').DataTable();
             } );
         </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     </body>
