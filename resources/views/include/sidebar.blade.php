@@ -13,6 +13,10 @@
                 </li>
 
                 <li>
+                    <a href="{{route('amenity')}}" class="waves-effect"><i class="mdi mdi-format-align-center"></i><span><strong>Hotel Amenities</strong></span></a>
+                </li>
+
+                <li>
                     <a href="#" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
                 </li>
 

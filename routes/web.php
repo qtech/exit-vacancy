@@ -32,6 +32,12 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/', 'AppusersController@view')->name('appusers');
     });
 
+    // HOTEL AMENITIES
+    Route::prefix('amenities')->group(function(){
+        Route::get('/', 'HotelamenityController@view')->name('amenity');
+        Route::post('/update', 'AmenityController@add')->name('addamenity');
+    });
+
     // NOTIFICATIONS
     Route::prefix('notifications')->group(function(){
         Route::get('/', 'NotificationController@view')->name('notifications');
@@ -49,7 +55,7 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
 
     Route::prefix('hotelprofile')->group(function(){
         Route::get('/', 'Hotel\HotelprofileController@view')->name('hotelprofile');
-        Route::put('/update', 'Hotel\HotelprofileController@update')->name('updatehotelprofile');
+        Route::post('/update', 'Hotel\HotelprofileController@update')->name('updatehotelprofile');
     });
 
     Route::prefix('bookings')->group(function(){

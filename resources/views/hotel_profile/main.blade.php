@@ -19,7 +19,7 @@
                         <div class="panel panel-primary" style="box-shadow:0px 0px 10px 4px #cccccc">
                             <div class="panel-body">
                                 <h4 class="m-t-0 m-b-30">Hotel Profile</h4>
-                                <form class="form-horizontal">
+                                <form class="form-horizontal" id="myform" method="POST">
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Number</label>
                                         <div class="col-md-10">
@@ -38,14 +38,42 @@
                                             <input name="hotelclass" id="hotelclass" type="number" class="form-control" value="{{$getdetails->hotel->stars}}">
                                         </div>
                                     </div>
+                                    @php    
+                                        $amenity = App\User::where(['user_id' => 1])->first();
+                                        $words = explode(",",$amenity->lname);
+
+                                        $split = explode(",", $getdetails->hotel->amenities);
+                                    @endphp
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Select Amenities</label>
+                                        <div class="col-md-10">
+                                            <select name="amenities[]" id="amenities" class="selectpicker" multiple>
+                                                @foreach($words as $tmp)
+                                                    <option
+                                                    @if(in_array($tmp, $split))
+                                                        selected
+                                                    @endif
+                                                    value="{{$tmp}}">{{$tmp}}</option>
+                                                @endforeach
+                                            </select>                                                       
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Amenities</label>
+                                        <div class="col-md-10" style="padding-top:5px;">
+                                            @foreach($split as $value)
+                                                <label class="label label-info">{{$value}}</label>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Rooms Available</label>
                                         <div class="col-md-10" style="padding-top:5px;">
                                             @if($getdetails->hotel->king_room > 0)
-                                            <label class="label label-success">{{$getdetails->hotel->king_room}} King</label>
+                                            <label class="label label-success">{{$getdetails->hotel->king_room}} King Rooms</label>
                                             @endif 
                                             @if($getdetails->hotel->queen_room > 0)
-                                            <label class="label label-warning">{{$getdetails->hotel->queen_room}} Two-Queen</label>
+                                            <label class="label label-warning">{{$getdetails->hotel->queen_room}} Two-Queen Rooms</label>
                                             @endif
                                         </div>
                                     </div>
@@ -63,15 +91,10 @@
 
 <script type="text/javascript">
     function editprofile(){
-        var number = document.getElementById("number").value;
-        var price = document.getElementById("price").value;
-        var hotelclass = document.getElementById("hotelclass").value;
-        var param = {
-            "number":number,
-            "price":price,
-            "hotelclass":hotelclass,
-            "_token":'{{csrf_token()}}'
-        }
+        var form = document.getElementById("myform");
+        var formData = new FormData(form);
+        formData.append('_token','{{csrf_token()}}');
+        
 
         var ajx = new XMLHttpRequest();
         ajx.onreadystatechange = function () {
@@ -81,23 +104,17 @@
                 {
                     document.getElementById('success').style.display = "block";
                     document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
-                    setTimeout(function(){
-                        window.location.href = "{{route('hotelprofile')}}";   
-                    },1000);
                 }
                 else
                 {
                     document.getElementById('error').style.display = "block";
                     document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
-                    setTimeout(function(){
-                        window.location.href = "{{route('hotelprofile')}}";
-                    },1000);
                 }
             }
         };
-        ajx.open("PUT", "{{route('updatehotelprofile')}}", true);
-        ajx.setRequestHeader("Content-type", "application/json");
-        ajx.send(JSON.stringify(param));
+        ajx.open("POST", "{{route('updatehotelprofile')}}", true);
+        // ajx.setRequestHeader("Content-type", "application/json");
+        ajx.send(formData);
     }
 </script>
 @endsection
