@@ -72,6 +72,10 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // USER ARRIVED HOTEL
     Route::post('/uservisited', 'API\BookingController@hotel_is_visited');
 
+    // USER RECENT AND PAST BOOKINGS LIST
+    Route::post('/recentbooking', 'API\BookingController@user_recent_booking');
+    Route::post('/pastbooking', 'API\BookingController@user_past_booking');
+
     // ROOM DETAILS
     Route::post('/roomdetails', 'API\RoomsController@getRoomdetails');
     Route::post('/updatekingroom', 'API\RoomsController@update_kingRoom');
@@ -81,8 +85,8 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     Route::post('/hotelaccepted', 'API\BookingController@hotel_accepted');
     Route::post('/hoteldeclined', 'API\BookingController@hotel_declined');
     Route::post('/hotelnoresponse', 'API\BookingController@hotel_noresponse');
+
+    // COMMON HOTEL AMENITIES
+    Route::get('/amenities', 'API\AmenityController@getAmenities');
 });
 
-
-// Route::get('/getimages', 'API\GetimagesController@getImages');
-// Route::get('/check', 'API\ApitudeController@check');

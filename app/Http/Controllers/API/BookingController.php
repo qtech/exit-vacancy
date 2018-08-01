@@ -252,6 +252,146 @@ class BookingController extends Controller
         return response()->json($response);
     }
 
+    public function user_recent_booking(Request $request)
+    {
+        try
+        {
+            $validator = Validator::make($request->all(),[
+                'user_id' => 'required'
+            ]);
+
+            if($validator->fails())
+            {
+                $reponse = [
+                    'msg' => 'Oops! Some field is missing', 
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $recent = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'is_visited' => 0])->first();
+
+                if(count($recent) > 0)
+                {
+                    $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
+                    
+                    $data = [
+                        'hotel_id' => $hotel->hotel_data_id,
+                        'hotel_name' => $hotel->hotel_name,
+                        'amenities' => $hotel->amenities,
+                        'stars' => $hotel->stars,
+                        'ratings' => $hotel->ratings,
+                        'image' => $hotel->image,
+                        'number' => $hotel->number,
+                        'city' => $hotel->city,
+                        'state' => $hotel->state,
+                        'latitude' => $hotel->latitude,
+                        'longitude' => $hotel->longitude,
+                        'booked_room' => [
+                            [
+                                'roomtype' => $recent->roomtype,
+                                'roomprice' => $recent->roomprice,
+                                'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
+                                'roomamenity' => $recent->roomamenity
+                            ]   
+                        ]
+                    ];
+    
+                    $response = [
+                        'msg' => 'Recent Booking',
+                        'status' => 1,
+                        'data' => $data
+                    ];
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'No recent bookings available',
+                        'status' => 0
+                    ];
+                }
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+        return response()->json($response);
+    }
+
+    public function user_past_booking(Request $request)
+    {
+        try
+        {
+            $validator = Validator::make($request->all(),[
+                'user_id' => 'required'
+            ]);
+
+            if($validator->fails())
+            {
+                $reponse = [
+                    'msg' => 'Oops! Some field is missing', 
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $recent = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'is_visited' => 1])->first();
+                
+                if(count($recent) > 0)
+                {
+                    $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
+
+                    $data = [
+                        'hotel_id' => $hotel->hotel_data_id,
+                        'hotel_name' => $hotel->hotel_name,
+                        'amenities' => $hotel->amenities,
+                        'stars' => $hotel->stars,
+                        'ratings' => $hotel->ratings,
+                        'image' => $hotel->image,
+                        'number' => $hotel->number,
+                        'city' => $hotel->city,
+                        'state' => $hotel->state,
+                        'latitude' => $hotel->latitude,
+                        'longitude' => $hotel->longitude,
+                        'booked_room' => [
+                            [
+                                'roomtype' => $recent->roomtype,
+                                'roomprice' => $recent->roomprice,
+                                'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
+                                'roomamenity' => $recent->roomamenity
+                            ]   
+                        ]
+                    ];
+    
+                    $response = [
+                        'msg' => 'Recent Booking',
+                        'status' => 1,
+                        'data' => $data
+                    ];
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'No past bookings available',
+                        'status' => 0
+                    ];
+                }
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+        return response()->json($response);
+    }
+
     // public function storeBooking(Request $request)
     // {
     //     try

@@ -34,8 +34,10 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // HOTEL AMENITIES
     Route::prefix('amenities')->group(function(){
-        Route::get('/', 'HotelamenityController@view')->name('amenity');
+        Route::get('/getamenities', 'AmenityController@getData')->name('getamenities'); //AJAX GET DATA
+        Route::get('/', 'AmenityController@view')->name('amenity');
         Route::post('/update', 'AmenityController@add')->name('addamenity');
+        Route::post('/delete', 'AmenityController@delete')->name('deleteamenity');
     });
 
     // NOTIFICATIONS

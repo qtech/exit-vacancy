@@ -29,7 +29,8 @@ class nearbyhotelController extends Controller
                 'stars' => 'required',
                 'roomtype' => 'required',
                 'ratings' => 'nullable',
-                // 'price' => 'nullable',
+                'price' => 'nullable',
+                'amenities' => 'nullable'
             ]);
 
             if($validator->fails())
@@ -57,9 +58,122 @@ class nearbyhotelController extends Controller
 
                     if($request->ratings != NULL)
                     {
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE $roomtype AND `ratings` >= $request->ratings AND `stars` IN ($stars) HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `ratings` >= $request->ratings AND `stars` IN ($stars) HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
                     }
-                    else
+
+                    if($request->price != NULL)
+                    {
+                        // ($request->price == 1) ? (list($price1, $price2) = [0,50]) : (list($price1,$price2) = [50,100]);
+
+                        if($request->price == 1)
+                        {
+                            $price1 = 0;
+                            $price2 = 50;
+                        }
+                        else
+                        {
+                            $price1 = 50;
+                            $price2 = 100;
+                        }
+
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `stars` IN (".$stars.") AND `price` BETWEEN $price1 AND $price2 HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                    }
+
+                    if($request->amenities != NULL)
+                    {
+                        $amenity = explode(",",$request->amenities);
+                        $count = count($amenity);
+                        $price = "";
+                        for($i=0;$i<$count;$i++)
+                        {   
+                            $price .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+                        }
+                        $price = rtrim($price,"OR ");
+                        
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `stars` IN (".$stars.") AND ".$price." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                    }
+
+                    if($request->ratings != NULL && $request->price != NULL)
+                    {
+                        if($request->price == 1)
+                        {
+                            $price1 = 0;
+                            $price2 = 50;
+                        }
+                        else
+                        {
+                            $price1 = 50;
+                            $price2 = 100;
+                        }
+
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                    }
+
+                    if($request->price != NULL && $request->amenities != NULL)
+                    {
+                        if($request->price == 1)
+                        {
+                            $price1 = 0;
+                            $price2 = 50;
+                        }
+                        else
+                        {
+                            $price1 = 50;
+                            $price2 = 100;
+                        }
+
+                        $amenity = explode(",",$request->amenities);
+                        $count = count($amenity);
+                        $amenities = "";
+                        for($i=0;$i<$count;$i++)
+                        {   
+                            $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+                        }
+                        $amenities = rtrim($amenities,"OR ");
+
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                    }
+
+                    if($request->amenities != NULL && $request->ratings != NULL)
+                    {
+                        $amenity = explode(",",$request->amenities);
+                        $count = count($amenity);
+                        $amenities = "";
+                        for($i=0;$i<$count;$i++)
+                        {   
+                            $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+                        }
+                        $amenities = rtrim($amenities,"OR ");
+
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                    }
+
+                    if($request->amenities != NULL && $request->ratings != NULL && $request->price != NULL)
+                    {
+                        if($request->price == 1)
+                        {
+                            $price1 = 0;
+                            $price2 = 50;
+                        }
+                        else
+                        {
+                            $price1 = 50;
+                            $price2 = 100;
+                        }
+
+                        $amenity = explode(",",$request->amenities);
+                        $count = count($amenity);
+                        $amenities = "";
+                        for($i=0;$i<$count;$i++)
+                        {   
+                            $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+                        }
+                        $amenities = rtrim($amenities,"OR ");
+
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                    }
+                    
+                    if($request->amenities == NULL && $request->ratings == NULL && $request->price == NULL)
                     {
                         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE $roomtype AND `stars` IN ($stars) HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
                     }

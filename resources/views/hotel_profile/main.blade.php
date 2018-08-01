@@ -39,8 +39,7 @@
                                         </div>
                                     </div>
                                     @php    
-                                        $amenity = App\User::where(['user_id' => 1])->first();
-                                        $words = explode(",",$amenity->lname);
+                                        $amenity = App\Amenities::all();
 
                                         $split = explode(",", $getdetails->hotel->amenities);
                                     @endphp
@@ -48,12 +47,12 @@
                                         <label class="col-md-2 control-label">Select Amenities</label>
                                         <div class="col-md-10">
                                             <select name="amenities[]" id="amenities" class="selectpicker" multiple>
-                                                @foreach($words as $tmp)
+                                                @foreach($amenity as $tmp)
                                                     <option
-                                                    @if(in_array($tmp, $split))
+                                                    @if(in_array($tmp->amenity_name, $split))
                                                         selected
                                                     @endif
-                                                    value="{{$tmp}}">{{$tmp}}</option>
+                                                    value="{{$tmp->amenity_name}}">{{$tmp->amenity_name}}</option>
                                                 @endforeach
                                             </select>                                                       
                                         </div>
@@ -104,11 +103,17 @@
                 {
                     document.getElementById('success').style.display = "block";
                     document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
+                    setTimeout(function(){
+                        document.getElementById('success').style.display = "none";
+                    },2000);
                 }
                 else
                 {
                     document.getElementById('error').style.display = "block";
                     document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
+                    setTimeout(function(){
+                        document.getElementById('error').style.display = "none";
+                    },2000);
                 }
             }
         };
