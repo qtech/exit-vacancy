@@ -167,7 +167,7 @@ class HotelbookingdetailsController extends Controller
             }   
             else
             {
-                $visited = Bookings::where(['hotel_id' => $request->hotel_id, 'hotel_owner_id' => $request->hotel_owner_id, 'status' => 1, 'is_visited' => 1])->get();
+                $visited = Bookings::where(['hotel_id' => $request->hotel_id, 'hotel_owner_id' => $request->hotel_owner_id, 'status' => 1, 'is_visited' => 1])->orderBy('created_at',DESC)->get();
     
                 if(count($visited) == 0)
                 {

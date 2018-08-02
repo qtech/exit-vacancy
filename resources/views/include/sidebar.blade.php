@@ -7,34 +7,38 @@
                 <li>
                     <a href="#" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span><strong>Dashboard</strong></span></a>
                 </li>
+                
+                <li>
+                    <a href="#" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
+                </li>
 
                 <li>
                     <a href="{{route('appusers')}}" class="waves-effect"><i class="mdi mdi-account-multiple"></i><span><strong>App Users</strong></span></a>
                 </li>
 
                 <li>
+                    <a href="#" class="waves-effect"><i class="mdi mdi-message-text-outline"></i><span><strong>Send SMS</strong></span></a>
+                </li>
+
+                <li>
+                    <a href="#" class="waves-effect"><i class="mdi mdi-message-text-outline"></i><span><strong>Send Email</strong></span></a>
+                </li>
+
+                <li>
+                    <a href="{{route('notifications')}}" class="waves-effect"><i class="mdi mdi-notification-clear-all"></i><span><strong>Notifications</strong></span></a>
+                </li>
+
+                <li>
                     <a href="{{route('amenity')}}" class="waves-effect"><i class="mdi mdi-format-align-center"></i><span><strong>Hotel Amenities</strong></span></a>
                 </li>
 
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
-                </li>
-
-                <li>
-                <a href="{{route('notifications')}}" class="waves-effect"><i class="mdi mdi-notification-clear-all"></i><span><strong>Notifications</strong></span></a>
-                </li>
-
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-message-text-outline"></i><span><strong>Mobile SMS</strong></span></a>
-                </li>
-
-                <li class="has_sub">
+                {{-- <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="mdi mdi-history"></i><span><strong>Service History</strong></span><span class="pull-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="#"><strong>Completed</strong></a></li>
                         <li><a href="#"><strong>Cancelled</strong></a></li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="#" class="waves-effect"><i class="mdi mdi-file"></i><span><strong>Reports</strong></span></a>
@@ -57,6 +61,10 @@
                 </li>
 
                 <li>
+                    <a href="{{route('hotelbookings')}}" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
+                </li>
+
+                <li>
                 <a href="{{route('hotelprofile')}}" class="waves-effect"><i class="mdi mdi-houzz"></i><span><strong>Profile</strong></span></a>
                 </li>
 
@@ -66,10 +74,6 @@
                         <li><a href="{{route('h.s.room')}}"><strong>King Size Rooms</strong></a></li>
                         <li><a href="{{route('h.d.room')}}"><strong>2 Queen Size Rooms</strong></a></li>
                     </ul>
-                </li>
-
-                <li>
-                <a href="{{route('hotelbookings')}}" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
                 </li>
 
                 <li>

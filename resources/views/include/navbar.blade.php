@@ -17,15 +17,12 @@
                 </div>
 
                 <ul class="nav navbar-nav navbar-right pull-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
+                    <li>
+                        <a class="profile waves-effect waves-light">
                             <span class="profile-username">
-                                Logout <span class="caret"></span>
+                                <strong>Logout </strong>
                             </span>
-                        </a>
-                        <ul class="dropdown-menu">
-                        <li><a href="{{route('logout')}}"> Logout</a></li>
-                        </ul>
+                        </a>    
                     </li>
                 </ul>
             </div>

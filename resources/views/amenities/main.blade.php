@@ -24,7 +24,7 @@
                                         <label class="col-md-2 control-label">Add Amenities</label>
                                         <div class="col-md-10">
                                             <input name="amenities[]" id="amenities" data-role="tagsinput" type="text">
-                                            <input onclick="addamenity(); event.preventDefault();" type="submit" class="btn btn-success" value="Submit">
+                                            <input onclick="addamenity(); event.preventDefault();" type="submit" class="btn btn-success" value="Add">
                                         </div>
                                     </div>
                                 </form>      
