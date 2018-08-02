@@ -1,25 +1,43 @@
 @if(session('error'))
-<div class="alert alert-danger alert-dismissible fade in">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-	</button>
-	<strong>{{session('error')}}</strong>
-</div>
+<script>
+	$(document).ready(function(){
+		$.notify({
+			icon: 'font-icon font-icon-warning',
+			title: '<strong>Error!</strong>',
+			message: '{{session('danger')}}'
+		}, {
+			type: 'danger'
+		});
+	});
+</script>
 @endif
 
 @if(session('success'))
-<div class="alert alert-success alert-dismissible fade in">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-	</button>
-	<strong>{{session('success')}}</strong>
-</div>
+<script>
+$(document).ready(function(){
+	$.notify({
+		icon: 'font-icon font-icon-check-circle',
+		title: '<strong>Success!</strong>',
+		message: '{{session('success')}}'
+	}, {
+		type: 'success'
+	});
+});
+</script>
 @endif
 
 @if(count($errors)>0)
 	@foreach($errors->all() as $error)
-	<div class="alert alert-danger alert-dismissible fade in">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-		</button>
-		<strong>{{$error}}</strong>
-	</div>
+	<script>
+		$(document).ready(function(){
+			$.notify({
+				icon: 'font-icon font-icon-warning',
+				title: '<strong>Error!</strong>',
+				message: '{{$error}}'
+			}, {
+				type: 'danger'
+			});
+		});
+	</script>
 	@endforeach
 @endif

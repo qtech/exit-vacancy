@@ -1,87 +1,115 @@
 @if(Auth()->user()->role == 1)
-<div class="left side-menu">
-    <div class="sidebar-inner slimscrollleft">
-        <!--- Divider -->
-        <div id="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span><strong>Dashboard</strong></span></a>
-                </li>
-                
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
-                </li>
-
-                <li>
-                    <a href="{{route('appusers')}}" class="waves-effect"><i class="mdi mdi-account-multiple"></i><span><strong>App Users</strong></span></a>
-                </li>
-
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-message-text-outline"></i><span><strong>Send SMS</strong></span></a>
-                </li>
-
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-message-text-outline"></i><span><strong>Send Email</strong></span></a>
-                </li>
-
-                <li>
-                    <a href="{{route('notifications')}}" class="waves-effect"><i class="mdi mdi-notification-clear-all"></i><span><strong>Notifications</strong></span></a>
-                </li>
-
-                <li>
-                    <a href="{{route('amenity')}}" class="waves-effect"><i class="mdi mdi-format-align-center"></i><span><strong>Hotel Amenities</strong></span></a>
-                </li>
-
-                {{-- <li class="has_sub">
-                    <a href="#" class="waves-effect"><i class="mdi mdi-history"></i><span><strong>Service History</strong></span><span class="pull-right"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="list-unstyled">
-                        <li><a href="#"><strong>Completed</strong></a></li>
-                        <li><a href="#"><strong>Cancelled</strong></a></li>
-                    </ul>
-                </li> --}}
-
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-file"></i><span><strong>Reports</strong></span></a>
-                </li>
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-    </div> <!-- end sidebarinner -->
-</div>
+<div class="mobile-menu-left-overlay"></div>
+	<nav class="side-menu">
+	    <ul class="side-menu-list">
+	        <li class="grey">
+	            <a href="#">
+	                <i class="font-icon font-icon-dashboard"></i>
+	                <span class="lbl">Dashboard</span>
+	            </a>
+            </li>
+            
+            <li class="brown">
+	            <a href="#">
+	                <i class="fa fa-book"></i>
+	                <span class="lbl">Booking Details</span>
+	            </a>
+            </li>
+            
+            <li class="purple">
+	            <a href="{{route('appusers')}}">
+	                <i class="fa fa-users"></i>
+	                <span class="lbl">Application Users</span>
+	            </a>
+            </li>
+            
+            <li class="red">
+	            <a href="#">
+	                <i class="fa fa-building"></i>
+	                <span class="lbl">Hotel Owners</span>
+	            </a>
+            </li>
+            
+            <li class="gold">
+	            <a href="#">
+	                <i class="fa fa-envelope"></i>
+	                <span class="lbl">Send Mails</span>
+	            </a>
+            </li>
+            
+            <li class="blue-dirty">
+	            <a href="#">
+	                <i class="font-icon glyphicon glyphicon-send"></i>
+	                <span class="lbl">Send SMS</span>
+	            </a>
+            </li>
+            
+            <li class="red">
+	            <a href="{{route('notifications')}}">
+	                <i class="fa fa-bell"></i>
+	                <span class="lbl">Notifications</span>
+	            </a>
+            </li>
+            
+            <li class="magenta">
+	            <a href="{{route('amenity')}}">
+	                <i class="fa fa-rss"></i>
+	                <span class="lbl">Hotel Amenities</span>
+	            </a>
+            </li>
+            
+            <li class="green">
+	            <a href="#">
+	                <i class="fa fa-bar-chart"></i>
+	                <span class="lbl">Reports</span>
+	            </a>
+	        </li>
+	    </ul>
+	</nav>
 @endif
 
 @if(Auth()->user()->role == 3)
-<div class="left side-menu">
-    <div class="sidebar-inner slimscrollleft">
-        <!--- Divider -->
-        <div id="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span><strong>Dashboard</strong></span></a>
-                </li>
-
-                <li>
-                    <a href="{{route('hotelbookings')}}" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span><strong>Booking Details</strong></span></a>
-                </li>
-
-                <li>
-                <a href="{{route('hotelprofile')}}" class="waves-effect"><i class="mdi mdi-houzz"></i><span><strong>Profile</strong></span></a>
-                </li>
-
-                <li class="has_sub">
-                    <a href="#" class="waves-effect"><i class="mdi mdi-hotel"></i><span><strong>Rooms</strong></span></a>
-                    <ul class="list-unstyled">
-                        <li><a href="{{route('h.s.room')}}"><strong>King Size Rooms</strong></a></li>
-                        <li><a href="{{route('h.d.room')}}"><strong>2 Queen Size Rooms</strong></a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#" class="waves-effect"><i class="mdi mdi-file"></i><span><strong>Reports</strong></span></a>
-                </li>
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-    </div> <!-- end sidebarinner -->
-</div>
+<div class="mobile-menu-left-overlay"></div>
+	<nav class="side-menu">
+	    <ul class="side-menu-list">
+	        <li class="grey">
+	            <a href="#">
+	                <i class="font-icon font-icon-dashboard"></i>
+	                <span class="lbl">Dashboard</span>
+	            </a>
+            </li>
+            
+            <li class="brown">
+	            <a href="{{route('hotelbookings')}}">
+	                <i class="fa fa-book"></i>
+	                <span class="lbl">Booking Details</span>
+	            </a>
+            </li>
+            
+            <li class="purple">
+	            <a href="{{route('hotelprofile')}}">
+	                <i class="font-icon glyphicon glyphicon-send"></i>
+	                <span class="lbl">Profile</span>
+	            </a>
+            </li>
+            
+            <li class="red with-sub">
+	            <span>
+	                <i class="font-icon font-icon-help"></i>
+	                <span class="lbl">Rooms</span>
+	            </span>
+	            <ul>
+	                <li><a href="{{route('h.s.room')}}"><span class="lbl">King Room</span></a></li>
+	                <li><a href="{{route('h.d.room')}}"><span class="lbl">Two Queens Room</span></a></li>
+	            </ul>
+            </li>
+            
+            <li class="green">
+	            <a href="#">
+	                <i class="fa fa-bar-chart"></i>
+	                <span class="lbl">Reports</span>
+	            </a>
+            </li>
+	    </ul>
+	</nav>
 @endif

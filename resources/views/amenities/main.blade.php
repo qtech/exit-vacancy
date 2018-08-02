@@ -6,14 +6,6 @@
     <div class="content">
         <div class="page-content-wrapper">
             <div class="container">
-                <div id="error" class="alert alert-danger alert-dismissible fade in" style="display:none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="success" class="alert alert-success alert-dismissible fade in" style="display:none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel panel-primary" style="box-shadow:0px 0px 10px 4px #cccccc">

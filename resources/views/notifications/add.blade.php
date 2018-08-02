@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
-<div class="content-page">
+{{-- <div class="content-page">
     <!-- Start content -->
     <div class="content">
         <div class="page-content-wrapper">
@@ -42,7 +42,37 @@
             </div><!-- container -->
         </div> <!-- Page content Wrapper -->
     </div> <!-- content -->
+</div> --}}
+
+<div class="box-typical" style="padding-left:25px;">
+    <h5 class="m-t-lg with-border">Add Notification</h5>
+    <form>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Title</label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="Title">
+                    <small class="text-muted">Please give a title to your notification</small>
+                </fieldset>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="message">Description</label>
+                    <textarea rows="4" name="message" id="message" class="form-control" placeholder="Textarea"></textarea>
+                </fieldset>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary" value="Add">
+                <a href="{{route('notifications')}}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
 </div>
+
 <script type="text/javascript">
     function addnotification(){
         var title = document.getElementById("title").value;
@@ -59,19 +89,14 @@
                 var demo = JSON.parse(ajx.responseText);
                 if(demo.status == 1)
                 {
-                    document.getElementById('success').style.display = "block";
-                    document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
+                    notification('success',demo.msg);
                     setTimeout(function(){
-                        window.location.href = "{{route('notifications')}}";   
-                    },1000);
+                        window.location.href = '{{route("notifications")}}';
+                    },1500);
                 }
                 else
                 {
-                    document.getElementById('error').style.display = "block";
-                    document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
-                    setTimeout(function(){
-                        window.location.href = "{{route('addnotification')}}";
-                    },1000);
+                    notification('danger',demo.msg);
                 }
             }
         };

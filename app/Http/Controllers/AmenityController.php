@@ -25,7 +25,7 @@ class AmenityController extends Controller
     {
         try
         {
-            return view('amenities.main');
+            return view('amenities.view');
         }
         catch(\Exception $e)
         {

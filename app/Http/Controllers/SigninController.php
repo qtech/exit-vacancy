@@ -10,7 +10,7 @@ class SigninController extends Controller
 {
     public function view()
     {
-        return view('login.main');
+        return view('login.view');
     }
 
     public function checkLogin(Request $request)
@@ -80,7 +80,8 @@ class SigninController extends Controller
                 'msg' => $e->getMessage()."".$e->getLine(),
                 'status' => 0
             ];
+            
+            return response()->json($response);
         }
-        return response()->json($response);
     }
 }
