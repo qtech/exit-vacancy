@@ -9,6 +9,7 @@ use App\User;
 use App\Customer;
 use Illuminate\Support\Facades\Hash;
 use App\Hoteldata;
+use App\Bookings;
 
 class AppuserController extends Controller
 {
@@ -240,6 +241,53 @@ class AppuserController extends Controller
             ];
         }
 
+        return response()->json($response);
+    }
+
+    public function user_bookings($id)
+    {
+        try
+        {
+            $userbookings = Bookings::where(['user_id' => $id])->get();
+
+            if(count($userbookings) > 0)
+            {
+                $data = [];
+
+                $hotel = Hoteldata::where(['hotel_data_id' => $userbookings->hotel_id])->first();
+
+                $tmp = [
+                    'hotel_name' => $hotel->hotel_name,
+                    'roomtype' => $userbookings->roomtype,
+                    'status' => $userbookings->status,
+                    'roomprice' => $userbookings->roomprice,
+                    'roomimage' => url("/")."/".$userbookings->roomimage,
+                    'is_visited' => $userbookings->is_visited
+                ];
+
+                array_push($data, $tmp);
+
+                $response = [
+                    'msg' => 'User bookings list',
+                    'status' => 1,
+                    'data' => $data
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'Sorry! No records found',
+                    'status' => 0
+                ];
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
         return response()->json($response);
     }
 }

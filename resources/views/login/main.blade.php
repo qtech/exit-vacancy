@@ -33,7 +33,6 @@
                         </button>
                     </div>
                     <form class="form-horizontal m-t-20">
-
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <input class="form-control" name="email" id="email" type="text" placeholder="Email">

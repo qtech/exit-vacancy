@@ -269,33 +269,40 @@ class BookingController extends Controller
             }
             else
             {
-                $recent = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'is_visited' => 0])->first();
+                $recent_booking = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'is_visited' => 0])->get();
 
-                if(count($recent) > 0)
+                if(count($recent_booking) > 0)
                 {
-                    $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
+                    $data = [];
+
+                    foreach($recent_booking as $recent)
+                    {
+                        $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
                     
-                    $data = [
-                        'hotel_id' => $hotel->hotel_data_id,
-                        'hotel_name' => $hotel->hotel_name,
-                        'amenities' => $hotel->amenities,
-                        'stars' => $hotel->stars,
-                        'ratings' => $hotel->ratings,
-                        'image' => $hotel->image,
-                        'number' => $hotel->number,
-                        'city' => $hotel->city,
-                        'state' => $hotel->state,
-                        'latitude' => $hotel->latitude,
-                        'longitude' => $hotel->longitude,
-                        'booked_room' => [
-                            [
-                                'roomtype' => $recent->roomtype,
-                                'roomprice' => $recent->roomprice,
-                                'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
-                                'roomamenity' => $recent->roomamenity
-                            ]   
-                        ]
-                    ];
+                        $tmp = [
+                            'hotel_id' => $hotel->hotel_data_id,
+                            'hotel_name' => $hotel->hotel_name,
+                            'amenities' => $hotel->amenities,
+                            'stars' => $hotel->stars,
+                            'ratings' => $hotel->ratings,
+                            'image' => $hotel->image,
+                            'number' => $hotel->number,
+                            'city' => $hotel->city,
+                            'state' => $hotel->state,
+                            'latitude' => $hotel->latitude,
+                            'longitude' => $hotel->longitude,
+                            'booked_room' => [
+                                [
+                                    'roomtype' => $recent->roomtype,
+                                    'roomprice' => $recent->roomprice,
+                                    'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
+                                    'roomamenity' => $recent->roomamenity
+                                ]   
+                            ]
+                        ];
+
+                        array_push($data,$tmp);
+                    }
     
                     $response = [
                         'msg' => 'Recent Booking',
@@ -339,36 +346,43 @@ class BookingController extends Controller
             }
             else
             {
-                $recent = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'is_visited' => 1])->first();
+                $past = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'is_visited' => 1])->get();
                 
-                if(count($recent) > 0)
+                if(count($past) > 0)
                 {
-                    $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
+                    $data = [];
 
-                    $data = [
-                        'hotel_id' => $hotel->hotel_data_id,
-                        'hotel_name' => $hotel->hotel_name,
-                        'amenities' => $hotel->amenities,
-                        'stars' => $hotel->stars,
-                        'ratings' => $hotel->ratings,
-                        'image' => $hotel->image,
-                        'number' => $hotel->number,
-                        'city' => $hotel->city,
-                        'state' => $hotel->state,
-                        'latitude' => $hotel->latitude,
-                        'longitude' => $hotel->longitude,
-                        'booked_room' => [
-                            [
-                                'roomtype' => $recent->roomtype,
-                                'roomprice' => $recent->roomprice,
-                                'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
-                                'roomamenity' => $recent->roomamenity
-                            ]   
-                        ]
-                    ];
+                    foreach($past as $recent)
+                    {
+                        $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
+
+                        $tmp = [
+                            'hotel_id' => $hotel->hotel_data_id,
+                            'hotel_name' => $hotel->hotel_name,
+                            'amenities' => $hotel->amenities,
+                            'stars' => $hotel->stars,
+                            'ratings' => $hotel->ratings,
+                            'image' => $hotel->image,
+                            'number' => $hotel->number,
+                            'city' => $hotel->city,
+                            'state' => $hotel->state,
+                            'latitude' => $hotel->latitude,
+                            'longitude' => $hotel->longitude,
+                            'booked_room' => [
+                                [
+                                    'roomtype' => $recent->roomtype,
+                                    'roomprice' => $recent->roomprice,
+                                    'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
+                                    'roomamenity' => $recent->roomamenity
+                                ]   
+                            ]
+                        ];
+
+                        array_push($data,$tmp);
+                    }
     
                     $response = [
-                        'msg' => 'Recent Booking',
+                        'msg' => 'Past Bookings',
                         'status' => 1,
                         'data' => $data
                     ];
