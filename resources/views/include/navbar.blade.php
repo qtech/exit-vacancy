@@ -18,7 +18,7 @@
 
                 <ul class="nav navbar-nav navbar-right pull-right">
                     <li>
-                        <a class="profile waves-effect waves-light">
+                        <a href="{{route('logout')}}" class="profile waves-effect waves-light">
                             <span class="profile-username">
                                 <strong>Logout </strong>
                             </span>
