@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
-<div class="content-page">
+{{-- <div class="content-page">
         <!-- Start content -->
         <div class="content">
             <div class="page-content-wrapper ">
@@ -87,5 +87,59 @@
                 </div><!-- container -->
             </div> <!-- Page content Wrapper -->
         </div> <!-- content -->
-    </div>   
+    </div>  --}}
+    
+<header class="section-header">
+    <div class="tbl">
+        <div class="tbl-row">
+            <div class="tbl-cell">
+                <h3 class="pull-left">User Bookings</h3>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="card">
+    <div class="card-block">
+        <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Number</th>
+                <th>Location</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+                @php
+                    $i = 1;
+                @endphp
+                @foreach($getdetails as $value)
+                <tr>
+                    <td>{{$i++}}</td>
+                    <td>{{$value->user->fname}} {{$value->user->lname}}</td>
+                    <td>{{$value->user->email}}</td>
+                    <td>{{$value->customer->number}}</td>
+                    <td>{{$value->customer->state}}, {{$value->customer->city}}</td>
+                    <td>
+                        @if($value->status == 0)
+                        <label class="label label-secondary">Pending</label>
+                        @endif
+                        @if($value->status == 1)
+                        <label class="label label-success">Accepted</label>
+                        @endif
+                        @if($value->status == 2)
+                        <label class="label label-danger">Declined</label>
+                        @endif
+                        @if($value->status == 3)
+                        <label class="label label-warning">No response</label>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</section>
 @endsection

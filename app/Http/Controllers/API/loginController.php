@@ -35,85 +35,74 @@ class loginController extends Controller
 
                 if(count($check_login) > 0)
                 {
-                    if($check_login->login_status == 0)
+                    if(Hash::check($request->password,$check_login->password))
                     {
-                        if(Hash::check($request->password,$check_login->password))
+                        $check_login->fcm_id = $request->fcm_id;
+                        $check_login->last_login = date('d-m-y H:i:s');
+                        $check_login->save();
+                        
+                        if($check_login->role == 2)
                         {
-                            $check_login->fcm_id = $request->fcm_id;
-                            $check_login->login_status = 1;
-                            $check_login->last_login = date('d-m-y H:i:s');
-                            $check_login->save();
-                            
-                            if($check_login->role == 2)
-                            {
-                                $customer = Customer::where(['user_id' => $check_login->user_id])->first();
+                            $customer = Customer::where(['user_id' => $check_login->user_id])->first();
 
-                                $data = [
-                                    'user_id' => $check_login->user_id,
-                                    'fname' => $check_login->fname,
-                                    'lname' => $check_login->lname,
-                                    'role' => $check_login->role,
-                                    'number' => $customer->number,
-                                    'building' => $customer->building,
-                                    'street' => $customer->street,
-                                    'landmark' => $customer->landmark,
-                                    'city' => $customer->city,
-                                    'state' => $customer->state,
-                                    'country' => $customer->country,
-                                    'zipcode' => $customer->zipcode
-                                ];
+                            $data = [
+                                'user_id' => $check_login->user_id,
+                                'fname' => $check_login->fname,
+                                'lname' => $check_login->lname,
+                                'role' => $check_login->role,
+                                'number' => $customer->number,
+                                'building' => $customer->building,
+                                'street' => $customer->street,
+                                'landmark' => $customer->landmark,
+                                'city' => $customer->city,
+                                'state' => $customer->state,
+                                'country' => $customer->country,
+                                'zipcode' => $customer->zipcode
+                            ];
 
-                                $response = [
-                                    'msg' => 'Login Successful',
-                                    'status' => 1,
-                                    'data' => $data
-                                ];
-                            }
-                            else
-                            {
-                                $hotel = Hoteldata::where(['user_id' => $check_login->user_id])->first();
-
-                                $data = [
-                                    'hotel_user_id' => $check_login->user_id,
-                                    'hotel_id' => $hotel->hotel_data_id,
-                                    'fname' => $check_login->fname,
-                                    'lname' => $check_login->lname,
-                                    'hotel_name' => $hotel->hotel_name,
-                                    'hotel_stars' => $hotel->stars,
-                                    'hotel_ratings' => $hotel->ratings,
-                                    'hotel_image' => ($hotel->image != NULL) ? $hotel->image : "",
-                                    'hotel_base_price' => $hotel->price,
-                                    'role' => $check_login->role,
-                                    'number' => $hotel->number,
-                                    'building' => $hotel->building,
-                                    'street' => $hotel->street,
-                                    'landmark' => $hotel->landmark,
-                                    'city' => $hotel->city,
-                                    'state' => $hotel->state,
-                                    'country' => $hotel->country,
-                                    'zipcode' => $hotel->zipcode
-                                ];
-
-                                $response = [
-                                    'msg' => 'Login Successful',
-                                    'status' => 1,
-                                    'data' => $data
-                                ];
-                            }
+                            $response = [
+                                'msg' => 'Login Successful',
+                                'status' => 1,
+                                'data' => $data
+                            ];
                         }
                         else
                         {
+                            $hotel = Hoteldata::where(['user_id' => $check_login->user_id])->first();
+
+                            $data = [
+                                'hotel_user_id' => $check_login->user_id,
+                                'hotel_id' => $hotel->hotel_data_id,
+                                'fname' => $check_login->fname,
+                                'lname' => $check_login->lname,
+                                'hotel_name' => $hotel->hotel_name,
+                                'hotel_stars' => $hotel->stars,
+                                'hotel_ratings' => $hotel->ratings,
+                                'hotel_image' => ($hotel->image != NULL) ? $hotel->image : "",
+                                'hotel_base_price' => $hotel->price,
+                                'role' => $check_login->role,
+                                'number' => $hotel->number,
+                                'building' => $hotel->building,
+                                'street' => $hotel->street,
+                                'landmark' => $hotel->landmark,
+                                'city' => $hotel->city,
+                                'state' => $hotel->state,
+                                'country' => $hotel->country,
+                                'zipcode' => $hotel->zipcode
+                            ];
+
                             $response = [
-                                'msg' => 'Invalid Password.',
-                                'status' => 0,
+                                'msg' => 'Login Successful',
+                                'status' => 1,
+                                'data' => $data
                             ];
                         }
                     }
                     else
                     {
                         $response = [
-                            'msg' => 'You are already logged in',
-                            'status' => 0
+                            'msg' => 'Invalid Password.',
+                            'status' => 0,
                         ];
                     }
                 }
@@ -155,7 +144,7 @@ class loginController extends Controller
             }
             else
             {
-                $logout = User::where(['user_id' => $request->id, 'email' => $request->email, 'login_status' => 1])->first();
+                $logout = User::where(['user_id' => $request->id, 'email' => $request->email])->first();
                 
                 if(count($logout) == 0)
                 {
@@ -166,9 +155,6 @@ class loginController extends Controller
                 }
                 else
                 {
-                    $logout->login_status = 0;
-                    $logout->save();
-
                     $response = [
                         'msg' => 'Signout successful',
                         'status' => 1

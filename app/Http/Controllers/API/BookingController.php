@@ -49,6 +49,14 @@ class BookingController extends Controller
                     $accept->status = 1;
                     $accept->save();
 
+                    $count_user_booking = User::where(['user_id' => $request->user_id])->first();
+                    $count_user_booking->bookings = $count_booking->bookings + 1;
+                    $count_user_booking->save();
+
+                    $count_hotel_bookings = User::where(['user_id' => $request->hotel_id])->first();
+                    $count_hotel_booking->bookings = $count_booking->bookings + 1;
+                    $count_hotel_booking->save();
+
                     $hotel = Hoteldata::where(['user_id' => $request->hotel_id])->first();
 
                     if($request->roomtype == 1)

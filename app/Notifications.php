@@ -9,7 +9,7 @@ class Notifications extends Model
     public $table = "notifications";
     protected $primaryKey = "notification_id";
 
-    protected $fillable = ['title', 'message'];
+    protected $fillable = ['title', 'message', 'status'];
 
     public static function commonNotification($title, $message, $fcm_id, $count)
     {

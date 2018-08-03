@@ -15,7 +15,7 @@ class HotelbookingController extends Controller
     {
         try
         {
-            $getdetails = Bookings::where(['hotel_owner_id' => Auth()->user()->user_id])->get();
+            $getdetails = Bookings::with('customer','user')->where(['hotel_owner_id' => Auth()->user()->user_id])->get();
             return view('hotel_booking.main')->with('getdetails', $getdetails);
         }
         catch(\Exception $e)

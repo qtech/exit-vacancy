@@ -47,9 +47,16 @@
             <li class="red">
 	            <a href="{{route('notifications')}}">
 	                <i class="fa fa-bell"></i>
-	                <span class="lbl">Notifications</span>
+	                <span class="lbl">User Notifications</span>
 	            </a>
-            </li>
+			</li>
+			
+			<li class="red">
+					<a href="{{route('h.notifications')}}">
+						<i class="fa fa-bell"></i>
+						<span class="lbl">Hotel Notifications</span>
+					</a>
+				</li>
             
             <li class="magenta">
 	            <a href="{{route('amenity')}}">
@@ -79,19 +86,19 @@
 	            </a>
             </li>
             
-            <li class="brown">
-	            <a href="{{route('hotelbookings')}}">
-	                <i class="fa fa-book"></i>
-	                <span class="lbl">Booking Details</span>
-	            </a>
-            </li>
-            
             <li class="purple">
 	            <a href="{{route('hotelprofile')}}">
 	                <i class="font-icon glyphicon glyphicon-send"></i>
 	                <span class="lbl">Profile</span>
 	            </a>
-            </li>
+			</li>
+			
+			<li class="brown">
+				<a href="{{route('hotelbookings')}}">
+					<i class="fa fa-book"></i>
+					<span class="lbl">Booking Details</span>
+				</a>
+			</li>
             
             <li class="red with-sub">
 	            <span>

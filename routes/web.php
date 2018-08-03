@@ -29,7 +29,7 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // APPLICATION USERS
     Route::prefix('appusers')->group(function(){
-        Route::get('/', 'AppusersController@view')->name('appusers');
+        Route::get('/{id?}', 'AppusersController@view_allusers')->name('appusers');
         Route::get('/userbookings/{id}', 'AppusersController@user_bookings')->name('userbookings');
         Route::get('/disableuser/{id}', 'AppusersController@disable')->name('disableuser');
         Route::get('/enableuser/{id}', 'AppusersController@enable')->name('enableuser');
@@ -45,10 +45,19 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // NOTIFICATIONS
     Route::prefix('notifications')->group(function(){
-        Route::get('/', 'NotificationController@view')->name('notifications');
-        Route::get('/add', 'NotificationController@add')->name('addnotification');
-        Route::post('/store', 'NotificationController@store')->name('storenotification');
-        Route::get('/delete/{id}', 'NotificationController@delete')->name('deletenotification');
+        Route::prefix('users')->group(function(){
+            Route::get('/', 'NotificationController@user_view')->name('notifications');
+            Route::get('/add', 'NotificationController@user_add')->name('addnotification');
+            Route::post('/store', 'NotificationController@user_send')->name('storenotification');
+            Route::get('/delete/{id}', 'NotificationController@user_delete')->name('deletenotification');
+        });
+
+        Route::prefix('hotel')->group(function(){
+            Route::get('/', 'NotificationController@hotel_view')->name('h.notifications');
+            Route::get('/add', 'NotificationController@hotel_add')->name('h.addnotification');
+            Route::post('/store', 'NotificationController@hotel_send')->name('h.storenotification');
+            Route::get('/delete/{id}', 'NotificationController@hotel_delete')->name('h.deletenotification');
+        });
     });
 });
 
@@ -71,13 +80,13 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
     Route::prefix('rooms')->group(function(){
         Route::prefix('king')->group(function(){
             Route::get('/', 'Hotel\AddroomController@add_king_room')->name('h.s.room');
-            Route::put('/update', 'Hotel\AddroomController@update_king_room')->name('h.s.update');
+            Route::post('/update', 'Hotel\AddroomController@update_king_room')->name('h.s.update');
             Route::get('/addimage', 'Hotel\AddroomController@add_king_room_images')->name('s.addimages');
         });
 
         Route::prefix('queen')->group(function(){
             Route::get('/', 'Hotel\AddroomController@add_queen_room')->name('h.d.room');
-            Route::put('/update', 'Hotel\AddroomController@update_queen_room')->name('h.d.update');
+            Route::post('/update', 'Hotel\AddroomController@update_queen_room')->name('h.d.update');
             Route::get('/addimage', 'Hotel\AddroomController@add_queen_room_images')->name('d.addimages');
         });
     });

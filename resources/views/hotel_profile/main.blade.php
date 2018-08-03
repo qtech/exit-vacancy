@@ -1,92 +1,75 @@
 @extends('layout.layout')
 
 @section('content')
-<div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-        <div class="page-content-wrapper">
-            <div class="container">
-                <div id="error" class="alert alert-danger alert-dismissible fade in" style="display:none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="success" class="alert alert-success alert-dismissible fade in" style="display:none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel panel-primary" style="box-shadow:0px 0px 10px 4px #cccccc">
-                            <div class="panel-body">
-                                <h4 class="m-t-0 m-b-30">Hotel Profile</h4>
-                                <form class="form-horizontal" id="myform" method="POST">
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Number</label>
-                                        <div class="col-md-10">
-                                        <input name="number" id="number" type="number" class="form-control" value="{{$getdetails->hotel->number}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Base Price</label>
-                                        <div class="col-md-10">
-                                            <input name="price" id="price" type="number" class="form-control" value="{{$getdetails->hotel->price}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Class</label>
-                                        <div class="col-md-10">
-                                            <input name="hotelclass" id="hotelclass" type="number" class="form-control" value="{{$getdetails->hotel->stars}}">
-                                        </div>
-                                    </div>
-                                    @php    
-                                        $amenity = App\Amenities::all();
-
-                                        $split = explode(",", $getdetails->hotel->amenities);
-                                    @endphp
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Select Amenities</label>
-                                        <div class="col-md-10">
-                                            <select name="amenities[]" id="amenities" class="selectpicker" multiple>
-                                                @foreach($amenity as $tmp)
-                                                    <option
-                                                    @if(in_array($tmp->amenity_name, $split))
-                                                        selected
-                                                    @endif
-                                                    value="{{$tmp->amenity_name}}">{{$tmp->amenity_name}}</option>
-                                                @endforeach
-                                            </select>                                                       
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Amenities</label>
-                                        <div class="col-md-10" style="padding-top:5px;">
-                                            @foreach($split as $value)
-                                                <label class="label label-info">{{$value}}</label>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Rooms Available</label>
-                                        <div class="col-md-10" style="padding-top:5px;">
-                                            @if($getdetails->hotel->king_room > 0)
-                                            <label class="label label-success">{{$getdetails->hotel->king_room}} King Rooms</label>
-                                            @endif 
-                                            @if($getdetails->hotel->queen_room > 0)
-                                            <label class="label label-warning">{{$getdetails->hotel->queen_room}} Two-Queen Rooms</label>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <input onclick="editprofile(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
-                                </form>      
-                            </div> <!-- panel-body -->
-                        </div> <!-- panel -->
-                    </div> <!-- col -->
-                </div> <!-- End row -->
-            </div><!-- container -->
-        </div> <!-- Page content Wrapper -->
-    </div> <!-- content -->
-</div>   
+<div class="box-typical" style="padding-left:25px;">
+    <h4 class="m-t-lg with-border">Hotel Profile</h4>
+    <form id="myform" method="POST">
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Number</label>
+                    <input type="text" class="form-control" name="number" id="number" value="{{$getdetails['details']->hotel->number}}">
+                    <small class="text-muted">Update number for your Hotel</small>
+                </fieldset>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Hotel Class</label>
+                    <input type="number" class="form-control" name="hotelclass" id="hotelclass" value="{{$getdetails['details']->hotel->stars}}">
+                    <small class="text-muted">Update class for your Hotel</small>
+                </fieldset>
+            </div>
+        </div>
+        @php    
+            $split = explode(",", $getdetails['details']->hotel->amenities);
+        @endphp
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="form-label semibold" for="title">Select Amenities</label>
+                <select class="select2" name="amenities[]" id="amenities" multiple="multiple">
+                    @foreach($getdetails['amenities'] as $tmp)
+                        <option
+                        @if(in_array($tmp->amenity_name, $split))
+                            selected
+                        @endif
+                        value="{{$tmp->amenity_name}}">{{$tmp->amenity_name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Amenities</label>
+                    @foreach($split as $value)
+                        <label class="label label-secondary">{{$value}}</label>
+                    @endforeach
+                </fieldset>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Rooms Available</label>
+                        @if($getdetails['details']->hotel->king_room > 0)
+                            <label class="label label-info">{{$getdetails['details']->hotel->king_room}} King Rooms</label>
+                        @endif 
+                        @if($getdetails['details']->hotel->queen_room > 0)
+                            <label class="label label-warning">{{$getdetails['details']->hotel->queen_room}} Two-Queen Rooms</label>
+                        @endif
+                </fieldset>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <input onclick="editprofile(); event.preventDefault();" type="submit" class="btn btn-primary" value="Update">
+            </div>
+        </div>
+    </form>
+</div>
 
 <script type="text/javascript">
     function editprofile(){
@@ -101,19 +84,14 @@
                 var demo = JSON.parse(ajx.responseText);
                 if(demo.status == 1)
                 {
-                    document.getElementById('success').style.display = "block";
-                    document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
+                    notification('success',demo.msg);
                     setTimeout(function(){
-                        document.getElementById('success').style.display = "none";
-                    },2000);
+                        window.location.href = '{{route("hotelprofile")}}';
+                    },1500);
                 }
                 else
                 {
-                    document.getElementById('error').style.display = "block";
-                    document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
-                    setTimeout(function(){
-                        document.getElementById('error').style.display = "none";
-                    },2000);
+                    notification('danger',demo.msg);
                 }
             }
         };

@@ -11,6 +11,11 @@ class Bookings extends Model
 
     public function customer()
     {
-        return $this->belongsTo('App\Customer', 'user_id');
+        return $this->hasOne('App\Customer','user_id','user_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
     }
 }

@@ -5,8 +5,8 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h3 class="pull-left">User Notifications</h3>
-                <a href="{{route('addnotification')}}" class="btn btn-warning pull-right">Add</a>
+                <h3 class="pull-left">Hotel Notifications</h3>
+                <a href="{{route('h.addnotification')}}" class="btn btn-warning pull-right">Add</a>
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 				</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
-                    <a class="btn btn-rounded btn-danger" href="{{route('deletenotification',['id' => $value->notification_id])}}" class="btn btn-danger">Delete</a>
+                    <a class="btn btn-rounded btn-danger" href="{{route('h.deletenotification',['id' => $value->notification_id])}}" class="btn btn-danger">Delete</a>
                 </div>
 			</div>
 		</div>
@@ -60,4 +60,29 @@
         </table>
     </div>
 </section>
+
+<section class="box-typical">
+        <div id="toolbar">
+            <div class="bootstrap-table-header">Application Users</div>
+        </div>
+        <div class="table-responsive">
+            <table id="table"
+                   class="table table-striped"
+                   data-toolbar="#toolbar"
+                   data-search="true"
+                   data-show-refresh="true"
+                   data-show-columns="true"
+                   data-show-export="true"
+                   data-detail-view="true"
+                   data-detail-formatter="detailFormatter"
+                   data-minimum-count-columns="2"
+                   data-show-pagination-switch="true"
+                   data-pagination="true"
+                   data-id-field="id"
+                   data-page-list="[10, 25, 50, 100, ALL]"
+                   data-show-footer="false"
+                   data-response-handler="responseHandler">
+            </table>
+        </div>
+    </section><!--.box-typical-->
 @endsection

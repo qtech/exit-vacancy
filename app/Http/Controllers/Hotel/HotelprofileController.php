@@ -6,14 +6,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Hoteldata;
 use App\User;
+use App\Amenities;
 use Validator;
 
 class HotelprofileController extends Controller
 {
     public function view()
     {
-        $getdetails = User::with('hotel')->where(['role' => 3,'user_id' => Auth()->user()->user_id])->first();
-        return view('hotel_profile.main')->with('getdetails', $getdetails);
+        $getdetails = [
+            'details' => User::with('hotel')->where(['role' => 3,'user_id' => Auth()->user()->user_id])->first(),
+            'amenities' => Amenities::all()
+        ];
+        // return $getdetails['details']->hotel->number;
+        return view('hotel_profile.main')->with('getdetails',$getdetails);
     }
 
     public function update(Request $request)
@@ -22,7 +27,6 @@ class HotelprofileController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'number' => 'required',
-                'price' => 'required',
                 'hotelclass' => 'required',
                 'amenities' => 'required'
             ]);

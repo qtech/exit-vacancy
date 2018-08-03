@@ -40,7 +40,7 @@ class AddroomController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'amenity' => 'required',
+                'amenities' => 'required',
                 'price' => 'required',
                 'rooms' => 'required'
             ]);
@@ -54,8 +54,10 @@ class AddroomController extends Controller
             }
             else
             {
+                $amenities = implode(",", $request->amenities);
+
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $room->king_room_amenity = $request->amenity;
+                $room->king_room_amenity = $amenities;
                 $room->king_room_price = $request->price;
                 $room->king_room = $request->rooms;
                 $room->save();
@@ -95,7 +97,7 @@ class AddroomController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'amenity' => 'required',
+                'amenities' => 'required',
                 'price' => 'required',
                 'rooms' => 'required'
             ]);
@@ -109,8 +111,10 @@ class AddroomController extends Controller
             }
             else
             {
+                $amenities = implode(",", $request->amenities);
+                
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $room->queen_room_amenity = $request->amenity;
+                $room->queen_room_amenity = $amenities;
                 $room->queen_room_price = $request->price;
                 $room->queen_room = $request->rooms;
                 $room->save();

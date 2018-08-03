@@ -1,74 +1,82 @@
-@extends('layout.layout');
+@extends('layout.layout')
 
 @section('content')
-<div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-        <div class="page-content-wrapper">
-            <div class="container">
-                <div id="error" class="alert alert-danger alert-dismissible fade in" style="display:none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="success" class="alert alert-success alert-dismissible fade in" style="display:none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel panel-primary" style="box-shadow:0px 0px 10px 4px #cccccc">
-                            <div class="panel-body">
-                                <h4 class="m-t-0 m-b-30">King Room details</h4>
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Amenities</label>
-                                        <div class="col-md-10">
-                                            @php
-                                                
-                                            @endphp
-                                            <select name="amenities" class="selectpicker" multiple>
-                                                <option value="{{$room->king_room_amenity}}">{{$room->king_room_amenity}}</option>
-                                            </select>
-                                                      
-                                        {{-- <input name="amenities" id="amenities" type="text" class="form-control" value="{{$room->king_room_amenity}}"> --}}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Price</label>
-                                        <div class="col-md-10">
-                                            <input name="price" id="price" type="number" class="form-control" value="{{$room->king_room_price}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Rooms Available</label>
-                                        <div class="col-md-10">
-                                            <input name="rooms" id="rooms" type="number" class="form-control" value="{{$room->king_room}}">
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <a href="{{route('s.addimages')}}" class="btn btn-warning">Add Images</a>
-                                    <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
-                                </form>      
-                            </div> <!-- panel-body -->
-                        </div> <!-- panel -->
-                    </div> <!-- col -->
-                </div> <!-- End row -->
-            </div><!-- container -->
-        </div> <!-- Page content Wrapper -->
-    </div> <!-- content -->
+<div class="box-typical" style="padding-left:25px;">
+    <h4 class="m-t-lg with-border">King Room Details</h4>
+    @php    
+        $split = explode(",", $room->king_room_amenity);
+    @endphp
+    <form id="myform" method="POST">
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="form-label semibold" for="title">Select Amenities</label>
+                <select class="select2" name="amenities[]" id="amenities" multiple="multiple">
+                        <option
+                        @if(in_array('Breakfast', $split))
+                            selected
+                        @endif
+                        value="Breakfast">Breakfast</option>
+
+                        <option
+                        @if(in_array('Lunch', $split))
+                            selected
+                        @endif
+                        value="Lunch">Lunch</option>
+
+                        <option
+                        @if(in_array('Dinner', $split))
+                            selected
+                        @endif
+                        value="Dinner">Dinner</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Room Amenities</label>
+                        @foreach($split as $value)
+                            <label class="label label-info">{{$value}}</label>
+                        @endforeach
+                </fieldset>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Price</label>
+                    <input type="number" class="form-control" name="price" id="price" value="{{$room->king_room_price}}">
+                    <small class="text-muted">Update price of this room</small>
+                </fieldset>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Rooms Available</label>
+                    <input type="number" class="form-control" name="rooms" id="rooms" value="{{$room->king_room}}">
+                    <small class="text-muted">Update number of rooms available</small>
+                </fieldset>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <a href="{{route('s.addimages')}}" class="btn btn-warning pull-left">Add Images</a>
+                    <input onclick="updateroom(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
+                </fieldset>
+            </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 <script type="text/javascript">
-    function addnotification(){
-        var amenity = document.getElementById("amenities").value;
-        var price = document.getElementById("price").value;
-        var number = document.getElementById("rooms").value;
-        var param = {
-            "amenity":amenity,
-            "price":price,
-            "rooms":number,
-            "_token":'{{csrf_token()}}'
-        }
+    function updateroom(){
+        var form = document.getElementById("myform");
+        var formData = new FormData(form);
+        formData.append('_token','{{csrf_token()}}');
 
         var ajx = new XMLHttpRequest();
         ajx.onreadystatechange = function () {
@@ -76,25 +84,20 @@
                 var demo = JSON.parse(ajx.responseText);
                 if(demo.status == 1)
                 {
-                    document.getElementById('success').style.display = "block";
-                    document.getElementById('success').innerHTML = "<strong>"+demo.msg+"</strong>";
+                    notification('success',demo.msg);
                     setTimeout(function(){
                         window.location.href = "{{route('h.s.room')}}";   
                     },1000);
                 }
                 else
                 {
-                    document.getElementById('error').style.display = "block";
-                    document.getElementById('error').innerHTML = "<strong>"+demo.msg+"</strong>";
-                    setTimeout(function(){
-                        window.location.href = "{{route('h.s.room')}}";
-                    },1000);
+                    notification('danger',demo.msg);
                 }
             }
         };
-        ajx.open("PUT", "{{route('h.s.update')}}", true);
-        ajx.setRequestHeader("Content-type", "application/json");
-        ajx.send(JSON.stringify(param));
+        ajx.open("POST", "{{route('h.s.update')}}", true);
+        //ajx.setRequestHeader("Content-type", "application/json");
+        ajx.send(formData);
     }
 </script>
 @endsection
