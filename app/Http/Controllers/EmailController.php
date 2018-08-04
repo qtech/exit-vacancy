@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\massmails;
 use App\Notifications;
 use App\User;
 use Validator;
 
-class NotificationController extends Controller
+class EmailController extends Controller
 {
     public function user_view()
     {
-        $notification = Notifications::where(['status' => 1, 'type' => 1])->get();
-        return view('notifications.main')->with('notification', $notification);
+        $mail = Notifications::where(['status' => 1, 'type' => 2])->get();
+        return view('sendemails.main')->with('mail', $mail);
     }
     public function user_add($id = NULL)
     {
@@ -21,7 +23,7 @@ class NotificationController extends Controller
             if($id == 1)
             {
                 $users = User::with('customer')->where(['role' => 2,'bookings' => 0])->get();
-                return view('notifications.add')->with('users', $users);
+                return view('sendemails.add')->with('users', $users);
             }
             if($id == 2)
             {
@@ -29,23 +31,23 @@ class NotificationController extends Controller
                     return $query->whereMonth('created_at', today()->format('m'))->groupBy('user_id');
                 }])->where(['role' => 2])->get();                
                 
-                return view('notifications.add')->with('users', $users);
+                return view('sendemails.add')->with('users', $users);
             }
             if($id == 3)
             {
                 $users = User::with('customer')->where(['role' => 2])->where('bookings','>', 5)->get();
-                return view('notifications.add')->with('users', $users);
+                return view('sendemails.add')->with('users', $users);
             }
             if($id == 4)
             {
                 $users = User::with('customer')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
-                return view('notifications.add')->with('users', $users);
+                return view('sendemails.add')->with('users', $users);
             }
         }
         else
         {
             $users = User::with('customer')->where(['role' => 2])->get();
-            return view('notifications.add')->with('users', $users);
+            return view('sendemails.add')->with('users', $users);
         }
     }
 
@@ -54,9 +56,9 @@ class NotificationController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'title' => 'required',
+                'subject' => 'required',
                 'message' => 'required',
-                'notifications' => 'required'
+                'mails' => 'required'
             ]);
 
             if($validator->fails())
@@ -69,22 +71,26 @@ class NotificationController extends Controller
             else
             {
                 $notification = new Notifications;
-                $notification->title = $request->title;
+                $notification->title = $request->subject;
                 $notification->message = $request->message;
-                $notification->type = 1;
+                $notification->type = 2;
                 $notification->status = 1;
                 $notification->save();
 
-                foreach($request->notifications as $user)
+                foreach($request->mails as $user)
                 {
-                    $count = User::find($user);
-                    $count->notification_count = $count->notification_count + 1;
-                    $count->save();
-                    $result = Notifications::commonNotification($request->title,$request->message,$count->fcm_id,$count->notification_count);
+                    $mail = User::find($user);
+                    $data = [
+                        'fname' => $mail->fname,
+                        'lname' => $mail->lname,
+                        'message' => $request->message,
+                        'subject' => $request->subject
+                    ];
+                    \Mail::to($mail->email)->send(new massmails($data));
                 }
 
                 $response = [
-                    'msg' => 'New notification added',
+                    'msg' => 'Email Sent',
                     'status' => 1
                 ];
             }
@@ -102,18 +108,17 @@ class NotificationController extends Controller
     public function user_delete($id)
     {
         $delete = Notifications::find($id)->delete();
-        return redirect()->route('notifications')->with('success', 'Notification deleted successfully');
+        return redirect()->route('mails')->with('success', 'Sent Email deleted successfully');
     }
 
     public function hotel_view()
     {
-        $notification = Notifications::where(['status' => 2, 'type' => 1])->get();
-        return view('notifications_hotel.main')->with('notification', $notification);
+        $mail = Notifications::where(['status' => 2, 'type' => 2])->get();
+        return view('sendemails_hotel.main')->with('mail', $mail);
     }
     public function hotel_add()
     {
-        $users = User::with('customer')->where(['role' => 3])->get();
-        return view('notifications_hotel.add');
+        return view('sendemails_hotel.add');
     }
 
     public function hotel_send(Request $request)
@@ -121,7 +126,7 @@ class NotificationController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'title' => 'required',
+                'subject' => 'required',
                 'message' => 'required'
             ]);
 
@@ -135,25 +140,31 @@ class NotificationController extends Controller
             else
             {
                 $notification = new Notifications;
-                $notification->title = $request->title;
+                $notification->title = $request->subject;
                 $notification->message = $request->message;
-                $notification->type = 1;
+                $notification->type = 2;
                 $notification->status = 2;
                 $notification->save();
 
-                $count = User::where(['role' => 3])->increment('notification_count',1);
                 $users = User::where(['role' => 3])->get();
                 
                 if(count($users) > 0)
                 {
                     foreach($users as $user)
                     {
-                        $result = Notifications::commonNotification($request->title,$request->message,$user->fcm_id,$user->notification_count);
+                        $mail = User::find($user->user_id);
+                        $data = [
+                            'fname' => $mail->fname,
+                            'lname' => $mail->lname,
+                            'message' => $request->message,
+                            'subject' => $request->subject
+                        ];
+                        \Mail::to($mail->email)->send(new massmails($data));
                     }
                 }
 
                 $response = [
-                    'msg' => 'New notification added',
+                    'msg' => 'Email sent',
                     'status' => 1
                 ];
             }
@@ -171,6 +182,6 @@ class NotificationController extends Controller
     public function hotel_delete($id)
     {
         $delete = Notifications::find($id)->delete();
-        return redirect()->route('h.notifications')->with('success', 'Notification deleted successfully');
+        return redirect()->route('h.mail')->with('success', 'Sent Email deleted successfully');
     }
 }

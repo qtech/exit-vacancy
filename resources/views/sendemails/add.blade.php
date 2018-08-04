@@ -4,28 +4,28 @@
 <header class="section-header">
     <div class="row">
         <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 1])}}">
+            <a href="{{route('addmail',['id' => 1])}}">
                 <section class="widget widget-simple-sm-fill grey">
                     <div class="widget-simple-sm-fill-caption">Users with No Bookings</div>
                 </section><!--.widget-simple-sm-fill-->
             </a>
         </div>
         <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 2])}}">
+            <a href="{{route('addmail',['id' => 2])}}">
                 <section class="widget widget-simple-sm-fill grey">
                     <div class="widget-simple-sm-fill-caption">Users with bookings this month</div>
                 </section><!--.widget-simple-sm-fill-->
             </a>
         </div>
         <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 3])}}">
+            <a href="{{route('addmail',['id' => 3])}}">
                 <section class="widget widget-simple-sm-fill grey">
                     <div class="widget-simple-sm-fill-caption">Users with booking more than 5</div>
                 </section><!--.widget-simple-sm-fill-->
             </a>
         </div>
         <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 4])}}">
+            <a href="{{route('addmail',['id' => 4])}}">
                 <section class="widget widget-simple-sm-fill grey">
                     <div class="widget-simple-sm-fill-caption">Users registered this month</div>
                 </section><!--.widget-simple-sm-fill-->
@@ -54,7 +54,7 @@
                 @foreach($users as $value)
                 <tr>
                     <td>
-                        <input type="checkbox" class="checkbox" name="notifications[]" value="{{$value->user_id}}">
+                        <input type="checkbox" class="checkbox" name="mails[]" value="{{$value->user_id}}">
                     </td>
                     <td>
                         <a style="border-bottom:none !important;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</a>
@@ -90,14 +90,14 @@
 </section>
 
 <div class="box-typical" style="padding-left:25px;">
-    <h5 class="m-t-lg with-border">Send Notification</h5>
+    <h5 class="m-t-lg with-border">Send Mail</h5>
     <form>
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
-                    <label class="form-label semibold" for="title">Title</label>
-                    <input type="text" class="form-control" name="title" id="title" placeholder="Title">
-                    <small class="text-muted">Please give a title to your notification</small>
+                    <label class="form-label semibold" for="title">Subject</label>
+                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
+                    <small class="text-muted">Please give a subject to your Mail</small>
                 </fieldset>
             </div>
         </div>
@@ -105,23 +105,23 @@
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="message">Description</label>
-                    <textarea rows="4" name="message" id="message" class="form-control" placeholder="Textarea"></textarea>
+                    <textarea rows="4" name="message" id="message" class="form-control" placeholder="Message"></textarea>
                 </fieldset>
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary" value="Send">
-                <a href="{{route('notifications')}}" class="btn btn-secondary">Cancel</a>
+                <input onclick="addmail(); event.preventDefault();" type="submit" class="btn btn-primary" value="Send">
+                <a href="{{route('mails')}}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
     </form>
 </div>
 
 <script type="text/javascript">
-    function addnotification(){
+    function addmail(){
         var temp = [];
-        var title = document.getElementById("title").value;
+        var subject = document.getElementById("subject").value;
         var message = document.getElementById("message").value;
         var users = document.getElementsByClassName("checkbox");
         
@@ -134,9 +134,9 @@
             }
         }
         var param = {
-            "title":title,
+            "subject":subject,
             "message":message,
-            "notifications":temp,
+            "mails":temp,
             "_token":'{{csrf_token()}}'
         }
         var ajx = new XMLHttpRequest();
@@ -147,7 +147,7 @@
                 {
                     notification('success',demo.msg);
                     setTimeout(function(){
-                        window.location.href = '{{route("notifications")}}';
+                        window.location.href = '{{route("mails")}}';
                     },1500);
                 }
                 else
@@ -156,7 +156,7 @@
                 }
             }
         };
-        ajx.open("POST", "{{route('storenotification')}}", true);
+        ajx.open("POST", "{{route('storemail')}}", true);
         ajx.setRequestHeader("Content-type", "application/json");
         ajx.send(JSON.stringify(param));
     }

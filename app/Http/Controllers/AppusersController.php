@@ -15,31 +15,33 @@ class AppusersController extends Controller
         {
             if($id == 1)
             {
-                $nobookings = User::with('customer')->where(['role' => 2,'bookings' => 0])->get();
-                return view('appusers.main')->with('nobookings', $nobookings);
+                $users = User::with('customer')->where(['role' => 2,'bookings' => 0])->get();
+                return view('appusers.main')->with('users', $users);
             }
             if($id == 2)
             {
-                $b_thismonth = Bookings::with('customer','user')->groupBy('user_id')->get();
-                return view('appusers.main')->with('b_thismonth', $b_thismonth);
+                $users = User::with('customer')->with(['bookings' => function($query){
+                    return $query->whereMonth('created_at', today()->format('m'))->groupBy('user_id');
+                }])->where(['role' => 2])->get();                
+                
+                return view('appusers.main')->with('users', $users);
             }
             if($id == 3)
             {
-                $fivebookings = User::with('customer')->where('role','=', 2)->where('bookings','>', 5)->get();
-                return view('appusers.main')->with('fivebookings', $fivebookings);
+                $users = User::with('customer')->where(['role' => 2])->where('bookings','>', 5)->get();
+                return view('appusers.main')->with('users', $users);
             }
             if($id == 4)
             {
-                $r_thismonth = User::with('customer')->whereMonth('created_at', today()->format('m'))->get();
-                return view('appusers.main')->with('r_thismonth', $r_thismonth);
+                $users = User::with('customer')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
+                return view('appusers.main')->with('users', $users);
             }
         }
         else
         {
             $users = User::with('customer')->where(['role' => 2])->get();
             return view('appusers.main')->with('users', $users);
-        }   
-           
+        }     
     }
 
     public function user_bookings($id)

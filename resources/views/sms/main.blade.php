@@ -5,8 +5,8 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h3 class="pull-left">Hotel Notifications</h3>
-                <a href="{{route('h.addnotification')}}" class="btn btn-warning pull-right">Add</a>
+                <h3 class="pull-left">User SMS</h3>
+                <a href="{{route('addsms')}}" class="btn btn-warning pull-right">Add</a>
             </div>
         </div>
     </div>
@@ -17,7 +17,6 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Title</th>
                 <th>Message</th>
                 <th>Actions</th>
             </tr>
@@ -26,10 +25,9 @@
                 @php
                     $i = 1;
                 @endphp
-                @foreach($notification as $value)
+                @foreach($sms as $value)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td>{{$value->title}}</td>
                     <td>{{$value->message}}</td>
 <td>
     <a href="#" style="border-bottom:none;" data-toggle="modal" data-target="#myModal{{$value->notification_id}}"><i class="fa fa-trash" style="color:red; font-size:1.3em;"></i></a>
@@ -44,11 +42,11 @@
 					<h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
 				</div>
 				<div class="modal-body">
-					<h6>Are you sure you want to delete this notification: <code>{{$value->title}}</code> ?</h6>
+					<h6>Are you sure you want to delete this SMS: <code>{{$value->title}}</code> ?</h6>
 				</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
-                    <a class="btn btn-rounded btn-danger" href="{{route('h.deletenotification',['id' => $value->notification_id])}}" class="btn btn-danger">Delete</a>
+                    <a class="btn btn-rounded btn-danger" href="{{route('deletesms',['id' => $value->notification_id])}}" class="btn btn-danger">Delete</a>
                 </div>
 			</div>
 		</div>

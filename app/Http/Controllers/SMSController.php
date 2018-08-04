@@ -7,12 +7,12 @@ use App\Notifications;
 use App\User;
 use Validator;
 
-class NotificationController extends Controller
+class SMSController extends Controller
 {
     public function user_view()
     {
-        $notification = Notifications::where(['status' => 1, 'type' => 1])->get();
-        return view('notifications.main')->with('notification', $notification);
+        $sms = Notifications::where(['status' => 1, 'type' => 3])->get();
+        return view('sms.main')->with('sms', $sms);
     }
     public function user_add($id = NULL)
     {
@@ -21,7 +21,7 @@ class NotificationController extends Controller
             if($id == 1)
             {
                 $users = User::with('customer')->where(['role' => 2,'bookings' => 0])->get();
-                return view('notifications.add')->with('users', $users);
+                return view('sms.add')->with('users', $users);
             }
             if($id == 2)
             {
@@ -29,23 +29,23 @@ class NotificationController extends Controller
                     return $query->whereMonth('created_at', today()->format('m'))->groupBy('user_id');
                 }])->where(['role' => 2])->get();                
                 
-                return view('notifications.add')->with('users', $users);
+                return view('sms.add')->with('users', $users);
             }
             if($id == 3)
             {
                 $users = User::with('customer')->where(['role' => 2])->where('bookings','>', 5)->get();
-                return view('notifications.add')->with('users', $users);
+                return view('sms.add')->with('users', $users);
             }
             if($id == 4)
             {
                 $users = User::with('customer')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
-                return view('notifications.add')->with('users', $users);
+                return view('sms.add')->with('users', $users);
             }
         }
         else
         {
             $users = User::with('customer')->where(['role' => 2])->get();
-            return view('notifications.add')->with('users', $users);
+            return view('sms.add')->with('users', $users);
         }
     }
 
@@ -54,9 +54,8 @@ class NotificationController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'title' => 'required',
                 'message' => 'required',
-                'notifications' => 'required'
+                'sms' => 'required'
             ]);
 
             if($validator->fails())
@@ -69,22 +68,18 @@ class NotificationController extends Controller
             else
             {
                 $notification = new Notifications;
-                $notification->title = $request->title;
                 $notification->message = $request->message;
-                $notification->type = 1;
+                $notification->type = 3;
                 $notification->status = 1;
                 $notification->save();
 
-                foreach($request->notifications as $user)
+                foreach($request->sms as $user)
                 {
                     $count = User::find($user);
-                    $count->notification_count = $count->notification_count + 1;
-                    $count->save();
-                    $result = Notifications::commonNotification($request->title,$request->message,$count->fcm_id,$count->notification_count);
                 }
 
                 $response = [
-                    'msg' => 'New notification added',
+                    'msg' => 'SMS Sent',
                     'status' => 1
                 ];
             }
@@ -102,18 +97,17 @@ class NotificationController extends Controller
     public function user_delete($id)
     {
         $delete = Notifications::find($id)->delete();
-        return redirect()->route('notifications')->with('success', 'Notification deleted successfully');
+        return redirect()->route('sms')->with('success', 'Sent SMS deleted successfully');
     }
 
     public function hotel_view()
     {
-        $notification = Notifications::where(['status' => 2, 'type' => 1])->get();
-        return view('notifications_hotel.main')->with('notification', $notification);
+        $sms = Notifications::where(['status' => 2, 'type' => 3])->get();
+        return view('sms_hotel.main')->with('sms', $sms);
     }
     public function hotel_add()
     {
-        $users = User::with('customer')->where(['role' => 3])->get();
-        return view('notifications_hotel.add');
+        return view('sms_hotel.add');
     }
 
     public function hotel_send(Request $request)
@@ -121,7 +115,6 @@ class NotificationController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'title' => 'required',
                 'message' => 'required'
             ]);
 
@@ -135,25 +128,23 @@ class NotificationController extends Controller
             else
             {
                 $notification = new Notifications;
-                $notification->title = $request->title;
                 $notification->message = $request->message;
-                $notification->type = 1;
+                $notification->type = 3;
                 $notification->status = 2;
                 $notification->save();
 
-                $count = User::where(['role' => 3])->increment('notification_count',1);
                 $users = User::where(['role' => 3])->get();
                 
                 if(count($users) > 0)
                 {
                     foreach($users as $user)
                     {
-                        $result = Notifications::commonNotification($request->title,$request->message,$user->fcm_id,$user->notification_count);
+                        
                     }
                 }
 
                 $response = [
-                    'msg' => 'New notification added',
+                    'msg' => 'SMS sent',
                     'status' => 1
                 ];
             }
@@ -171,6 +162,6 @@ class NotificationController extends Controller
     public function hotel_delete($id)
     {
         $delete = Notifications::find($id)->delete();
-        return redirect()->route('h.notifications')->with('success', 'Notification deleted successfully');
+        return redirect()->route('h.sms')->with('success', 'Sent SMS deleted successfully');
     }
 }

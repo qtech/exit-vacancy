@@ -29,34 +29,39 @@
 	                <span class="lbl">Hotel Owners</span>
 	            </a>
             </li>
-            
-            <li class="gold">
-	            <a href="#">
+			
+			<li class="gold with-sub">
+	            <span>
 	                <i class="fa fa-envelope"></i>
 	                <span class="lbl">Send Mails</span>
-	            </a>
-            </li>
+	            </span>
+	            <ul>
+	                <li><a href="{{route('mails')}}"><span class="lbl">Mails to Users</span></a></li>
+	                <li><a href="{{route('h.mails')}}"><span class="lbl">Mails to Hotel Owners</span></a></li>
+	            </ul>
+			</li>
             
-            <li class="blue-dirty">
-	            <a href="#">
-	                <i class="font-icon glyphicon glyphicon-send"></i>
+            <li class="blue-dirty with-sub">
+	            <span>
+	                <i class="fa fa-phone"></i>
 	                <span class="lbl">Send SMS</span>
-	            </a>
-            </li>
-            
-            <li class="red">
-	            <a href="{{route('notifications')}}">
-	                <i class="fa fa-bell"></i>
-	                <span class="lbl">User Notifications</span>
-	            </a>
+	            </span>
+	            <ul>
+	                <li><a href="{{route('sms')}}"><span class="lbl">SMS to Users</span></a></li>
+	                <li><a href="{{route('h.sms')}}"><span class="lbl">SMS to Hotel Owners</span></a></li>
+	            </ul>
 			</li>
 			
-			<li class="red">
-					<a href="{{route('h.notifications')}}">
-						<i class="fa fa-bell"></i>
-						<span class="lbl">Hotel Notifications</span>
-					</a>
-				</li>
+			<li class="yellow with-sub">
+	            <span>
+	                <i class="fa fa-bell"></i>
+	                <span class="lbl">Notifications</span>
+	            </span>
+	            <ul>
+	                <li><a href="{{route('notifications')}}"><span class="lbl">User Notifications</span></a></li>
+	                <li><a href="{{route('h.notifications')}}"><span class="lbl">Hotel Notifications</span></a></li>
+	            </ul>
+			</li>
             
             <li class="magenta">
 	            <a href="{{route('amenity')}}">

@@ -43,11 +43,45 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::post('/delete', 'AmenityController@delete')->name('deleteamenity');
     });
 
+    // SEND MAILS
+    Route::prefix('mails')->group(function(){
+        Route::prefix('users')->group(function(){
+            Route::get('/', 'EmailController@user_view')->name('mails');
+            Route::get('/add/{id?}', 'EmailController@user_add')->name('addmail');
+            Route::post('/store', 'EmailController@user_send')->name('storemail');
+            Route::get('/delete/{id}', 'EmailController@user_delete')->name('deletemail');
+        });
+
+        Route::prefix('hotel')->group(function(){
+            Route::get('/', 'EmailController@hotel_view')->name('h.mails');
+            Route::get('/add', 'EmailController@hotel_add')->name('h.addmail');
+            Route::post('/store', 'EmailController@hotel_send')->name('h.storemail');
+            Route::get('/delete/{id}', 'EmailController@hotel_delete')->name('h.deletemail');
+        });
+    });
+
+    // SEND SMS
+    Route::prefix('sms')->group(function(){
+        Route::prefix('users')->group(function(){
+            Route::get('/', 'SMSController@user_view')->name('sms');
+            Route::get('/add/{id?}', 'SMSController@user_add')->name('addsms');
+            Route::post('/store', 'SMSController@user_send')->name('storesms');
+            Route::get('/delete/{id}', 'SMSController@user_delete')->name('deletesms');
+        });
+
+        Route::prefix('hotel')->group(function(){
+            Route::get('/', 'SMSController@hotel_view')->name('h.sms');
+            Route::get('/add', 'SMSController@hotel_add')->name('h.addsms');
+            Route::post('/store', 'SMSController@hotel_send')->name('h.storesms');
+            Route::get('/delete/{id}', 'SMSController@hotel_delete')->name('h.deletesms');
+        });
+    });
+
     // NOTIFICATIONS
     Route::prefix('notifications')->group(function(){
         Route::prefix('users')->group(function(){
             Route::get('/', 'NotificationController@user_view')->name('notifications');
-            Route::get('/add', 'NotificationController@user_add')->name('addnotification');
+            Route::get('/add/{id?}', 'NotificationController@user_add')->name('addnotification');
             Route::post('/store', 'NotificationController@user_send')->name('storenotification');
             Route::get('/delete/{id}', 'NotificationController@user_delete')->name('deletenotification');
         });

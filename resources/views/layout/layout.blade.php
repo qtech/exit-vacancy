@@ -83,5 +83,7 @@
 	<script src="{{asset('/n-asset/js/lib/bootstrap-table/bootstrap-table-init.js')}}"></script>
     
 <script src="{{asset('/n-asset/js/app.js')}}"></script>
+
+@yield('scripts')
 </body>
 </html>

@@ -5,8 +5,8 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h3 class="pull-left">Hotel Notifications</h3>
-                <a href="{{route('h.addnotification')}}" class="btn btn-warning pull-right">Add</a>
+                <h3 class="pull-left">Hotel Emails</h3>
+                <a href="{{route('h.addmail')}}" class="btn btn-warning pull-right">Add</a>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
                 @php
                     $i = 1;
                 @endphp
-                @foreach($notification as $value)
+                @foreach($mail as $value)
                 <tr>
                     <td>{{$i++}}</td>
                     <td>{{$value->title}}</td>
@@ -44,7 +44,7 @@
 					<h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
 				</div>
 				<div class="modal-body">
-					<h6>Are you sure you want to delete this notification: <code>{{$value->title}}</code> ?</h6>
+					<h6>Are you sure you want to delete this email: <code>{{$value->title}}</code> ?</h6>
 				</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>

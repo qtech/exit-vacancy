@@ -5,8 +5,8 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h3 class="pull-left">Hotel Notifications</h3>
-                <a href="{{route('h.addnotification')}}" class="btn btn-warning pull-right">Add</a>
+                <h3 class="pull-left">User Mails</h3>
+                <a href="{{route('addmail')}}" class="btn btn-warning pull-right">Add</a>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Title</th>
+                <th>Subject</th>
                 <th>Message</th>
                 <th>Actions</th>
             </tr>
@@ -26,7 +26,7 @@
                 @php
                     $i = 1;
                 @endphp
-                @foreach($notification as $value)
+                @foreach($mail as $value)
                 <tr>
                     <td>{{$i++}}</td>
                     <td>{{$value->title}}</td>
@@ -48,7 +48,7 @@
 				</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
-                    <a class="btn btn-rounded btn-danger" href="{{route('h.deletenotification',['id' => $value->notification_id])}}" class="btn btn-danger">Delete</a>
+                    <a class="btn btn-rounded btn-danger" href="{{route('deletenotification',['id' => $value->notification_id])}}" class="btn btn-danger">Delete</a>
                 </div>
 			</div>
 		</div>
