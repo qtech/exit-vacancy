@@ -1,40 +1,51 @@
 @extends('layout.layout')
 
 @section('content')
-<header class="section-header">
-    <div class="row">
-        <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 1])}}">
-                <section class="widget widget-simple-sm-fill grey">
-                    <div class="widget-simple-sm-fill-caption">Users with No Bookings</div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
+<style>
+    .btn-custom{
+        background-color: #00857B;
+        border-color: #00857B;
+    } 
+    .btn-custom:hover{
+        background-color: #00857ba8;
+        border-color: #00857B;
+    }   
+</style>
+<div class="box-typical" style="padding-left:25px;">
+    <h5 class="m-t-lg with-border">Send Notification</h5>
+    <form>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="title">Title</label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="Title">
+                    <small class="text-muted">Please give a title to your notification</small>
+                </fieldset>
+            </div>
         </div>
-        <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 2])}}">
-                <section class="widget widget-simple-sm-fill grey">
-                    <div class="widget-simple-sm-fill-caption">Users with bookings this month</div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold" for="message">Description</label>
+                    <textarea rows="4" name="message" id="message" class="form-control" placeholder="Textarea"></textarea>
+                </fieldset>
+            </div>
         </div>
-        <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 3])}}">
-                <section class="widget widget-simple-sm-fill grey">
-                    <div class="widget-simple-sm-fill-caption">Users with booking more than 5</div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
-        </div>
-        <div class="col-sm-3">
-            <a href="{{route('addnotification',['id' => 4])}}">
-                <section class="widget widget-simple-sm-fill grey">
-                    <div class="widget-simple-sm-fill-caption">Users registered this month</div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
-        </div>
-    </div>
-</header>
+    </form>
+</div>
+
 <section class="card">
     <div class="card-block">
+        <div class="row">
+            <div class="col-sm-12" style="padding-left:30px;">
+                <a href="{{route('addnotification')}}" class="btn {{$id == '' ? 'btn-custom' : 'btn-default'}}">All Users</a>
+                <a href="{{route('addnotification',['id' => 1])}}" class="btn {{$id == 1 ? 'btn-custom' : 'btn-default'}}">No Bookings</a>
+                <a href="{{route('addnotification',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-default'}}">Bookings this month</a>
+                <a href="{{route('addnotification',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-default'}}">More than 5 Bookings</a>
+                <a href="{{route('addnotification',['id' => 4])}}" class="btn {{$id == 4 ? 'btn-custom' : 'btn-default'}}">Registered this month</a>
+            </div>
+        </div>
+        <br>
         <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -57,7 +68,7 @@
                         <input type="checkbox" class="checkbox" name="notifications[]" value="{{$value->user_id}}">
                     </td>
                     <td>
-                        <a style="border-bottom:none !important;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</a>
+                        <a style="border-bottom:none !important; color:black;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</a>
                     </td>
                     <td>{{$value->email or $value->user->email}}</td>
                     <td>{{$value->customer->number}}</td>
@@ -86,37 +97,15 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-</section>
-
-<div class="box-typical" style="padding-left:25px;">
-    <h5 class="m-t-lg with-border">Send Notification</h5>
-    <form>
-        <div class="form-group">
-            <div class="col-lg-12">
-                <fieldset class="form-group">
-                    <label class="form-label semibold" for="title">Title</label>
-                    <input type="text" class="form-control" name="title" id="title" placeholder="Title">
-                    <small class="text-muted">Please give a title to your notification</small>
-                </fieldset>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-12">
-                <fieldset class="form-group">
-                    <label class="form-label semibold" for="message">Description</label>
-                    <textarea rows="4" name="message" id="message" class="form-control" placeholder="Textarea"></textarea>
-                </fieldset>
-            </div>
-        </div>
+        <br>
         <div class="form-group">
             <div class="col-lg-12">
                 <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary" value="Send">
                 <a href="{{route('notifications')}}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
-    </form>
-</div>
+    </div>
+</section>
 
 <script type="text/javascript">
     function addnotification(){

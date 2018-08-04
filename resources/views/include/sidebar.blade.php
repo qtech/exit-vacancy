@@ -3,7 +3,7 @@
 	<nav class="side-menu">
 	    <ul class="side-menu-list">
 	        <li class="grey">
-	            <a href="#">
+				<a href="{{route('dashboard')}}">
 	                <i class="font-icon font-icon-dashboard"></i>
 	                <span class="lbl">Dashboard</span>
 	            </a>
@@ -85,7 +85,7 @@
 	<nav class="side-menu">
 	    <ul class="side-menu-list">
 	        <li class="grey">
-	            <a href="#">
+	            <a href="{{route('h.dashboard')}}">
 	                <i class="font-icon font-icon-dashboard"></i>
 	                <span class="lbl">Dashboard</span>
 	            </a>

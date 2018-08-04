@@ -25,6 +25,9 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
     // DASHBOARD
     Route::prefix('dashboard')->group(function(){
         Route::get('/', 'DashboardController@view')->name('dashboard');
+        // CHARTS_DATA
+        Route::get('/registrationdata', 'API\DashboardController@chart_all_data')->name('dashboard.chartData');
+        Route::get('/bookingdata','API\DashboardController@bookings_data')->name('dashboard.bookingData');
     });
 
     // APPLICATION USERS
@@ -98,7 +101,7 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function(){
     // DASHBOARD
     Route::prefix('dashboard')->group(function(){
-        Route::get('/', 'DashboardController@view')->name('h.dashboard');
+        Route::get('/', 'DashboardController@view')->name('h.dashboard');        
     });
 
     Route::prefix('hotelprofile')->group(function(){

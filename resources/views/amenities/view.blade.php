@@ -1,6 +1,11 @@
 @extends('layout.layout')
 
 @section('content')
+<style>
+    .border-custom{
+        border: 1px solid #00857B !important;
+    }
+</style>
 <section class="card box-typical-full-height">
     <div class="card-block">
     <h5 class="m-t-lg">Add Amenities</h5>
@@ -39,12 +44,12 @@ function getdata(){
             demo.data.forEach(function(data){
                 document.getElementById("demo").innerHTML += 
                 `<div class="col-sm-3">
-                    <section class="widget widget-simple-sm-fill">
+                    <section class="widget widget-simple-sm border-custom">
                         <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
                             ${data.amenity_name}
                         </div>
                         <a href="#" style="border-bottom:none;" data-toggle="modal" data-target="#myModal${data.amenity_id}">
-                            <i class="fa fa-trash" style="color:white; font-size:1.0em; position:relative; top:-45px; right:-100px"></i>
+                            <i class="fa fa-trash" style="color:#00857B; font-size:1.0em; position:relative; top:-20px; right:-100px"></i>
                         </a>
     <div class="modal fade" id="myModal${data.amenity_id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">

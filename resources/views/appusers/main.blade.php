@@ -1,48 +1,28 @@
 @extends('layout.layout')
 
 @section('content')
-<header class="section-header">
-    <div class="row">
-        <div class="col-sm-3">
-            <a href="{{route('appusers',['id' => 1])}}">
-                <section class="widget widget-simple-sm-fill">
-                    <div class="{{Request::is('/1') ? 'blue' : 'grey'}}">
-                        <div class="widget-simple-sm-fill-caption">Users with No Bookings</div>
-                    </div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
-        </div>
-        <div class="col-sm-3">
-            <a href="{{route('appusers',['id' => 2])}}">
-                <section class="widget widget-simple-sm-fill">
-                    <div class="{{Request::is('/2') ? 'blue' : 'grey'}}">
-                        <div class="widget-simple-sm-fill-caption">Users with bookings this month</div>
-                    </div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
-        </div>
-        <div class="col-sm-3">
-            <a href="{{route('appusers',['id' => 3])}}">
-                <section class="widget widget-simple-sm-fill">
-                    <div class="{{Request::is('/3') ? 'blue' : 'grey'}}">
-                        <div class="widget-simple-sm-fill-caption">Users with bookings more than 5</div>
-                    </div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
-        </div>
-        <div class="col-sm-3">
-            <a href="{{route('appusers',['id' => 4])}}">
-                <section class="widget widget-simple-sm-fill">
-                    <div class="{{Request::is('/4') ? 'blue' : 'grey'}}">
-                        <div class="widget-simple-sm-fill-caption">Users registered this month</div>
-                    </div>
-                </section><!--.widget-simple-sm-fill-->
-            </a>
-        </div>
-    </div>
-</header>
+<style>
+    .btn-custom{
+        background-color: #00857B;
+        border-color: #00857B;
+    } 
+    .btn-custom:hover{
+        background-color: #00857ba8;
+        border-color: #00857B;
+    }   
+</style>
 <section class="card">
     <div class="card-block">
+        <div class="row">
+            <div class="col-sm-12" style="padding-left:30px;">
+                <a href="{{route('appusers')}}" class="btn {{$id == '' ? 'btn-custom' : 'btn-default'}}">All Users</a>
+                <a href="{{route('appusers',['id' => 1])}}" class="btn {{$id == 1 ? 'btn-custom' : 'btn-default'}}">No Bookings</a>
+                <a href="{{route('appusers',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-default'}}">Bookings this month</a>
+                <a href="{{route('appusers',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-default'}}">More than 5 Bookings</a>
+                <a href="{{route('appusers',['id' => 4])}}" class="btn {{$id == 4 ? 'btn-custom' : 'btn-default'}}">Registered this month</a>
+            </div>
+        </div>
+        <br>
         <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -63,7 +43,7 @@
                 <tr>
                     <td>{{$i++}}</td>
                     <td>
-                        <a style="border-bottom:none !important;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</a>
+                        <a style="border-bottom:none !important; color:black;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</a>
                     </td>
                     <td>{{$value->email or $value->user->email}}</td>
                     <td>{{$value->customer->number}}</td>

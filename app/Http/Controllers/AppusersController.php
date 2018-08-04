@@ -16,7 +16,6 @@ class AppusersController extends Controller
             if($id == 1)
             {
                 $users = User::with('customer')->where(['role' => 2,'bookings' => 0])->get();
-                return view('appusers.main')->with('users', $users);
             }
             if($id == 2)
             {
@@ -24,24 +23,25 @@ class AppusersController extends Controller
                     return $query->whereMonth('created_at', today()->format('m'))->groupBy('user_id');
                 }])->where(['role' => 2])->get();                
                 
-                return view('appusers.main')->with('users', $users);
             }
             if($id == 3)
             {
                 $users = User::with('customer')->where(['role' => 2])->where('bookings','>', 5)->get();
-                return view('appusers.main')->with('users', $users);
             }
             if($id == 4)
             {
                 $users = User::with('customer')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
-                return view('appusers.main')->with('users', $users);
             }
         }
         else
         {
             $users = User::with('customer')->where(['role' => 2])->get();
-            return view('appusers.main')->with('users', $users);
-        }     
+        } 
+        $data = [
+            'id' => $id,
+            'users' => $users
+        ];
+        return view('appusers.main')->with($data);
     }
 
     public function user_bookings($id)

@@ -17,6 +17,9 @@
 	</style>
 	<script src="{{asset('/n-asset/js/lib/jquery/jquery-3.2.1.min.js')}}"></script>
 	
+	{{-- CHARTS --}}
+	
+
 	{{-- DATATABLE --}}
 	<link rel="stylesheet" href="{{asset('/n-asset/css/lib/datatables-net/datatables.min.css')}}">
 	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/datatables-net.min.css')}}">
@@ -77,6 +80,10 @@
 			$('#example').DataTable();
 		});
 	</script>
+
+	{{-- CHARTS --}}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
 	<script src="{{asset('/n-asset/js/lib/bootstrap-table/bootstrap-table.js')}}"></script>
 	<script src="{{asset('/n-asset/js/lib/bootstrap-table/bootstrap-table-export.min.js')}}"></script>
 	<script src="{{asset('/n-asset/js/lib/bootstrap-table/tableExport.min.js')}}"></script>

@@ -88,5 +88,8 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 
     // COMMON HOTEL AMENITIES
     Route::get('/amenities', 'API\AmenityController@getAmenities');
+
 });
+
+
 
