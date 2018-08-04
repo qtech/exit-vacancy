@@ -6,7 +6,7 @@
         <div class="tbl-row">
             <div class="tbl-cell">
                 <h3 class="pull-left">User SMS</h3>
-                <a href="{{route('addsms')}}" class="btn btn-warning pull-right">Add</a>
+                <a href="{{route('addsms')}}" class="btn btn-custom pull-right">Send SMS</a>
             </div>
         </div>
     </div>

@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-primary" value="Add">
+                <input onclick="addnotification(); event.preventDefault();" type="submit" class="btn btn-custom" value="Send Notification">
                 <a href="{{route('h.notifications')}}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>

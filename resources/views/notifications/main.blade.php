@@ -6,7 +6,7 @@
         <div class="tbl-row">
             <div class="tbl-cell">
                 <h3 class="pull-left">User Notifications</h3>
-                <a href="{{route('addnotification')}}" class="btn btn-warning pull-right">Add</a>
+                <a href="{{route('addnotification')}}" class="btn btn-custom pull-right">Send Notification</a>
             </div>
         </div>
     </div>

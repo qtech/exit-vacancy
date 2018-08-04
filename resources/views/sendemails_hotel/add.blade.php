@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="addmail(); event.preventDefault();" type="submit" class="btn btn-primary" value="Add">
+                <input onclick="addmail(); event.preventDefault();" type="submit" class="btn btn-custom" value="Send Mail">
                 <a href="{{route('h.mails')}}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>

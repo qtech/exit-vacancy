@@ -1,16 +1,6 @@
 @extends('layout.layout')
 
 @section('content')
-<style>
-    .btn-custom{
-        background-color: #00857B;
-        border-color: #00857B;
-    } 
-    .btn-custom:hover{
-        background-color: #00857ba8;
-        border-color: #00857B;
-    }   
-</style>
 <div class="box-typical" style="padding-left:25px;">
     <h5 class="m-t-lg with-border">Send Mail</h5>
     <form>
@@ -100,7 +90,7 @@
         <br>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="addmail(); event.preventDefault();" type="submit" class="btn btn-primary" value="Send">
+                <input onclick="addmail(); event.preventDefault();" type="submit" class="btn btn-custom" value="Send Mail">
                 <a href="{{route('mails')}}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>

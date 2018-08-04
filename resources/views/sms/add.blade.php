@@ -91,7 +91,7 @@
         <br>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="addsms(); event.preventDefault();" type="submit" class="btn btn-primary" value="Send">
+                <input onclick="addsms(); event.preventDefault();" type="submit" class="btn btn-custom" value="Send SMS">
                 <a href="{{route('sms')}}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>

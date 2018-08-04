@@ -14,7 +14,7 @@
             <textarea id="tags-editor-textarea" id="amenities" name="amenities[]"></textarea>
         </div>
         <div class="col-lg-5 pull-left">
-            <input onclick="addamenity(); event.preventDefault();" type="submit" class="btn btn-primary" value="Add">
+            <input onclick="addamenity(); event.preventDefault();" type="submit" class="btn btn-custom" value="Add">
         </div>
     </form>
     </div>

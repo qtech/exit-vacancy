@@ -6,7 +6,7 @@
         <div class="tbl-row">
             <div class="tbl-cell">
                 <h3 class="pull-left">Hotel Emails</h3>
-                <a href="{{route('h.addmail')}}" class="btn btn-warning pull-right">Add</a>
+                <a href="{{route('h.addmail')}}" class="btn btn-custom pull-right">Send Mail</a>
             </div>
         </div>
     </div>

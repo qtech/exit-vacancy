@@ -33,7 +33,8 @@
 
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/font-awesome/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/bootstrap/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/n-asset/css/main.css')}}">
+	<link rel="stylesheet" href="{{asset('/n-asset/css/main.css')}}">
+	<link rel="stylesheet" href="{{asset('/n-asset/css/custom.css')}}">
 </head>
 <body class="with-side-menu">
 

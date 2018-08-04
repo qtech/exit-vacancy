@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="addsms(); event.preventDefault();" type="submit" class="btn btn-primary" value="Add">
+                <input onclick="addsms(); event.preventDefault();" type="submit" class="btn btn-custom" value="Send SMS">
                 <a href="{{route('h.sms')}}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
