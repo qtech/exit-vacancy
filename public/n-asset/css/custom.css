@@ -5,5 +5,10 @@
 .btn-custom:hover{
     background-color: #00857ba8 !important;
     border-color: #00857B !important;
-}  
+}
+.btn-new{
+    background-color: #BCC5CA !important;
+    color: black !important;
+    border-color: #BCC5CA !important;
+}
  
