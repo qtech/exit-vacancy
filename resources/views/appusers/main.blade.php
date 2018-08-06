@@ -1,16 +1,6 @@
 @extends('layout.layout')
 
 @section('content')
-<style>
-    .btn-custom{
-        background-color: #00857B;
-        border-color: #00857B;
-    } 
-    .btn-custom:hover{
-        background-color: #00857ba8;
-        border-color: #00857B;
-    }   
-</style>
 <section class="card">
     <div class="card-block">
         <div class="row">
@@ -32,6 +22,7 @@
                 <th>Number</th>
                 <th>Email</th>
                 <th>Mobile</th>
+                <th>Bookings</th>
                 <th>User Status</th>
             </tr>
             </thead>
@@ -61,6 +52,7 @@
                             <label class="label label-danger">Not Verified</label>
                         @endif
                     </td>
+                    <td style="text-align:center;"><label class="label label-warning">{{$value->bookings}}</label></td>
                     <td>
                         @if($value->user_status == 1 || @$value->user->user_status == 1)
                             <a href="{{route('disableuser',['id' => $value->user_id])}}"><label class="label label-success">Active</label></a>

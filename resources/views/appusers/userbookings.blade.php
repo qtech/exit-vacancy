@@ -6,7 +6,7 @@
         <div class="tbl-row">
             <div class="tbl-cell">
                 <h3 class="pull-left">User Bookings</h3>
-                <a href="{{route('appusers')}}" class="btn btn-warning pull-right">Back</a>
+                <a href="{{route('appusers')}}" class="btn btn-custom pull-right">Back</a>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
                     <td>{{$i++}}</td>
                     <td>{{$hotel->hotel_name}}</td>
                     <td>{{$value->roomtype}}</td>
-                    <td>{{$value->roomprice}}</td>
+                    <td>${{$value->roomprice}}</td>
                     <td>
                         @if($value->status == 1)
                             <label class="label label-success">Accepted</label>

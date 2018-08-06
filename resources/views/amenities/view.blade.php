@@ -41,37 +41,34 @@ function getdata(){
         if (ajx.readyState == 4 && ajx.status == 200) {
             var demo = JSON.parse(ajx.responseText);
             document.getElementById("demo").innerHTML = "";
-            demo.data.forEach(function(data){
-                document.getElementById("demo").innerHTML += 
-                `<div class="col-sm-3">
-                    <section class="widget widget-simple-sm border-custom">
-                        <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
-                            ${data.amenity_name}
-                        </div>
-                        <a href="#" style="border-bottom:none;" data-toggle="modal" data-target="#myModal${data.amenity_id}">
-                            <i class="fa fa-trash" style="color:#00857B; font-size:1.0em; position:relative; top:-20px; right:-100px"></i>
-                        </a>
-    <div class="modal fade" id="myModal${data.amenity_id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-						<i class="font-icon-close-2"></i>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
-				</div>
-				<div class="modal-body">
-					<h6>Are you sure you want to delete this amenity: <code>${data.amenity_name}</code> ?</h6>
-				</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
-                    <a href="#" onclick="deleteamenity(${data.amenity_id});" class="btn btn-rounded btn-danger" data-dismiss="modal">Delete</a>
-                </div>
-			</div>
-		</div>
-	</div>
-                    </section>
-                </div>`
+            demo.data.forEach(function(data){ 
+                if(data.status == 1)
+                {
+                    document.getElementById("demo").innerHTML +=
+                    `<div class="col-sm-3">
+                        <section class="widget widget-simple-sm border-custom">
+                            <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
+                                ${data.amenity_name}
+                            </div>
+                            <a href="#" onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;">
+                                <i class="fa fa-ban" style="color:#00857B; font-size:1.0em; position:relative; top:-20px; right:-100px"></i>
+                            </a>
+                        </section>
+                    </div>`
+                }
+                else{
+                    document.getElementById("demo").innerHTML +=
+                    `<div class="col-sm-3">
+                        <section class="widget widget-simple-sm border-custom">
+                            <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
+                                ${data.amenity_name}
+                            </div>
+                            <a href="#" onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;">
+                                <i class="fa fa-check" style="color:#00857B; font-size:1.0em; position:relative; top:-20px; right:-100px"></i>
+                            </a>
+                        </section>
+                    </div>`
+                }
             });
         }
     };
@@ -79,7 +76,7 @@ function getdata(){
     ajx.send();
 }
 
-function deleteamenity(id){
+function disableamenity(id){
     var formdata = new FormData();
     formdata.append('id',id);
     formdata.append('_token','{{csrf_token()}}');
@@ -99,7 +96,7 @@ function deleteamenity(id){
         }
     };
 
-    ajx.open("POST", "{{route('deleteamenity')}}", true);
+    ajx.open("POST", "{{route('disableamenity')}}", true);
     ajx.send(formdata);
 }
 

@@ -20,26 +20,35 @@ class SMSController extends Controller
         {
             if($id == 1)
             {
-                $users = User::with('customer')->where(['role' => 2,'bookings' => 0])->get();
+                $users = User::with('customer','userbookings')->where(['role' => 2,'bookings' => 0])->get();
             }
             if($id == 2)
             {
-                $users = User::with('customer')->with(['bookings' => function($query){
+                $temp = User::with('customer')->with(['userbookings' => function($query){
                     return $query->whereMonth('created_at', today()->format('m'))->groupBy('user_id');
-                }])->where(['role' => 2])->get();                 
+                }])->where(['role' => 2])->get();  
+            
+                $users = [];
+                foreach($temp as $tmp)
+                {
+                    if(count($tmp->userbookings) > 0)
+                    {
+                        array_push($users,$tmp);
+                    }
+                }                
             }
             if($id == 3)
             {
-                $users = User::with('customer')->where(['role' => 2])->where('bookings','>', 5)->get();
+                $users = User::with('customer','userbookings')->where(['role' => 2])->where('bookings','>', 5)->get();
             }
             if($id == 4)
             {
-                $users = User::with('customer')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
+                $users = User::with('customer','userbookings')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
             }
         }
         else
         {
-            $users = User::with('customer')->where(['role' => 2])->get();
+            $users = User::with('customer','userbookings')->where(['role' => 2])->get();
         }
 
         $data = [
@@ -107,7 +116,8 @@ class SMSController extends Controller
     }
     public function hotel_add()
     {
-        return view('sms_hotel.add');
+        $hotelusers = User::with('hotel','hotelbookings')->where(['role' => 3])->get();
+        return view('sms_hotel.add')->with('hotelusers', $hotelusers);
     }
 
     public function hotel_send(Request $request)
@@ -115,7 +125,8 @@ class SMSController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'message' => 'required'
+                'message' => 'required',
+                'sms' => 'required'
             ]);
 
             if($validator->fails())
@@ -133,14 +144,9 @@ class SMSController extends Controller
                 $notification->status = 2;
                 $notification->save();
 
-                $users = User::where(['role' => 3])->get();
-                
-                if(count($users) > 0)
+                foreach($request->sms as $user)
                 {
-                    foreach($users as $user)
-                    {
-                        
-                    }
+                    $count = User::find($user);
                 }
 
                 $response = [

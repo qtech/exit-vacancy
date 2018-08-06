@@ -20,26 +20,35 @@ class NotificationController extends Controller
         {
             if($id == 1)
             {
-                $users = User::with('customer')->where(['role' => 2,'bookings' => 0])->get();
+                $users = User::with('customer','userbookings')->where(['role' => 2,'bookings' => 0])->get();
             }
             if($id == 2)
             {
-                $users = User::with('customer')->with(['bookings' => function($query){
+                $temp = User::with('customer')->with(['userbookings' => function($query){
                     return $query->whereMonth('created_at', today()->format('m'))->groupBy('user_id');
-                }])->where(['role' => 2])->get();                
+                }])->where(['role' => 2])->get();  
+            
+                $users = [];
+                foreach($temp as $tmp)
+                {
+                    if(count($tmp->userbookings) > 0)
+                    {
+                        array_push($users,$tmp);
+                    }
+                }                
             }
             if($id == 3)
             {
-                $users = User::with('customer')->where(['role' => 2])->where('bookings','>', 5)->get();
+                $users = User::with('customer','userbookings')->where(['role' => 2])->where('bookings','>', 5)->get();
             }
             if($id == 4)
             {
-                $users = User::with('customer')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
+                $users = User::with('customer','userbookings')->where(['role' => 2])->whereMonth('created_at', today()->format('m'))->get();
             }
         }
         else
         {
-            $users = User::with('customer')->where(['role' => 2])->get();
+            $users = User::with('customer','userbookings')->where(['role' => 2])->get();
         }
 
         $data = [
@@ -112,8 +121,8 @@ class NotificationController extends Controller
     }
     public function hotel_add()
     {
-        $users = User::with('customer')->where(['role' => 3])->get();
-        return view('notifications_hotel.add');
+        $hotelusers = User::with('hotel','hotelbookings')->where(['role' => 3])->get();
+        return view('notifications_hotel.add')->with('hotelusers', $hotelusers);
     }
 
     public function hotel_send(Request $request)
@@ -122,7 +131,8 @@ class NotificationController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'title' => 'required',
-                'message' => 'required'
+                'message' => 'required',
+                'notifications' => 'required'
             ]);
 
             if($validator->fails())
@@ -141,15 +151,12 @@ class NotificationController extends Controller
                 $notification->status = 2;
                 $notification->save();
 
-                $count = User::where(['role' => 3])->increment('notification_count',1);
-                $users = User::where(['role' => 3])->get();
-                
-                if(count($users) > 0)
+                foreach($request->notifications as $user)
                 {
-                    foreach($users as $user)
-                    {
-                        $result = Notifications::commonNotification($request->title,$request->message,$user->fcm_id,$user->notification_count);
-                    }
+                    $count = User::find($user);
+                    $count->notification_count = $count->notification_count + 1;
+                    $count->save();
+                    $result = Notifications::commonNotification($request->title,$request->message,$count->fcm_id,$count->notification_count);
                 }
 
                 $response = [

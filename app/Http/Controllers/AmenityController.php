@@ -70,16 +70,28 @@ class AmenityController extends Controller
         return response()->json($response);
     }
 
-    public function delete(Request $request)
+    public function disable(Request $request)
     {
         try
         {
-            $delete = Amenities::find($request->id)->delete();
+            $disable = Amenities::find($request->id);
+            $disable->status = $disable->status == 0 ? 1 : 0;
+            $disable->save();
 
-            $response = [
-                'msg' => 'Amenity Deleted successfully',
-                'status' => 1
-            ];
+            if($disable->status == 1)
+            {
+                $response = [
+                    'msg' => 'Amenity Enabled',
+                    'status' => 1
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'Amenity Disabled',
+                    'status' => 1
+                ];
+            }
         }
         catch(\Exception $e)
         {

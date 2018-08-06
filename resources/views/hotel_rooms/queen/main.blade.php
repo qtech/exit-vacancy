@@ -63,8 +63,8 @@
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
-                    <a href="{{route('s.addimages')}}" class="btn btn-warning pull-left">Add Images</a>
-                    <input onclick="updateroom(); event.preventDefault();" type="submit" class="btn btn-primary pull-right" value="Update">
+                    <a href="{{route('s.addimages')}}" class="btn btn-custom pull-left">Add Images</a>
+                    <input onclick="updateroom(); event.preventDefault();" type="submit" class="btn btn-custom pull-right" value="Update">
                 </fieldset>
             </div>
             </div>

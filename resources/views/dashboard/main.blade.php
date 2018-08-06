@@ -1,6 +1,124 @@
+@if(Auth()->user()->role == 1)
 @extends('layout.layout')
 
 @section('content')
+<style>
+    .widget-simple-sm-icon{
+        line-height: 110px !important;
+        font-size: 3.75rem !important; 
+    }
+    .a_tag{
+        color: white !important;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('appusers')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$users}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-users"></i> Users</div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('hotelusers')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$hotels}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-build"></i> Hotels</div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="#">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$bookings}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-post"></i> Bookings</div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('mails')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$mails}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-mail"></i> Mails to Users</div>
+            </section>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('h.mails')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$hmails}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-mail"></i> Mails to Hotels</div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('sms')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$sms}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-comments-2"></i> SMS to Users</div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('h.sms')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$hsms}}    
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-comments-2"></i> SMS to Hotels</div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('notifications')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$notifications}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-alarm-2"></i> Notifications to Users</div>
+            </section>
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('h.notifications')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$hnotifications}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-alarm-2"></i> Notifications to Hotels</div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="{{route('amenity')}}">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="widget-simple-sm-icon">
+                    {{$amenities}}
+                </div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-star"></i> Hotel Amenities</div>
+            </section>
+        </a>
+    </div>
+</div>
+
 <section class="card box-typical">
     <div class="card-block">
         <h5 class="m-t-lg"><strong>Registrations</strong></h5>
@@ -127,3 +245,7 @@
         }
     </script>
 @endsection
+@endif
+
+@if(Auth()->user()->role == 3)
+@endif

@@ -45,21 +45,17 @@
                 <th>Number</th>
                 <th>Email</th>
                 <th>Mobile</th>
+                <th>Bookings</th>
                 <th>User Status</th>
             </tr>
             </thead>
             <tbody>
-                @php
-                    $i = 1;
-                @endphp
                 @foreach($users as $value)
                 <tr>
                     <td>
                         <input type="checkbox" class="checkbox" name="notifications[]" value="{{$value->user_id}}">
                     </td>
-                    <td>
-                        <a style="border-bottom:none !important; color:black;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</a>
-                    </td>
+                    <td>{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</td>
                     <td>{{$value->email or $value->user->email}}</td>
                     <td>{{$value->customer->number}}</td>
                     <td>
@@ -76,6 +72,7 @@
                             <label class="label label-danger">Not Verified</label>
                         @endif
                     </td>
+                    <td style="text-align:center;"><label class="label label-warning">{{$value->bookings}}</label></td>
                     <td>
                         @if($value->user_status == 1 || @$value->user->user_status == 1)
                             <a href="{{route('disableuser',['id' => $value->user_id])}}"><label class="label label-success">Active</label></a>
@@ -164,5 +161,5 @@
             }
         });
     });
-    </script>
+</script>
 @endsection

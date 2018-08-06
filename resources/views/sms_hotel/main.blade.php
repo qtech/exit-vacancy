@@ -17,6 +17,8 @@
             <thead>
             <tr>
                 <th>#</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Message</th>
                 <th>Actions</th>
             </tr>
@@ -28,6 +30,8 @@
                 @foreach($sms as $value)
                 <tr>
                     <td>{{$i++}}</td>
+                    <td>{{$value->created_at->format('d-m-y')}}</td>
+                    <td>{{$value->created_at->format('H:i')}}</td>
                     <td>{{$value->message}}</td>
 <td>
     <a href="#" style="border-bottom:none;" data-toggle="modal" data-target="#myModal{{$value->notification_id}}"><i class="fa fa-trash" style="color:red; font-size:1.3em;"></i></a>

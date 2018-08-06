@@ -65,7 +65,7 @@
         <br>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="editprofile(); event.preventDefault();" type="submit" class="btn btn-primary" value="Update">
+                <input onclick="editprofile(); event.preventDefault();" type="submit" class="btn btn-custom" value="Update">
             </div>
         </div>
     </form>

@@ -17,6 +17,8 @@
             <thead>
             <tr>
                 <th>#</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Subject</th>
                 <th>Message</th>
                 <th>Actions</th>
@@ -29,6 +31,8 @@
                 @foreach($mail as $value)
                 <tr>
                     <td>{{$i++}}</td>
+                    <td>{{$value->created_at->format('d-m-y')}}</td>
+                    <td>{{$value->created_at->format('H:i')}}</td>
                     <td>{{$value->title}}</td>
                     <td>{{$value->message}}</td>
 <td>

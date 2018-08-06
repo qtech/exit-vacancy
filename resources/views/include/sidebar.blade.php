@@ -24,7 +24,7 @@
             </li>
             
             <li class="red">
-	            <a href="#">
+				<a href="{{route('hotelusers')}}">
 	                <i class="fa fa-building"></i>
 	                <span class="lbl">Hotel Owners</span>
 	            </a>

@@ -38,12 +38,18 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/enableuser/{id}', 'AppusersController@enable')->name('enableuser');
     });
 
+    // HOTEL OWNER
+    Route::prefix('hotelowners')->group(function(){
+        Route::get('/', 'HotelusersController@view')->name('hotelusers');
+        Route::get('/details/{id}', 'HotelusersController@hotel_user_details')->name('hoteldetails');
+    });
+
     // HOTEL AMENITIES
     Route::prefix('amenities')->group(function(){
         Route::get('/getamenities', 'AmenityController@getData')->name('getamenities'); //AJAX GET DATA
         Route::get('/', 'AmenityController@view')->name('amenity');
         Route::post('/update', 'AmenityController@add')->name('addamenity');
-        Route::post('/delete', 'AmenityController@delete')->name('deleteamenity');
+        Route::post('/disable', 'AmenityController@disable')->name('disableamenity');
     });
 
     // SEND MAILS
