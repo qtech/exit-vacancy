@@ -29,11 +29,11 @@
     <div class="card-block">
         <div class="row">
             <div class="col-sm-12" style="padding-left:30px;">
-                <a href="{{route('addsms')}}" class="btn {{$id == '' ? 'btn-custom' : 'btn-default'}}">All Users</a>
-                <a href="{{route('addsms',['id' => 1])}}" class="btn {{$id == 1 ? 'btn-custom' : 'btn-default'}}">No Bookings</a>
-                <a href="{{route('addsms',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-default'}}">Bookings this month</a>
-                <a href="{{route('addsms',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-default'}}">More than 5 Bookings</a>
-                <a href="{{route('addsms',['id' => 4])}}" class="btn {{$id == 4 ? 'btn-custom' : 'btn-default'}}">Registered this month</a>
+                <a href="{{route('addsms')}}" class="btn {{$id == '' ? 'btn-custom' : 'btn-new'}}">All Users</a>
+                <a href="{{route('addsms',['id' => 1])}}" class="btn {{$id == 1 ? 'btn-custom' : 'btn-new'}}">No Bookings</a>
+                <a href="{{route('addsms',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-new'}}">Bookings this month</a>
+                <a href="{{route('addsms',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-new'}}">More than 5 Bookings</a>
+                <a href="{{route('addsms',['id' => 4])}}" class="btn {{$id == 4 ? 'btn-custom' : 'btn-new'}}">Registered this month</a>
             </div>
         </div>
         <br>
