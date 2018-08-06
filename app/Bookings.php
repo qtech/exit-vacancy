@@ -18,4 +18,9 @@ class Bookings extends Model
     {
         return $this->belongsTo('App\User','user_id');
     }
+
+    public function hotel()
+    {
+        return $this->belongsTo('App\Hoteldata','hotel_id');
+    }
 }

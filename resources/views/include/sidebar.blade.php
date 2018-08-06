@@ -8,13 +8,17 @@
 	                <span class="lbl">Dashboard</span>
 	            </a>
             </li>
-            
-            <li class="brown">
-	            <a href="#">
-	                <i class="fa fa-book"></i>
-	                <span class="lbl">Booking Details</span>
-	            </a>
-            </li>
+			
+			<li class="brown with-sub">
+				<span>
+					<i class="fa fa-book"></i>
+					<span class="lbl">Booking Details</span>
+				</span>
+				<ul>
+					<li><a href="{{route('completed.bookings')}}"><span class="lbl">Completed</span></a></li>
+					<li><a href="{{route('cancelled.bookings')}}"><span class="lbl">Cancelled</span></a></li>
+				</ul>
+			</li>
             
             <li class="purple">
 	            <a href="{{route('appusers')}}">

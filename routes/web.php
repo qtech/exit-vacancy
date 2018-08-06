@@ -30,6 +30,21 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/bookingdata','API\DashboardController@bookings_data')->name('dashboard.bookingData');
     });
 
+    // BOOKING DETAILS
+    Route::prefix('bookings')->group(function(){
+        // CHARTS DATA
+        Route::get('/completebookings', 'API\BookingController@completebookingchart')->name('completebookings.chart');
+        Route::get('/cancelbookings', 'API\BookingController@cancelbookingchart')->name('cancelbookings.chart');
+
+        Route::prefix('completed')->group(function(){
+            Route::get('/{id?}', 'BookingController@viewbookings_completed')->name('completed.bookings');
+        });
+
+        Route::prefix('cancelled')->group(function(){
+            Route::get('/{id?}', 'BookingController@viewbookings_cancelled')->name('cancelled.bookings');
+        });
+    });
+
     // APPLICATION USERS
     Route::prefix('appusers')->group(function(){
         Route::get('/{id?}', 'AppusersController@view_allusers')->name('appusers');
@@ -107,7 +122,9 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function(){
     // DASHBOARD
     Route::prefix('dashboard')->group(function(){
-        Route::get('/', 'DashboardController@view')->name('h.dashboard');        
+        // CHARTS DATA
+        Route::get('/chartdata', 'API\DashboardController@hotel_bookings_data')->name('hotelbooking.chart');
+        Route::get('/', 'DashboardController@viewhoteldashboard')->name('h.dashboard');        
     });
 
     Route::prefix('hotelprofile')->group(function(){
