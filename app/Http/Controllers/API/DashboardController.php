@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use Validator;
 
 class DashboardController extends Controller
 {
@@ -53,6 +54,56 @@ class DashboardController extends Controller
         return response()->json($response);
     }
 
+    public function r_data_with_dates(Request $request)
+    {
+        try
+        {
+            $dateLabel = [];
+            $user = [];
+            $hotel = [];
+
+            $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('role'))->whereBetween('created_at',[$request->r_date1,$request->r_date2])->groupBy('date')->get();
+
+            foreach($users as $value)
+            {
+                if($value->role == 2)
+                {
+                    array_push($user,$value->count);
+                    array_push($dateLabel,$value->date);
+                    array_push($hotel,0);
+                }
+                if($value->role == 3)
+                {
+                    array_push($hotel,$value->count);
+                    array_push($dateLabel,$value->date);
+                    array_push($user,0);
+                }
+            }
+
+            $response = [
+                'msg' => 'Registrations Day-wise',
+                'status' => 1,
+                'users' => $user,
+                'hotels' => $hotel,
+                'dateLabel' => $dateLabel
+            ];
+            
+            
+            // $dateLabel = ["2018-07-01","2018-07-14","2018-07-19"];
+            // $user = [0,5,3];
+            // $hotel = [0,2,1];   
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+            return response()->json($response);
+    }
+
     public function bookings_data()
     {
         try
@@ -89,6 +140,51 @@ class DashboardController extends Controller
         }
         catch(\Exception $e)
         {   
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function b_data_with_dates(Request $request)
+    {
+        try
+        {
+            $dateLabel = [];
+            $complete = [];
+            $cancel = [];
+
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('status'))->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
+            
+            foreach($bookings as $value)
+            {
+                if($value->status == 1)
+                {
+                    array_push($complete,$value->count);
+                    array_push($dateLabel,$value->date);
+                    array_push($cancel,0);
+                }
+                else
+                {
+                    array_push($cancel,$value->count);
+                    array_push($dateLabel,$value->date);
+                    array_push($complete,0);
+                }
+            }
+
+            $response = [
+                'msg' => 'Bookings Day-wise',
+                'status' => 1,
+                'completed' => $complete,
+                'cancelled' => $cancel,
+                'dateLabel' => $dateLabel
+            ];  
+        }
+        catch(\Exception $e)
+        {
             $response = [
                 'msg' => $e->getMessage()." ".$e->getLine(),
                 'status' => 0

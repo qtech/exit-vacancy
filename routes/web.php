@@ -28,6 +28,8 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         // CHARTS_DATA
         Route::get('/registrationdata', 'API\DashboardController@chart_all_data')->name('dashboard.chartData');
         Route::get('/bookingdata','API\DashboardController@bookings_data')->name('dashboard.bookingData');
+        Route::post('/rdatawithdates', 'API\DashboardController@r_data_with_dates')->name('r.datawithdates');
+        Route::post('/bdatawithdates', 'API\DashboardController@b_data_with_dates')->name('b.datawithdates');
     });
 
     // BOOKING DETAILS

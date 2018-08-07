@@ -73,13 +73,6 @@
 	                <span class="lbl">Hotel Amenities</span>
 	            </a>
             </li>
-            
-            <li class="green">
-	            <a href="#">
-	                <i class="fa fa-bar-chart"></i>
-	                <span class="lbl">Reports</span>
-	            </a>
-	        </li>
 	    </ul>
 	</nav>
 @endif
@@ -118,13 +111,6 @@
 	                <li><a href="{{route('h.s.room')}}"><span class="lbl">King Room</span></a></li>
 	                <li><a href="{{route('h.d.room')}}"><span class="lbl">Two Queens Room</span></a></li>
 	            </ul>
-            </li>
-            
-            <li class="green">
-	            <a href="#">
-	                <i class="fa fa-bar-chart"></i>
-	                <span class="lbl">Reports</span>
-	            </a>
             </li>
 	    </ul>
 	</nav>
