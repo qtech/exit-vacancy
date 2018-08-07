@@ -524,7 +524,21 @@
 <section class="card box-typical">
     <div class="card-block">
         <h5 class="m-t-lg"><strong>Bookings</strong></h5>
+        <form method="POST" id="h_Form">
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>To:</strong><input class="flatpickr form-control" id="h_date2" name="h_date2" type="text" placeholder="Select Date">
+                </div>
+            </div>
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>From:</strong><input class="flatpickr form-control" id="h_date1" name="h_date1" type="text" placeholder="Select Date">
+                </div>
+            </div>
+        </form>
+        <div id="chartwrapper">
             <canvas id="hotelbookings" width="400" height="100"></canvas>
+        </div>
     </div>
 </section>
 @endsection
@@ -532,9 +546,14 @@
     <script>
         $(document).ready(function(){
             Chart.defaults.global.defaultFontColor = 'grey';
-            Chart.defaults.global.defaultFontWeight = 'bold';
-            Chart.defaults.global.defaultFontSize = 14;
+            Chart.defaults.global.defaultFontStyle = 'bold';
+            Chart.defaults.global.defaultFontSize = 15;
             hotelbookings();
+            $('.flatpickr').flatpickr({
+                onChange: function() {
+                    h_withdates();
+                }
+            });
         });
         
         function hotelbookings(){
@@ -596,6 +615,83 @@
             }
             ajx.open('GET','{{route('hotelbooking.chart')}}',true);
             ajx.send();
+        }
+
+        function h_withdates(){
+            var date1 = document.getElementById("h_date1").value;
+            var date2 = document.getElementById("h_date2").value;
+            if(date1 != '' && date2 != '')
+            {
+                var form = document.getElementById("h_Form");
+                var formData = new FormData(form);
+                formData.append('_token','{{csrf_token()}}');
+
+                var ajx = new XMLHttpRequest();
+                ajx.onreadystatechange = function () {
+                    if (ajx.readyState == 4 && ajx.status == 200) {
+                            var res = JSON.parse(ajx.responseText);                                        
+                            var data = {
+                                labels: res.dateLabel,
+                                datasets:[{
+                                    label:'Completed',
+                                    fill: false, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "#00857B",
+                                    borderColor: "#00857B", // The main line color
+                                    borderCapStyle: 'square',
+                                    borderDash: [], // try [5, 15] for instance
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "black",
+                                    pointBackgroundColor: "white",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "red",
+                                    pointHoverBorderColor: "brown",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
+                                    data:res.completed,
+                                    spanGaps: true,
+                                },{
+                                    label:'Cancelled', 
+                                    fill: false, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "rgb(167, 105, 0)",
+                                    borderColor: "rgb(167, 105, 0)",
+                                    borderCapStyle: 'butt',
+                                    borderDash: [],
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "white",
+                                    pointBackgroundColor: "black",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "yellow",
+                                    pointHoverBorderColor: "green",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
+                                    data:res.cancelled,
+                                    spanGaps: false,                          
+                                }],
+                            }
+
+                            $('#hotelbookings').remove();
+                            $('#chartwrapper').append('<canvas id="hotelbookings" width="400" height="100"></canvas>');
+                            //Start Chart plotting.
+                            var ctx = $('#hotelbookings');
+                            var myLineChart = new Chart(ctx, {
+                                type:'line',
+                                data:data
+                            });
+                    }
+                };
+                ajx.open("POST", "{{route('hbooking.chart.dates')}}", true);
+                // ajx.setRequestHeader("Content-type", "application/json");
+                ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
+                ajx.send(formData);
+            }
         }
     </script>
 @endsection

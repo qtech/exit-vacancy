@@ -238,4 +238,49 @@ class DashboardController extends Controller
 
         return response()->json($response);
     }
+
+    public function h_data_with_dates(Request $request)
+    {
+        try
+        {
+            $dateLabel = [];
+            $complete = [];
+            $cancel = [];
+
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('hotel_owner_id'),DB::raw('status'))->whereBetween('created_at',[$request->h_date1,$request->h_date2])->groupBy('date')->get();
+            
+            foreach($bookings as $value)
+            {
+                if($value->hotel_owner_id == Auth()->user()->user_id && $value->status == 1)
+                {
+                    array_push($complete,$value->count);
+                    array_push($dateLabel,$value->date);
+                    array_push($cancel,0);
+                }
+                if($value->hotel_owner_id == Auth()->user()->user_id && $value->status == 2)
+                {
+                    array_push($cancel,$value->count);
+                    array_push($dateLabel,$value->date);
+                    array_push($complete,0);
+                }
+            }
+
+            $response = [
+                'msg' => 'Bookings Day-wise',
+                'status' => 1,
+                'completed' => $complete,
+                'cancelled' => $cancel,
+                'dateLabel' => $dateLabel
+            ]; 
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
 }

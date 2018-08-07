@@ -128,6 +128,7 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
     Route::prefix('dashboard')->group(function(){
         // CHARTS DATA
         Route::get('/chartdata', 'API\DashboardController@hotel_bookings_data')->name('hotelbooking.chart');
+        Route::post('/datawithdates', 'API\DashboardController@h_data_with_dates')->name('hbooking.chart.dates');
         Route::get('/', 'DashboardController@viewhoteldashboard')->name('h.dashboard');        
     });
 
