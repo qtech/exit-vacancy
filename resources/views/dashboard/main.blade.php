@@ -46,83 +46,9 @@
         <a class="a_tag" href="{{route('cancelled.bookings')}}">
             <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
                 <div class="widget-simple-sm-icon">
-                    {{$cancelbookings}}
+                    {{$pendingbookings}}
                 </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-del"></i> Cancelled Bookings</div>
-            </section>
-        </a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-3">
-        <a class="a_tag" href="{{route('mails')}}">
-            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$mails}}
-                </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-mail"></i> Mails to Users</div>
-            </section>
-        </a>
-    </div>
-    <div class="col-sm-3">
-        <a class="a_tag" href="{{route('h.mails')}}">
-            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$hmails}}
-                </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-mail"></i> Mails to Hotels</div>
-            </section>
-        </a>
-    </div>
-    <div class="col-sm-3">
-        <a class="a_tag" href="{{route('sms')}}">
-            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$sms}}
-                </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-comments-2"></i> SMS to Users</div>
-            </section>
-        </a>
-    </div>
-    <div class="col-sm-3">
-        <a class="a_tag" href="{{route('h.sms')}}">
-            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$hsms}}    
-                </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-comments-2"></i> SMS to Hotels</div>
-            </section>
-        </a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-3">
-        <a class="a_tag" href="{{route('notifications')}}">
-            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$notifications}}
-                </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-alarm-2"></i> Notifications to Users</div>
-            </section>
-        </a>
-    </div>
-    <div class="col-sm-3">
-        <a class="a_tag" href="{{route('h.notifications')}}">
-            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$hnotifications}}
-                </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-alarm-2"></i> Notifications to Hotels</div>
-            </section>
-        </a>
-    </div>
-    <div class="col-sm-3">
-        <a class="a_tag" href="{{route('amenity')}}">
-            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$amenities}}
-                </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-star"></i> Hotel Amenities</div>
+                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-del"></i> Pending Bookings</div>
             </section>
         </a>
     </div>

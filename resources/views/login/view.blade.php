@@ -29,7 +29,7 @@
                 @include('include.msg')
                 <form class="sign-box">
                     <a class="site-logo" style="border-bottom:none;">
-                        <img class="hidden-md-down" style="margin-top:15px;height:70px;width:125px;position:relative;top:-10px;left:77px;border-radius:3px;" src="{{asset('logo.png')}}" alt="">
+                        <img class="hidden-md-down" style="margin-top:15px;height:70px;width:80px;position:relative;top:-10px;left:100px;border-radius:3px;" src="{{asset('logo.png')}}" alt="">
                     </a>
                     <header class="sign-title"><strong>Login</strong></header>
                     <div class="form-group">

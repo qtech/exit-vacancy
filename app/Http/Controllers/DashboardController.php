@@ -18,15 +18,8 @@ class DashboardController extends Controller
         $data = [
             'users' => User::where(['role' => 2])->count(),
             'hotels' => User::where(['role' => 3])->count(),
-            'completebookings' => Bookings::where(['status' => 1])->count(),
-            'cancelbookings' => Bookings::where(['status' => 2])->count(),
-            'mails' => Notifications::where(['type' => 2, 'status' => 1])->count(),
-            'hmails' => Notifications::where(['type' => 2, 'status' => 2])->count(),
-            'sms' => Notifications::where(['type' => 3, 'status' => 1])->count(),
-            'hsms' => Notifications::where(['type' => 3, 'status' => 2])->count(),
-            'notifications' => Notifications::where(['type' => 1, 'status' => 1])->count(),
-            'hnotifications' => Notifications::where(['type' => 1, 'status' => 2])->count(),
-            'amenities' => Amenities::where(['status' => 1])->count()
+            'completebookings' => Bookings::where(['status' => 1, 'is_visited' => 1])->count(),
+            'pendingbookings' => Bookings::where(['status' => 1, 'is_visited' => 0])->count(),
         ];
         
         return view('dashboard.main')->with($data);
