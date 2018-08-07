@@ -47,10 +47,12 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // APPLICATION USERS
     Route::prefix('appusers')->group(function(){
+        Route::get('/export', 'ExcelController@getappusers')->name('exceldemo');
         Route::get('/{id?}', 'AppusersController@view_allusers')->name('appusers');
         Route::get('/userbookings/{id}', 'AppusersController@user_bookings')->name('userbookings');
         Route::get('/disableuser/{id}', 'AppusersController@disable')->name('disableuser');
         Route::get('/enableuser/{id}', 'AppusersController@enable')->name('enableuser');
+
     });
 
     // HOTEL OWNER

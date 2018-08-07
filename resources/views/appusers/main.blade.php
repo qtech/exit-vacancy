@@ -10,6 +10,7 @@
                 <a href="{{route('appusers',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-new'}}">Bookings this month</a>
                 <a href="{{route('appusers',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-new'}}">More than 5 Bookings</a>
                 <a href="{{route('appusers',['id' => 4])}}" class="btn {{$id == 4 ? 'btn-custom' : 'btn-new'}}">Registered this month</a>
+                <a href="{{route('exceldemo')}}" class="btn btn-custom pull-right">Export</a>
             </div>
         </div>
         <br>
