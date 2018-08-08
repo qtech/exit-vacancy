@@ -77,9 +77,11 @@ class NotificationController extends Controller
             }
             else
             {
+                $users = implode(",",$request->notifications);
                 $notification = new Notifications;
                 $notification->title = $request->title;
                 $notification->message = $request->message;
+                $notification->recipients = $users;
                 $notification->type = 1;
                 $notification->status = 1;
                 $notification->save();
@@ -144,9 +146,11 @@ class NotificationController extends Controller
             }
             else
             {
+                $users = implode(",",$request->notifications);
                 $notification = new Notifications;
                 $notification->title = $request->title;
                 $notification->message = $request->message;
+                $notification->recipients = $users;
                 $notification->type = 1;
                 $notification->status = 2;
                 $notification->save();

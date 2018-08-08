@@ -73,7 +73,7 @@
                             <label class="label label-danger">Not Verified</label>
                         @endif
                     </td>
-                    <td style="text-align:center;"><label class="label label-warning">{{$value->bookings}}</label></td>
+                    <td style="text-align:center;"><strong>{{$value->bookings}}</strong></td>
                     <td>
                         @if($value->user_status == 1 || @$value->user->user_status == 1)
                             <a href="{{route('disableuser',['id' => $value->user_id])}}"><label class="label label-success">Active</label></a>

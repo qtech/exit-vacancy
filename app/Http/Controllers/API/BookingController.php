@@ -42,12 +42,14 @@ class BookingController extends Controller
                     $hotel = User::where(['user_id' => $decline->hotel_owner_id])->first();
                     $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
                     $decline->status = 3;
+                    $decline->status_time = date('d-m-y H:i:s');
                     $decline->save();
                 }
                 else
                 {
                     $accept = Bookings::where(['user_id' => $request->user_id,'hotel_owner_id' => $request->hotel_id,'status' => 0, 'ref_id' => $request->reference_id])->first();
                     $accept->status = 1;
+                    $accept->status_time = date('d-m-y H:i:s');
                     $accept->save();
 
                     $count_user_booking = User::where(['user_id' => $request->user_id])->first();
@@ -93,6 +95,7 @@ class BookingController extends Controller
                         $hotel = User::where(['user_id' => $value->hotel_owner_id])->first();
                         $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
                         $value->status = 3;
+                        $value->status_time = date('d-m-y H:i:s');
                         $value->save();
                     }
                 }                
@@ -146,6 +149,7 @@ class BookingController extends Controller
                 {
                     $decline = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'status' => 0, 'ref_id' => $request->reference_id])->first();
                     $decline->status = 2;
+                    $decline->status_time = date('d-m-y H:i:s');
                     $decline->save();
 
                     $response = [
@@ -188,6 +192,7 @@ class BookingController extends Controller
                 foreach($noresponse as $value)
                 {
                     $value->status = 3;
+                    $value->status_time = date('d-m-y H:i:s');
                     $value->save();
                 }
                 
@@ -242,6 +247,7 @@ class BookingController extends Controller
                 else
                 {
                     $visited->is_visited = 1;
+                    $visited->visited_time = date('d-m-y H:i:s');
                     $visited->save();
 
                     $response = [
@@ -419,7 +425,40 @@ class BookingController extends Controller
     {
         try
         {
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1])->groupBy('date')->get();
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->groupBy('date')->get();
+            
+            $dateLabel = ["2018-07-23","2018-07-26","2018-07-31"];
+            $booking = [2,6,0];
+
+            foreach($bookings as $value)
+            {
+                array_push($booking,$value->count);
+                array_push($dateLabel,$value->date);
+            }
+
+            $response = [
+                'msg' => 'Bookings Day-wise',
+                'status' => 1,
+                'bookings' => $booking,
+                'dateLabel' => $dateLabel
+            ];
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function pendingbookingchart()
+    {
+        try
+        {
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->groupBy('date')->get();
             
             $dateLabel = ["2018-07-23","2018-07-26","2018-07-31"];
             $booking = [2,6,0];

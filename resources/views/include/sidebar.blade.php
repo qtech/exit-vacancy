@@ -16,6 +16,7 @@
 				</span>
 				<ul>
 					<li><a href="{{route('completed.bookings')}}"><span class="lbl">Completed</span></a></li>
+					<li><a href="{{route('pending.bookings')}}"><span class="lbl">Pending</span></a></li>
 					<li><a href="{{route('cancelled.bookings')}}"><span class="lbl">Cancelled</span></a></li>
 				</ul>
 			</li>
@@ -72,7 +73,25 @@
 	                <i class="fa fa-rss"></i>
 	                <span class="lbl">Hotel Amenities</span>
 	            </a>
-            </li>
+			</li>
+
+			<li class="brown">
+				<a href="{{route('query')}}">
+					<i class="fa fa-retweet"></i>
+					<span class="lbl">Support Requests</span>
+				</a>
+			</li>
+
+			<li class="green with-sub">
+				<span>
+					<i class="fa fa-cogs"></i>
+					<span class="lbl">Settings</span>
+				</span>
+				<ul>
+					<li><a href="{{route('contactus')}}"><span class="lbl">Contact Us</span></a></li>
+					<li><a href="#"><span class="lbl">Commission</span></a></li>
+				</ul>
+			</li>
 	    </ul>
 	</nav>
 @endif

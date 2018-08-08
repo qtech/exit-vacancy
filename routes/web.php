@@ -38,19 +38,40 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         // CHARTS DATA
         Route::get('/completebookings', 'API\BookingController@completebookingchart')->name('completebookings.chart');
         Route::get('/cancelbookings', 'API\BookingController@cancelbookingchart')->name('cancelbookings.chart');
+        Route::get('/pendingbookings', 'API\BookingController@pendingbookingchart')->name('pendingbookings.chart');
 
         Route::prefix('completed')->group(function(){
+            Route::get('/bookingexport1', 'ExcelController@completedbookings')->name('e.c.bookings');
+            Route::get('/bookingexport2', 'ExcelController@completed_todaybookings')->name('e.c.todaybookings');
+            Route::get('/bookingexport3', 'ExcelController@completed_weekbookings')->name('e.c.weekbookings');
+            Route::get('/bookingexport4', 'ExcelController@completed_monthbookings')->name('e.c.monthbookings');
             Route::get('/{id?}', 'BookingController@viewbookings_completed')->name('completed.bookings');
         });
 
+        Route::prefix('pending')->group(function(){
+            Route::get('/bookingexport5', 'ExcelController@pendingbookings')->name('e.p.bookings');
+            Route::get('/bookingexport6', 'ExcelController@pending_todaybookings')->name('e.p.todaybookings');
+            Route::get('/bookingexport7', 'ExcelController@pending_weekbookings')->name('e.p.weekbookings');
+            Route::get('/bookingexport8', 'ExcelController@pending_monthbookings')->name('e.p.monthbookings');
+            Route::get('/{id?}', 'BookingController@viewbookings_pending')->name('pending.bookings');
+        });
+
         Route::prefix('cancelled')->group(function(){
+            Route::get('/bookingexport9', 'ExcelController@cancelbookings')->name('e.can.bookings');
+            Route::get('/bookingexport10', 'ExcelController@cancel_todaybookings')->name('e.can.todaybookings');
+            Route::get('/bookingexport11', 'ExcelController@cancel_weekbookings')->name('e.can.weekbookings');
+            Route::get('/bookingexport12', 'ExcelController@cancel_monthbookings')->name('e.can.monthbookings');
             Route::get('/{id?}', 'BookingController@viewbookings_cancelled')->name('cancelled.bookings');
         });
     });
 
     // APPLICATION USERS
     Route::prefix('appusers')->group(function(){
-        Route::get('/export', 'ExcelController@getappusers')->name('exceldemo');
+        Route::get('/userexport1', 'ExcelController@getappusers')->name('e.appusers');
+        Route::get('/userexport2', 'ExcelController@appusers_nobookings')->name('e.usernobookings');
+        Route::get('/userexport3', 'ExcelController@appusers_bookings_this_month')->name('e.userbookingsmonth');
+        Route::get('/userexport4', 'ExcelController@appusers_bookingsfiveplus')->name('e.userbookingsfive');
+        Route::get('/userexport5', 'ExcelController@appusers_registerthismonth')->name('e.userregister');
         Route::get('/{id?}', 'AppusersController@view_allusers')->name('appusers');
         Route::get('/userbookings/{id}', 'AppusersController@user_bookings')->name('userbookings');
         Route::get('/disableuser/{id}', 'AppusersController@disable')->name('disableuser');
@@ -60,6 +81,7 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // HOTEL OWNER
     Route::prefix('hotelowners')->group(function(){
+        Route::get('/hoteluserexport', 'ExcelController@gethotelusers')->name('e.hotelusers');
         Route::get('/', 'HotelusersController@view')->name('hotelusers');
         Route::get('/details/{id}', 'HotelusersController@hotel_user_details')->name('hoteldetails');
     });
@@ -78,14 +100,12 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
             Route::get('/', 'EmailController@user_view')->name('mails');
             Route::get('/add/{id?}', 'EmailController@user_add')->name('addmail');
             Route::post('/store', 'EmailController@user_send')->name('storemail');
-            Route::get('/delete/{id}', 'EmailController@user_delete')->name('deletemail');
         });
 
         Route::prefix('hotel')->group(function(){
             Route::get('/', 'EmailController@hotel_view')->name('h.mails');
             Route::get('/add', 'EmailController@hotel_add')->name('h.addmail');
             Route::post('/store', 'EmailController@hotel_send')->name('h.storemail');
-            Route::get('/delete/{id}', 'EmailController@hotel_delete')->name('h.deletemail');
         });
     });
 
@@ -95,14 +115,12 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
             Route::get('/', 'SMSController@user_view')->name('sms');
             Route::get('/add/{id?}', 'SMSController@user_add')->name('addsms');
             Route::post('/store', 'SMSController@user_send')->name('storesms');
-            Route::get('/delete/{id}', 'SMSController@user_delete')->name('deletesms');
         });
 
         Route::prefix('hotel')->group(function(){
             Route::get('/', 'SMSController@hotel_view')->name('h.sms');
             Route::get('/add', 'SMSController@hotel_add')->name('h.addsms');
             Route::post('/store', 'SMSController@hotel_send')->name('h.storesms');
-            Route::get('/delete/{id}', 'SMSController@hotel_delete')->name('h.deletesms');
         });
     });
 
@@ -112,14 +130,25 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
             Route::get('/', 'NotificationController@user_view')->name('notifications');
             Route::get('/add/{id?}', 'NotificationController@user_add')->name('addnotification');
             Route::post('/store', 'NotificationController@user_send')->name('storenotification');
-            Route::get('/delete/{id}', 'NotificationController@user_delete')->name('deletenotification');
         });
 
         Route::prefix('hotel')->group(function(){
             Route::get('/', 'NotificationController@hotel_view')->name('h.notifications');
             Route::get('/add', 'NotificationController@hotel_add')->name('h.addnotification');
             Route::post('/store', 'NotificationController@hotel_send')->name('h.storenotification');
-            Route::get('/delete/{id}', 'NotificationController@hotel_delete')->name('h.deletenotification');
+        });
+    });
+
+    // QUERY REQUESTS
+    Route::prefix('queries')->group(function(){
+        Route::get('/', 'QueryController@view')->name('query');
+    });
+
+    // SETTINGS
+    Route::prefix('settings')->group(function(){
+        Route::prefix('contactus')->group(function(){
+            Route::get('/', 'ContactusController@view')->name('contactus');
+            Route::post('/update', 'ContactusController@update')->name('updatecontactus');
         });
     });
 });
@@ -140,7 +169,6 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
 
     Route::prefix('bookings')->group(function(){
         Route::get('/', 'Hotel\HotelbookingController@view')->name('hotelbookings');
-        Route::get('/delete/{id}', 'Hotel\HotelbookingController@delete')->name('deletebooking');
     });
 
     Route::prefix('rooms')->group(function(){

@@ -79,9 +79,11 @@ class EmailController extends Controller
             }
             else
             {
+                $users = implode(",",$request->mails);
                 $notification = new Notifications;
                 $notification->title = $request->subject;
                 $notification->message = $request->message;
+                $notification->recipients = $users;
                 $notification->type = 2;
                 $notification->status = 1;
                 $notification->save();
@@ -150,9 +152,11 @@ class EmailController extends Controller
             }
             else
             {
+                $users = implode(",",$request->mails);
                 $notification = new Notifications;
                 $notification->title = $request->subject;
                 $notification->message = $request->message;
+                $notification->recipients = $users;
                 $notification->type = 2;
                 $notification->status = 2;
                 $notification->save();

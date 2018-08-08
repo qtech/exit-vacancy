@@ -76,8 +76,10 @@ class SMSController extends Controller
             }
             else
             {
+                $users = implode(",",$request->sms);
                 $notification = new Notifications;
                 $notification->message = $request->message;
+                $notification->recipients = $users;
                 $notification->type = 3;
                 $notification->status = 1;
                 $notification->save();
@@ -138,8 +140,10 @@ class SMSController extends Controller
             }
             else
             {
+                $users = implode(",",$request->sms);
                 $notification = new Notifications;
                 $notification->message = $request->message;
+                $notification->recipients = $users;
                 $notification->type = 3;
                 $notification->status = 2;
                 $notification->save();

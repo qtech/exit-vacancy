@@ -3,25 +3,25 @@
 @section('content')
 <section class="card">
     <div class="card-block">
-        <h5 class="m-t-lg"><strong>Completed Bookings</strong></h5>
+        <h5 class="m-t-lg"><strong>Pending Bookings</strong></h5>
         <br>
         <div class="row">
             <div class="col-sm-12" style="padding-left:30px;">
-                <a href="{{route('completed.bookings')}}" class="btn {{$id == '' ? 'btn-custom' : 'btn-new'}}">All Bookings</a>
-                <a href="{{route('completed.bookings',['id' => 1])}}" class="btn {{$id == 1 ? 'btn-custom' : 'btn-new'}}">Today</a>
-                <a href="{{route('completed.bookings',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-new'}}">This Week</a>
-                <a href="{{route('completed.bookings',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-new'}}">This Month</a>
+                <a href="{{route('pending.bookings')}}" class="btn {{$id == '' ? 'btn-custom' : 'btn-new'}}">All Bookings</a>
+                <a href="{{route('pending.bookings',['id' => 1])}}" class="btn {{$id == 1 ? 'btn-custom' : 'btn-new'}}">Today</a>
+                <a href="{{route('pending.bookings',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-new'}}">This Week</a>
+                <a href="{{route('pending.bookings',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-new'}}">This Month</a>
                 @if($id == '')
-                    <a href="{{route('e.c.bookings')}}" class="btn btn-custom pull-right">Export</a>
+                    <a href="{{route('e.p.bookings')}}" class="btn btn-custom pull-right">Export</a>
                 @endif
                 @if($id == 1)
-                    <a href="{{route('e.c.todaybookings')}}" class="btn btn-custom pull-right">Export</a>
+                    <a href="{{route('e.p.todaybookings')}}" class="btn btn-custom pull-right">Export</a>
                 @endif
                 @if($id == 2)
-                    <a href="{{route('e.c.weekbookings')}}" class="btn btn-custom pull-right">Export</a>
+                    <a href="{{route('e.p.weekbookings')}}" class="btn btn-custom pull-right">Export</a>
                 @endif
                 @if($id == 3)
-                    <a href="{{route('e.c.monthbookings')}}" class="btn btn-custom pull-right">Export</a>
+                    <a href="{{route('e.p.monthbookings')}}" class="btn btn-custom pull-right">Export</a>
                 @endif
             </div>
         </div>
@@ -38,8 +38,8 @@
                 </div>
             </div>
         </form>
-        <div id="completewrapper">
-            <canvas id="completechart" width="400" height="100"></canvas>
+        <div id="pendingwrapper">
+            <canvas id="pendingchart" width="400" height="100"></canvas>
         </div>
         <br>
         <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
@@ -51,7 +51,6 @@
                 <th>Room Type</th>
                 <th>Price</th>
                 <th>Booking Time</th>
-                <th>Arrived Time</th>
             </tr>
             </thead>
             <tbody>
@@ -64,9 +63,8 @@
                     <td>{{$value->user->fname}} {{$value->user->lname}}</td>
                     <td>{{$value->hotel->hotel_name}}</td>
                     <td>{{$value->roomtype}}</td>
-                    <td>${{$value->roomprice}}</td>
+                    <td>{{$value->roomprice}}</td>
                     <td>{{$value->status_time}}</td>
-                    <td>{{$value->visited_time}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -80,7 +78,7 @@
             Chart.defaults.global.defaultFontColor = 'grey';
             Chart.defaults.global.defaultFontWeight = 'bold';
             Chart.defaults.global.defaultFontSize = 14;
-            completebookings();
+            pendingbookings();
             $('.flatpickr').flatpickr({
                 // onChange: function() {
                 //     r_withdates();
@@ -89,7 +87,7 @@
             });
         });
         
-        function completebookings(){
+        function pendingbookings(){
             var ajx = new XMLHttpRequest();
             ajx.onreadystatechange = function() {
                 if(ajx.readyState == 4 && ajx.status == 200){
@@ -119,14 +117,14 @@
                         }],
                     }
                     //Start Chart plotting.
-                    var ctx = $('#completechart');
+                    var ctx = $('#pendingchart');
                     var myLineChart = new Chart(ctx, {
                         type:'line',
                         data:data
                     })
                 }
             }
-            ajx.open('GET','{{route('completebookings.chart')}}',true);
+            ajx.open('GET','{{route('pendingbookings.chart')}}',true);
             ajx.send();
         }
     </script>

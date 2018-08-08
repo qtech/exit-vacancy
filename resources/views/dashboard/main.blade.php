@@ -15,40 +15,116 @@
     <div class="col-sm-3">
         <a class="a_tag" href="{{route('appusers')}}">
             <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$users}}
+                <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$t_users}}
+                            <p>Today</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$m_users}}
+                            <p>Month</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$users}}
+                            <p>Total</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-users"></i> Users</div>
+                <div class="col-sm-12 text-center">
+                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-users"></i> Users Registration</div>
+                </div>
             </section>
         </a>
     </div>
     <div class="col-sm-3">
         <a class="a_tag" href="{{route('hotelusers')}}">
             <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$hotels}}
+                <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$t_hotels}}
+                            <p>Today</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$m_hotels}}
+                            <p>Month</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$hotels}}
+                            <p>Total</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-build"></i> Hotels</div>
+                <div class="col-sm-12 text-center">
+                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-build"></i> Hotels Registration</div>
+                </div>
             </section>
         </a>
     </div>
     <div class="col-sm-3">
         <a class="a_tag" href="{{route('completed.bookings')}}">
             <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$completebookings}}
+                <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$t_c_bookings}}
+                            <p>Today</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$m_c_bookings}}
+                            <p>Month</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$completebookings}}
+                            <p>Total</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-ok"></i> Completed Bookings</div>
+                <div class="col-sm-12 text-center">
+                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-ok"></i> Completed Bookings</div>
+                </div>
             </section>
         </a>
     </div>
     <div class="col-sm-3">
         <a class="a_tag" href="{{route('cancelled.bookings')}}">
             <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
-                <div class="widget-simple-sm-icon">
-                    {{$pendingbookings}}
+                <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$t_p_bookings}}
+                            <p>Today</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$m_p_bookings}}
+                            <p>Month</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$pendingbookings}}
+                            <p>Total</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-del"></i> Pending Bookings</div>
+                <div class="col-sm-12 text-center">
+                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-list-rotate"></i> Pending Bookings</div>
+                </div>
             </section>
         </a>
     </div>

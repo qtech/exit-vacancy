@@ -1,22 +1,45 @@
 @extends('layout.layout')
 
 @section('content')
-<section class="card box-typical">
-    <div class="card-block">
-        <h5 class="m-t-lg"><strong>Cancelled Bookings</strong></h5>
-            <canvas id="cancelchart" width="400" height="100"></canvas>
-    </div>
-</section>
-
 <section class="card">
     <div class="card-block">
+        <h5 class="m-t-lg"><strong>Cancelled Bookings</strong></h5>
+        <br>
         <div class="row">
             <div class="col-sm-12" style="padding-left:30px;">
                 <a href="{{route('cancelled.bookings')}}" class="btn {{$id == '' ? 'btn-custom' : 'btn-new'}}">All Bookings</a>
                 <a href="{{route('cancelled.bookings',['id' => 1])}}" class="btn {{$id == 1 ? 'btn-custom' : 'btn-new'}}">Today</a>
                 <a href="{{route('cancelled.bookings',['id' => 2])}}" class="btn {{$id == 2 ? 'btn-custom' : 'btn-new'}}">This Week</a>
                 <a href="{{route('cancelled.bookings',['id' => 3])}}" class="btn {{$id == 3 ? 'btn-custom' : 'btn-new'}}">This Month</a>
+                @if($id == '')
+                <a href="{{route('e.can.bookings')}}" class="btn btn-custom pull-right">Export</a>
+                @endif
+                @if($id == 1)
+                    <a href="{{route('e.can.todaybookings')}}" class="btn btn-custom pull-right">Export</a>
+                @endif
+                @if($id == 2)
+                    <a href="{{route('e.can.weekbookings')}}" class="btn btn-custom pull-right">Export</a>
+                @endif
+                @if($id == 3)
+                    <a href="{{route('e.can.monthbookings')}}" class="btn btn-custom pull-right">Export</a>
+                @endif
             </div>
+        </div>
+        <br>
+        <form method="POST" id="b_Form">
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>To:</strong><input class="flatpickr form-control" id="b_date2" name="b_date2" type="text" placeholder="Select Date">
+                </div>
+            </div>
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>From:</strong><input class="flatpickr form-control" id="b_date1" name="b_date1" type="text" placeholder="Select Date">
+                </div>
+            </div>
+        </form>
+        <div id="cancelwrapper">
+            <canvas id="cancelchart" width="400" height="100"></canvas>
         </div>
         <br>
         <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
@@ -27,9 +50,7 @@
                 <th>Hotel Name</th>
                 <th>Room Type</th>
                 <th>Price</th>
-                <th>Image</th>
-                <th>Amenities</th>
-                <th>Arrived</th>
+                <th>Cancelled Time</th>
             </tr>
             </thead>
             <tbody>
@@ -43,17 +64,7 @@
                     <td>{{$value->hotel->hotel_name}}</td>
                     <td>{{$value->roomtype}}</td>
                     <td>${{$value->roomprice}}</td>
-                    <td>
-                        <img height="30px;" width="60px;" src="{{asset(url('/').'/'.$value->roomimage)}}">
-                    </td>
-                    <td><label class="label label-info">{{$value->roomamenity}}</label></td>
-                    <td>
-                        @if($value->is_visited == 1)
-                            <label class="label label-success">YES</label>
-                        @else
-                            <label class="label label-danger">NO</label>
-                        @endif
-                    </td>
+                    <td>{{$value->status_time}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -68,6 +79,12 @@
             Chart.defaults.global.defaultFontWeight = 'bold';
             Chart.defaults.global.defaultFontSize = 14;
             completebookings();
+            $('.flatpickr').flatpickr({
+                // onChange: function() {
+                //     r_withdates();
+                //     b_withdates();
+                // }
+            });
         });
         
         function completebookings(){

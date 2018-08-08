@@ -4,7 +4,7 @@
 		$.notify({
 			icon: 'font-icon font-icon-warning',
 			title: '<strong>Error!</strong>',
-			message: '{{session('danger')}}'
+			message: '{{session('error')}}'
 		}, {
 			type: 'danger'
 		});
