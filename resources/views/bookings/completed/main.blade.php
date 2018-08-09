@@ -80,16 +80,36 @@
             Chart.defaults.global.defaultFontColor = 'grey';
             Chart.defaults.global.defaultFontWeight = 'bold';
             Chart.defaults.global.defaultFontSize = 14;
-            completebookings();
+
             $('.flatpickr').flatpickr({
-                // onChange: function() {
-                //     r_withdates();
-                //     b_withdates();
-                // }
+                onChange: function() {
+                    c_d_bookings();
+                }
             });
         });
+
+        var all = "{{route('completed.bookings')}}";
+        var today = "{{route('completed.bookings',['id' => 1])}}";
+        var week = "{{route('completed.bookings',['id' => 2])}}";
+        var month = "{{route('completed.bookings',['id' => 3])}}";
+
+        if(window.location.href == all) {
+            c_bookings();
+        }
         
-        function completebookings(){
+        if(window.location.href == today) {
+            c_t_bookings();
+        }
+
+        if(window.location.href == week) {
+            c_w_bookings();
+        }
+
+        if(window.location.href == month) {
+            c_m_bookings();
+        }
+
+        function c_bookings(){
             var ajx = new XMLHttpRequest();
             ajx.onreadystatechange = function() {
                 if(ajx.readyState == 4 && ajx.status == 200){
@@ -118,6 +138,9 @@
                             spanGaps: true,
                         }],
                     }
+
+                    $('#completechart').remove();
+                    $('#completewrapper').append('<canvas id="completechart" width="400" height="100"></canvas>');
                     //Start Chart plotting.
                     var ctx = $('#completechart');
                     var myLineChart = new Chart(ctx, {
@@ -126,8 +149,195 @@
                     })
                 }
             }
-            ajx.open('GET','{{route('completebookings.chart')}}',true);
+            ajx.open('GET','{{route('c.bookings.chart')}}',true);
             ajx.send();
+        }
+
+        function c_t_bookings(){
+            var ajx = new XMLHttpRequest();
+            ajx.onreadystatechange = function() {
+                if(ajx.readyState == 4 && ajx.status == 200){
+                    var res = JSON.parse(ajx.responseText);                                        
+                    var data = {
+                        labels: res.dateLabel,
+                        datasets:[{
+                            label:'Bookings',
+                            fill: false,                            
+                            backgroundColor: "#00857B",
+                            borderColor: "#00857B", // The main line color
+                            borderCapStyle: 'square',
+                            borderDash: [0,0], // try [5, 15] for instance
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "black",
+                            pointBackgroundColor: "black",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "red",
+                            pointHoverBorderColor: "brown",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.bookings,
+                            spanGaps: true,
+                        }],
+                    }
+
+                    $('#completechart').remove();
+                    $('#completewrapper').append('<canvas id="completechart" width="400" height="100"></canvas>');
+                    //Start Chart plotting.
+                    var ctx = $('#completechart');
+                    var myLineChart = new Chart(ctx, {
+                        type:'line',
+                        data:data
+                    })
+                }
+            }
+            ajx.open('GET','{{route('c.t.bookings.chart')}}',true);
+            ajx.send();
+        }
+
+        function c_w_bookings(){
+            var ajx = new XMLHttpRequest();
+            ajx.onreadystatechange = function() {
+                if(ajx.readyState == 4 && ajx.status == 200){
+                    var res = JSON.parse(ajx.responseText);                                        
+                    var data = {
+                        labels: res.dateLabel,
+                        datasets:[{
+                            label:'Bookings',
+                            fill: false,                            
+                            backgroundColor: "#00857B",
+                            borderColor: "#00857B", // The main line color
+                            borderCapStyle: 'square',
+                            borderDash: [0,0], // try [5, 15] for instance
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "black",
+                            pointBackgroundColor: "black",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "red",
+                            pointHoverBorderColor: "brown",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.bookings,
+                            spanGaps: true,
+                        }],
+                    }
+
+                    $('#completechart').remove();
+                    $('#completewrapper').append('<canvas id="completechart" width="400" height="100"></canvas>');
+                    //Start Chart plotting.
+                    var ctx = $('#completechart');
+                    var myLineChart = new Chart(ctx, {
+                        type:'line',
+                        data:data
+                    })
+                }
+            }
+            ajx.open('GET','{{route('c.w.bookings.chart')}}',true);
+            ajx.send();
+        }
+
+        function c_m_bookings(){
+            var ajx = new XMLHttpRequest();
+            ajx.onreadystatechange = function() {
+                if(ajx.readyState == 4 && ajx.status == 200){
+                    var res = JSON.parse(ajx.responseText);                                        
+                    var data = {
+                        labels: res.dateLabel,
+                        datasets:[{
+                            label:'Bookings',
+                            fill: false,                            
+                            backgroundColor: "#00857B",
+                            borderColor: "#00857B", // The main line color
+                            borderCapStyle: 'square',
+                            borderDash: [0,0], // try [5, 15] for instance
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "black",
+                            pointBackgroundColor: "black",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "red",
+                            pointHoverBorderColor: "brown",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.bookings,
+                            spanGaps: true,
+                        }],
+                    }
+
+                    $('#completechart').remove();
+                    $('#completewrapper').append('<canvas id="completechart" width="400" height="100"></canvas>');
+                    //Start Chart plotting.
+                    var ctx = $('#completechart');
+                    var myLineChart = new Chart(ctx, {
+                        type:'line',
+                        data:data
+                    })
+                }
+            }
+            ajx.open('GET','{{route('c.m.bookings.chart')}}',true);
+            ajx.send();
+        }
+
+        function c_d_bookings(){
+            var date1 = document.getElementById("b_date1").value;
+            var date2 = document.getElementById("b_date2").value;
+            if(date1 != '' && date2 != '')
+            {
+                var form = document.getElementById("b_Form");
+                var formData = new FormData(form);
+                formData.append('_token','{{csrf_token()}}');
+
+                var ajx = new XMLHttpRequest();
+                ajx.onreadystatechange = function() {
+                    if(ajx.readyState == 4 && ajx.status == 200){
+                        var res = JSON.parse(ajx.responseText);                                        
+                        var data = {
+                            labels: res.dateLabel,
+                            datasets:[{
+                                label:'Bookings',
+                                fill: false,                            
+                                backgroundColor: "#00857B",
+                                borderColor: "#00857B", // The main line color
+                                borderCapStyle: 'square',
+                                borderDash: [0,0], // try [5, 15] for instance
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "black",
+                                pointBackgroundColor: "black",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "red",
+                                pointHoverBorderColor: "brown",
+                                pointHoverBorderWidth: 2,
+                                pointRadius: 4,
+                                pointHitRadius: 10,
+                                data:res.bookings,
+                                spanGaps: true,
+                            }],
+                        }
+
+                        $('#completechart').remove();
+                        $('#completewrapper').append('<canvas id="completechart" width="400" height="100"></canvas>');
+                        //Start Chart plotting.
+                        var ctx = $('#completechart');
+                        var myLineChart = new Chart(ctx, {
+                            type:'line',
+                            data:data
+                        })
+                    }
+                }
+
+                ajx.open("POST", "{{route('c.d.bookings.chart')}}", true);
+                ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
+                ajx.send(formData);
+            }
         }
     </script>
 @endsection

@@ -17,6 +17,8 @@
 	</style>
 	<script src="{{asset('/n-asset/js/lib/jquery/jquery-3.2.1.min.js')}}"></script>
 
+	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/pages/project.min.css')}}">
+
 	{{-- DATE PICKER --}}
 	<link rel="stylesheet" href="{{asset('/n-asset/css/lib/flatpickr/flatpickr.min.css')}}">
 	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/flatpickr.min.css')}}">

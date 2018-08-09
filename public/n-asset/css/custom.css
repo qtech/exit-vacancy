@@ -27,4 +27,7 @@
 .d_boxes p{
     font-size: 13px !important;
 }
- 
+
+.proj-page-team .tbl-cell-admin {
+    width: 110px !important;
+}

@@ -57,8 +57,12 @@ class AppusersController extends Controller
     {
         try
         {
-            $userbookings = Bookings::where(['user_id' => $id])->get();
-            return view('appusers.userbookings')->with('userbookings',$userbookings);
+            $data = [
+                'bookings' => Bookings::with('hotel')->where(['user_id' => $id])->get(),
+                'user' => User::with('customer')->where(['user_id' => $id])->first(),
+            ];
+
+            return view('appusers.userprofile')->with($data);
         }
         catch(\Exception $e)
         {

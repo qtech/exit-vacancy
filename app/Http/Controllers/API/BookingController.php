@@ -421,39 +421,6 @@ class BookingController extends Controller
         return response()->json($response);
     }
 
-    public function completebookingchart()
-    {
-        try
-        {
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->groupBy('date')->get();
-            
-            $dateLabel = ["2018-07-23","2018-07-26","2018-07-31"];
-            $booking = [2,6,0];
-
-            foreach($bookings as $value)
-            {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
-            }
-
-            $response = [
-                'msg' => 'Bookings Day-wise',
-                'status' => 1,
-                'bookings' => $booking,
-                'dateLabel' => $dateLabel
-            ];
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
-                'status' => 0
-            ];
-        }
-
-        return response()->json($response);
-    }
-
     public function pendingbookingchart()
     {
         try

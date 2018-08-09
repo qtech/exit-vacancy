@@ -35,10 +35,26 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // BOOKING DETAILS
     Route::prefix('bookings')->group(function(){
-        // CHARTS DATA
-        Route::get('/completebookings', 'API\BookingController@completebookingchart')->name('completebookings.chart');
-        Route::get('/cancelbookings', 'API\BookingController@cancelbookingchart')->name('cancelbookings.chart');
-        Route::get('/pendingbookings', 'API\BookingController@pendingbookingchart')->name('pendingbookings.chart');
+        // CHARTS (COMPLETED)
+        Route::get('/c.bookings', 'API\ChartbookingsController@all_completed')->name('c.bookings.chart');
+        Route::get('/c.t.bookings', 'API\ChartbookingsController@today_completed')->name('c.t.bookings.chart');
+        Route::get('/c.w.bookings', 'API\ChartbookingsController@week_completed')->name('c.w.bookings.chart');
+        Route::get('/c.m.bookings', 'API\ChartbookingsController@month_completed')->name('c.m.bookings.chart');
+        Route::post('/c.d.bookings', 'API\ChartbookingsController@dates_completed')->name('c.d.bookings.chart');
+
+        // CHARTS (PENDING)
+        Route::get('/p.bookings', 'API\ChartbookingsController@all_pending')->name('p.bookings.chart');
+        Route::get('/p.t.bookings', 'API\ChartbookingsController@today_pending')->name('p.t.bookings.chart');
+        Route::get('/p.w.bookings', 'API\ChartbookingsController@week_pending')->name('p.w.bookings.chart');
+        Route::get('/p.m.bookings', 'API\ChartbookingsController@month_pending')->name('p.m.bookings.chart');
+        Route::post('/p.d.bookings', 'API\ChartbookingsController@dates_pending')->name('p.d.bookings.chart');
+
+        // CHARTS (CANCELLED)
+        Route::get('/can.bookings', 'API\ChartbookingsController@all_cancelled')->name('can.bookings.chart');
+        Route::get('/can.t.bookings', 'API\ChartbookingsController@today_cancelled')->name('can.t.bookings.chart');
+        Route::get('/can.w.bookings', 'API\ChartbookingsController@week_cancelled')->name('can.w.bookings.chart');
+        Route::get('/can.m.bookings', 'API\ChartbookingsController@month_cancelled')->name('can.m.bookings.chart');
+        Route::post('/can.d.bookings', 'API\ChartbookingsController@dates_cancelled')->name('can.d.bookings.chart');
 
         Route::prefix('completed')->group(function(){
             Route::get('/bookingexport1', 'ExcelController@completedbookings')->name('e.c.bookings');
@@ -67,6 +83,7 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // APPLICATION USERS
     Route::prefix('appusers')->group(function(){
+        Route::post('/userbookingchart', 'API\AppuserController@userbooking_chart')->name('u.bookingchart');
         Route::get('/userexport1', 'ExcelController@getappusers')->name('e.appusers');
         Route::get('/userexport2', 'ExcelController@appusers_nobookings')->name('e.usernobookings');
         Route::get('/userexport3', 'ExcelController@appusers_bookings_this_month')->name('e.userbookingsmonth');
@@ -76,11 +93,11 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/userbookings/{id}', 'AppusersController@user_bookings')->name('userbookings');
         Route::get('/disableuser/{id}', 'AppusersController@disable')->name('disableuser');
         Route::get('/enableuser/{id}', 'AppusersController@enable')->name('enableuser');
-
     });
 
     // HOTEL OWNER
     Route::prefix('hotelowners')->group(function(){
+        Route::post('/hotelbookingchart', 'API\AppuserController@hotelbooking_chart')->name('h.bookingchart');
         Route::get('/hoteluserexport', 'ExcelController@gethotelusers')->name('e.hotelusers');
         Route::get('/', 'HotelusersController@view')->name('hotelusers');
         Route::get('/details/{id}', 'HotelusersController@hotel_user_details')->name('hoteldetails');

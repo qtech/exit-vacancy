@@ -22,18 +22,17 @@
         <h5 class="m-t-lg">Available Amenities</h5>
         <div class="row">
             <div class="col-sm-12">
-                <div id="demo">
+                <div id="demo" class="row">
 
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            getdata();
+<script type="text/javascript">
+    $(document).ready(function(){
+        getdata();
     });
-    
 
 function getdata(){
     var ajx = new XMLHttpRequest();
@@ -48,10 +47,10 @@ function getdata(){
                     `<div class="col-sm-3">
                         <section class="widget widget-simple-sm border-custom">
                             <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
-                                ${data.amenity_name}
+                                <strong>${data.amenity_name}</strong>
                             </div>
-                            <a href="#" onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;">
-                                <i class="fa fa-ban" style="color:#00857B; font-size:1.0em; position:relative; top:-20px; right:-100px"></i>
+                            <a onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;position:relative; top:-20px; right:-100px">
+                                <i class="fa fa-ban" style="color:#00857B; font-size:1.0em;"></i>
                             </a>
                         </section>
                     </div>`
@@ -61,7 +60,7 @@ function getdata(){
                     `<div class="col-sm-3">
                         <section class="widget widget-simple-sm border-custom">
                             <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
-                                ${data.amenity_name}
+                                <strong>${data.amenity_name}</strong>
                             </div>
                             <a href="#" onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;">
                                 <i class="fa fa-check" style="color:#00857B; font-size:1.0em; position:relative; top:-20px; right:-100px"></i>

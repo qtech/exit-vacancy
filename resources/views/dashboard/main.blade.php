@@ -176,7 +176,7 @@
         $(document).ready(function(){
             Chart.defaults.global.defaultFontColor = 'grey';
             Chart.defaults.global.defaultFontStyle = 'bold';
-            Chart.defaults.global.defaultFontSize = 15;
+            Chart.defaults.global.defaultFontSize = 14;
             registration();
             bookings();
             $('.flatpickr').flatpickr({
@@ -363,7 +363,7 @@
                                     data:res.completed,
                                     spanGaps: true,
                                 },{
-                                    label:'Cancelled', 
+                                    label:'Pending', 
                                     fill: false, 
                                     tension: 0.4,                           
                                     backgroundColor: "rgb(167, 105, 0)",
@@ -381,7 +381,7 @@
                                     pointHoverBorderWidth: 2,
                                     pointRadius: 4,
                                     pointHitRadius: 10,
-                                    data:res.cancelled,
+                                    data:res.pending,
                                     spanGaps: false,                          
                                 }],
                             }
@@ -432,7 +432,7 @@
                             data:res.completed,
                             spanGaps: true,
                         },{
-                            label:'Cancelled', 
+                            label:'Pending', 
                             fill: false,   
                             tension: 0.4,                         
                             backgroundColor: "rgb(167, 105, 0)",
@@ -450,7 +450,7 @@
                             pointHoverBorderWidth: 2,
                             pointRadius: 4,
                             pointHitRadius: 10,
-                            data:res.cancelled,
+                            data:res.pending,
                             spanGaps: false,                          
                         }],
                     }
@@ -549,7 +549,7 @@
         $(document).ready(function(){
             Chart.defaults.global.defaultFontColor = 'grey';
             Chart.defaults.global.defaultFontStyle = 'bold';
-            Chart.defaults.global.defaultFontSize = 15;
+            Chart.defaults.global.defaultFontSize = 14;
             hotelbookings();
             $('.flatpickr').flatpickr({
                 onChange: function() {

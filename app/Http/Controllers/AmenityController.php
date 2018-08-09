@@ -10,7 +10,7 @@ class AmenityController extends Controller
 {
     public function getData()
     {
-        $amenity = Amenities::take(8)->get();
+        $amenity = Amenities::all();
         
         $response = [
             'msg' => 'All the Amenities',

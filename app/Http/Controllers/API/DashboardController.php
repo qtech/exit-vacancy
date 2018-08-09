@@ -108,23 +108,23 @@ class DashboardController extends Controller
     {
         try
         {
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('status'))->groupBy('date')->get();
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('is_visited'))->where(['status' => 1])->groupBy('date')->get();
             
             $dateLabel = ["2018-07-01","2018-07-14","2018-07-19"];
             $complete = [4,1,8];
-            $cancel = [0,2,1];
+            $pending = [0,2,1];
 
             foreach($bookings as $value)
             {
-                if($value->status == 1)
+                if($value->is_visited == 1)
                 {
                     array_push($complete,$value->count);
                     array_push($dateLabel,$value->date);
-                    array_push($cancel,0);
+                    array_push($pending,0);
                 }
                 else
                 {
-                    array_push($cancel,$value->count);
+                    array_push($pending,$value->count);
                     array_push($dateLabel,$value->date);
                     array_push($complete,0);
                 }
@@ -134,7 +134,7 @@ class DashboardController extends Controller
                 'msg' => 'Bookings Day-wise',
                 'status' => 1,
                 'completed' => $complete,
-                'cancelled' => $cancel,
+                'pending' => $pending,
                 'dateLabel' => $dateLabel
             ];
         }
@@ -155,21 +155,21 @@ class DashboardController extends Controller
         {
             $dateLabel = [];
             $complete = [];
-            $cancel = [];
+            $pending = [];
 
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('status'))->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('is_visited'))->where(['status' => 1])->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
             
             foreach($bookings as $value)
             {
-                if($value->status == 1)
+                if($value->is_visited == 1)
                 {
                     array_push($complete,$value->count);
                     array_push($dateLabel,$value->date);
-                    array_push($cancel,0);
+                    array_push($pending,0);
                 }
                 else
                 {
-                    array_push($cancel,$value->count);
+                    array_push($pending,$value->count);
                     array_push($dateLabel,$value->date);
                     array_push($complete,0);
                 }
@@ -179,7 +179,7 @@ class DashboardController extends Controller
                 'msg' => 'Bookings Day-wise',
                 'status' => 1,
                 'completed' => $complete,
-                'cancelled' => $cancel,
+                'pending' => $pending,
                 'dateLabel' => $dateLabel
             ];  
         }
