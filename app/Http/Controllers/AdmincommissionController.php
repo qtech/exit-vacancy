@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Contactus;
 use Validator;
+use App\User;
 
-class ContactusController extends Controller
+class AdmincommissionController extends Controller
 {
     public function view()
     {
         try
         {
-            $contact = Contactus::find(1);
-            return view('contactus.main')->with('contact', $contact);
+            $admin = User::find(1);
+            return view('commission.main')->with('admin', $admin);
         }
         catch(\Exception $e)
         {
@@ -26,9 +26,7 @@ class ContactusController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'email' => 'required',
-                'address' => 'required',
-                'phone' => 'required'
+                'rate' => 'required'
             ]);
 
             if($validator->fails())
@@ -37,21 +35,19 @@ class ContactusController extends Controller
                     'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
-            }   
+            }
             else
             {
-                $contact = Contactus::find(1);
-                $contact->email = $request->email;
-                $contact->address = $request->address;
-                $contact->number = $request->phone;
-                $contact->save();
+                $admin = User::find(1);
+                $admin->lname = $request->rate;
+                $admin->save();
 
-                $contactus = Contactus::find(1);
+                $admin = User::find(1);
 
                 $response = [
-                    'msg' => 'Contact Us details updated',
+                    'msg' => 'Commission percentage updated',
                     'status' => 1,
-                    'data' => $contactus
+                    'data' => $admin
                 ];
             }
         }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Validator;
 use App\Amenities;
 
 class AmenityController extends Controller

@@ -6,6 +6,7 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title>ExitVacancy</title>
 	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<link rel="shortcut icon" type="image/png" href="{{asset('logo.png')}}">
 	<style>
 		input[type=number]::-webkit-inner-spin-button, 
 		input[type=number]::-webkit-outer-spin-button { 

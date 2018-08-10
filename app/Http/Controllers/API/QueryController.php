@@ -22,7 +22,7 @@ class QueryController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Some field is empty',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }

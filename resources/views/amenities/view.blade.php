@@ -32,6 +32,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         getdata();
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
     });
 
 function getdata(){
@@ -49,7 +52,7 @@ function getdata(){
                             <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
                                 <strong>${data.amenity_name}</strong>
                             </div>
-                            <a onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;position:relative; top:-20px; right:-100px">
+                            <a data-title="Click to disable this amenity" onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;position:relative; top:-20px; right:-100px">
                                 <i class="fa fa-ban" style="color:#00857B; font-size:1.0em;"></i>
                             </a>
                         </section>
@@ -62,8 +65,8 @@ function getdata(){
                             <div class="widget-simple-sm-fill-caption" style="position:relative; top:10px;">
                                 <strong>${data.amenity_name}</strong>
                             </div>
-                            <a href="#" onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;">
-                                <i class="fa fa-check" style="color:#00857B; font-size:1.0em; position:relative; top:-20px; right:-100px"></i>
+                            <a data-title="Click to enable this amenity" onclick="disableamenity(${data.amenity_id});" style="border-bottom:none;position:relative; top:-20px; right:-100px">
+                                <i class="fa fa-check" style="color:#00857B; font-size:1.0em;"></i>
                             </a>
                         </section>
                     </div>`

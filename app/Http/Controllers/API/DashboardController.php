@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
-use Validator;
 
 class DashboardController extends Controller
 {
@@ -86,12 +85,7 @@ class DashboardController extends Controller
                 'users' => $user,
                 'hotels' => $hotel,
                 'dateLabel' => $dateLabel
-            ];
-            
-            
-            // $dateLabel = ["2018-07-01","2018-07-14","2018-07-19"];
-            // $user = [0,5,3];
-            // $hotel = [0,2,1];   
+            ];   
         }
         catch(\Exception $e)
         {

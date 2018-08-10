@@ -89,7 +89,7 @@
 				</span>
 				<ul>
 					<li><a href="{{route('contactus')}}"><span class="lbl">Contact Us</span></a></li>
-					<li><a href="#"><span class="lbl">Commission</span></a></li>
+					<li><a href="{{route('commission')}}"><span class="lbl">Commission</span></a></li>
 				</ul>
 			</li>
 	    </ul>

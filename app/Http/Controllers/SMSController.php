@@ -70,7 +70,7 @@ class SMSController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Something is missing',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }
@@ -134,7 +134,7 @@ class SMSController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Something is missing',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }

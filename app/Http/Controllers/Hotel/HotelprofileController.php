@@ -17,7 +17,7 @@ class HotelprofileController extends Controller
             'details' => User::with('hotel')->where(['role' => 3,'user_id' => Auth()->user()->user_id])->first(),
             'amenities' => Amenities::all()
         ];
-        // return $getdetails['details']->hotel->number;
+        
         return view('hotel_profile.main')->with('getdetails',$getdetails);
     }
 
@@ -34,7 +34,7 @@ class HotelprofileController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Some field is missing',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }

@@ -25,7 +25,7 @@ class loginController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Some field is missing.',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }
@@ -138,7 +138,7 @@ class loginController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Some field is missing',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }

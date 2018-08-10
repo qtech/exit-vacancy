@@ -73,7 +73,7 @@ class EmailController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Something is missing',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }
@@ -146,7 +146,7 @@ class EmailController extends Controller
             if($validator->fails())
             {
                 $response = [
-                    'msg' => 'Oops! Something is missing',
+                    'msg' => $validator->errors()->all(),
                     'status' => 0
                 ];
             }

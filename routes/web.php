@@ -167,6 +167,11 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
             Route::get('/', 'ContactusController@view')->name('contactus');
             Route::post('/update', 'ContactusController@update')->name('updatecontactus');
         });
+
+        Route::prefix('commission')->group(function(){
+            Route::get('/', 'AdmincommissionController@view')->name('commission');
+            Route::post('/update', 'AdmincommissionController@update')->name('updatecommission');
+        });
     });
 });
 
