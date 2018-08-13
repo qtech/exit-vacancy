@@ -5,6 +5,10 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use DateTime;
+use DateInterval;
+use DatePeriod;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -12,12 +16,31 @@ class DashboardController extends Controller
     {
         try
         {
+            $begin = new DateTime( '2018-07-01' ); 
+            $end = new DateTime( '2018-08-10' );
+            $end = $end->modify( '+1 day' ); 
+            $interval = new DateInterval('P1D');
+            $daterange = new DatePeriod($begin, $interval ,$end);
+
+            // $present = Carbon::now();
+            // $past = Carbon::now()->subMonth()->toDateString();
+            // $begin = new DateTime( $present ); 
+            // $end = new DateTime( $past );
+            // $interval = new DateInterval('P1D');
+            // $daterange = new DatePeriod($begin, $interval ,$end);
+
+            $dates = [];
+            
+            foreach($daterange as $date){
+                array_push($dates,$date->format('Y-m-d'));
+            }
+
             $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('role'))->groupBy('date')->get();
             
-            $dateLabel = ["2018-07-01","2018-07-14","2018-07-19"];
-            $user = [0,5,3];
-            $hotel = [0,2,1];
-                      
+            $hotel = [];
+            $user = [];
+            $dateLabel = [];
+
             foreach($users as $value)
             {
                 if($value->role == 2)
@@ -33,13 +56,48 @@ class DashboardController extends Controller
                     array_push($user,0);
                 }
             }
+           
+            $result = array_diff($dates,$dateLabel);
+            $nice = [];
+            foreach($result as $tmp)
+            {
+                array_push($nice,$tmp);
+            }
+
+            $zero = count($nice);
+
+            for($i=1;$i<=$zero;$i++)
+            {
+                array_push($user,0);
+                array_push($hotel,0);
+            }
+
+            // $dateLabel = ["2018-07-01","2018-07-14","2018-07-19"];
+            // $user = [0,5,3];
+            // $hotel = [0,2,1];
+                      
+            // foreach($users as $value)
+            // {
+            //     if($value->role == 2)
+            //     {
+            //         array_push($user,$value->count);
+            //         array_push($dateLabel,$value->date);
+            //         array_push($hotel,0);
+            //     }
+            //     if($value->role == 3)
+            //     {
+            //         array_push($hotel,$value->count);
+            //         array_push($dateLabel,$value->date);
+            //         array_push($user,0);
+            //     }
+            // }
             
             $response = [
                 'msg' => 'Registrations Day-wise',
                 'status' => 1,
                 'users' => $user,
                 'hotels' => $hotel,
-                'dateLabel' => $dateLabel
+                'dateLabel' => $nice
             ];
         }
         catch(\Exception $e)

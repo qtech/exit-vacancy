@@ -161,6 +161,12 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/', 'QueryController@view')->name('query');
     });
 
+    // TRANSACTIONS
+    Route::prefix('transactions')->group(function(){
+        Route::get('/t_chart', 'TransactionController@transaction_chart')->name('t.chart');
+        Route::get('/', 'TransactionController@view')->name('transaction');
+    });
+
     // SETTINGS
     Route::prefix('settings')->group(function(){
         Route::prefix('contactus')->group(function(){

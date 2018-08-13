@@ -129,6 +129,66 @@
         </a>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-3">
+        <a class="a_tag" href="#">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$t_users}}
+                            <p>Today</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$m_users}}
+                            <p>Month</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$users}}
+                            <p>Total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-del"></i> Cancelled Bookings</div>
+                </div>
+            </section>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="a_tag" href="#">
+            <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
+                <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$t_users}}
+                            <p>Today</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$m_users}}
+                            <p>Month</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d_boxes">
+                            {{$users}}
+                            <p>Total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-wallet"></i> Earnings</div>
+                </div>
+            </section>
+        </a>
+    </div>
+</div>
 
 <section class="card box-typical">
     <div class="card-block">
@@ -170,6 +230,26 @@
         </div>
     </div>
 </section>
+<section class="card box-typical">
+    <div class="card-block">
+        <h5 class="m-t-lg pull-left"><strong>Transactions</strong></h5>
+        <form method="POST" id="b_Form">
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>To:</strong><input class="flatpickr form-control" id="t_date2" name="t_date2" type="text" placeholder="Select Date">
+                </div>
+            </div>
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>From:</strong><input class="flatpickr form-control" id="t_date1" name="t_date1" type="text" placeholder="Select Date">
+                </div>
+            </div>
+        </form>
+        <div id="chart3wrapper">
+            <canvas id="myChart3" width="400" height="100"></canvas>
+        </div>
+    </div>
+</section>
 @endsection
 @section('scripts')
     <script>
@@ -179,6 +259,7 @@
             Chart.defaults.global.defaultFontSize = 14;
             registration();
             bookings();
+            transactions();
             $('.flatpickr').flatpickr({
                 onChange: function() {
                     r_withdates();
@@ -463,6 +544,48 @@
                 }
             }
             ajx.open('GET','{{route('dashboard.bookingData')}}',true);
+            ajx.send();
+        }
+
+        function transactions(){
+            var ajx = new XMLHttpRequest();
+            ajx.onreadystatechange = function() {
+                if(ajx.readyState == 4 && ajx.status == 200){
+                    var res = JSON.parse(ajx.responseText);                                        
+                    var data = {
+                        labels: res.dateLabel,
+                        datasets:[{
+                            label:'Transactions',
+                            fill: false,    
+                            tension: 0.4,                        
+                            backgroundColor: "#00857B",
+                            borderColor: "#00857B", // The main line color
+                            borderCapStyle: 'square',
+                            borderDash: [0,0], // try [5, 15] for instance
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "black",
+                            pointBackgroundColor: "white",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "red",
+                            pointHoverBorderColor: "brown",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.transactions,
+                            spanGaps: true,
+                        }],
+                    }
+                    //Start Chart plotting.
+                    var ctx = $('#myChart3');
+                    var myLineChart = new Chart(ctx, {
+                        type:'line',
+                        data:data
+                    })
+                }
+            }
+            ajx.open('GET','{{route('t.chart')}}',true);
             ajx.send();
         }
     </script>

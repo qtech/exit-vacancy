@@ -1,6 +1,6 @@
 <header class="site-header" style="background-color:#00867C;">
     <div class="container-fluid">
-        <a href="#" class="site-logo">
+        <a href="{{route('dashboard')}}" class="site-logo">
             <img class="hidden-md-down" style="height:60px;width:70px;position:relative;top:-10px;left:30px;" src="{{asset('logo.png')}}" alt="">
         </a>
 

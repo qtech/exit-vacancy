@@ -2,14 +2,14 @@
 <div class="mobile-menu-left-overlay"></div>
 	<nav class="side-menu">
 	    <ul class="side-menu-list">
-	        <li class="grey">
+	        <li class="grey {{Request::is('admin/dashboard/*') || Request::is('admin/dashboard') ? 'opened' : ''}}">
 				<a href="{{route('dashboard')}}">
 	                <i class="font-icon font-icon-dashboard"></i>
 	                <span class="lbl">Dashboard</span>
 	            </a>
             </li>
 			
-			<li class="brown with-sub">
+			<li class="brown with-sub {{Request::is('admin/bookings/*') || Request::is('admin/bookings') ? 'opened' : ''}}">
 				<span>
 					<i class="fa fa-book"></i>
 					<span class="lbl">Booking Details</span>
@@ -21,21 +21,21 @@
 				</ul>
 			</li>
             
-            <li class="purple">
+            <li class="purple {{Request::is('admin/appusers/*') || Request::is('admin/appusers') ? 'opened' : ''}}">
 	            <a href="{{route('appusers')}}">
 	                <i class="fa fa-users"></i>
 	                <span class="lbl">Application Users</span>
 	            </a>
             </li>
             
-            <li class="red">
+            <li class="red {{Request::is('admin/hotelowners/*') || Request::is('admin/hotelowners') ? 'opened' : ''}}">
 				<a href="{{route('hotelusers')}}">
 	                <i class="fa fa-building"></i>
 	                <span class="lbl">Hotel Owners</span>
 	            </a>
             </li>
 			
-			<li class="gold with-sub">
+			<li class="gold with-sub {{Request::is('admin/mails/*') || Request::is('admin/mails') ? 'opened' : ''}}">
 	            <span>
 	                <i class="fa fa-envelope"></i>
 	                <span class="lbl">Send Mails</span>
@@ -46,7 +46,7 @@
 	            </ul>
 			</li>
             
-            <li class="blue-dirty with-sub">
+            <li class="blue-dirty with-sub {{Request::is('admin/sms/*') || Request::is('admin/sms') ? 'opened' : ''}}">
 	            <span>
 	                <i class="fa fa-phone"></i>
 	                <span class="lbl">Send SMS</span>
@@ -57,7 +57,7 @@
 	            </ul>
 			</li>
 			
-			<li class="yellow with-sub">
+			<li class="yellow with-sub {{Request::is('admin/notifications/*') || Request::is('admin/notifications') ? 'opened' : ''}}">
 	            <span>
 	                <i class="fa fa-bell"></i>
 	                <span class="lbl">Notifications</span>
@@ -68,21 +68,28 @@
 	            </ul>
 			</li>
             
-            <li class="magenta">
+            <li class="magenta {{Request::is('admin/amenities/*') || Request::is('admin/amenities') ? 'opened' : ''}}">
 	            <a href="{{route('amenity')}}">
 	                <i class="fa fa-rss"></i>
 	                <span class="lbl">Hotel Amenities</span>
 	            </a>
+            </li>
+            
+            <li class="light-green {{Request::is('admin/transactions/*') || Request::is('admin/transactions') ? 'opened' : ''}}">
+                <a href="{{route('transaction')}}">
+					<i class="fa fa-money"></i>
+					<span class="lbl">Transactions</span>
+				</a>
 			</li>
 
-			<li class="brown">
+			<li class="brown {{Request::is('admin/queries/*') || Request::is('admin/queries') ? 'opened' : ''}}">
 				<a href="{{route('query')}}">
 					<i class="fa fa-retweet"></i>
 					<span class="lbl">Support Requests</span>
 				</a>
 			</li>
 
-			<li class="green with-sub">
+			<li class="green with-sub {{Request::is('admin/settings/*') || Request::is('admin/settings') ? 'opened' : ''}}">
 				<span>
 					<i class="fa fa-cogs"></i>
 					<span class="lbl">Settings</span>

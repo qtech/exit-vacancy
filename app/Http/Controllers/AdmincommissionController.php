@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-use App\User;
+use App\Commission;
 
 class AdmincommissionController extends Controller
 {
@@ -12,7 +12,7 @@ class AdmincommissionController extends Controller
     {
         try
         {
-            $admin = User::find(1);
+            $admin = Commission::find(1);
             return view('commission.main')->with('admin', $admin);
         }
         catch(\Exception $e)
@@ -38,11 +38,11 @@ class AdmincommissionController extends Controller
             }
             else
             {
-                $admin = User::find(1);
-                $admin->lname = $request->rate;
+                $admin = Commission::find(1);
+                $admin->commission_percentage = $request->rate;
                 $admin->save();
 
-                $admin = User::find(1);
+                $admin = Commission::find(1);
 
                 $response = [
                     'msg' => 'Commission percentage updated',

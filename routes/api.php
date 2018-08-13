@@ -92,6 +92,13 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // QUERY REQUESTS
     Route::post('/query', 'API\QueryController@storequery');
 
+    // STRIPE PAYMENT
+    Route::post('/storecard', 'API\PaymentDetailsController@storeCard');
+	Route::post('/getcard', 'API\PaymentDetailsController@getCard_details');
+	Route::post('/storeupdatepaymentdetails', 'API\PaymentDetailsController@store_update_paymentdetails');
+	Route::post('/getpaymentdetails', 'API\PaymentDetailsController@get_paymentdetails');
+	Route::post('/splitpayment', 'API\PaymentDetailsController@split_payment_live');
+
 });
 
 

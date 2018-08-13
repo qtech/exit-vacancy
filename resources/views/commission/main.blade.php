@@ -8,7 +8,7 @@
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="rate">Commission</label>
-                    <input type="number" class="form-control" name="rate" id="rate" value="{{$admin->lname}}">
+                    <input type="number" class="form-control" name="rate" id="rate" value="{{$admin->commission_percentage}}">
                     <small class="text-muted">Set commission % in payments</small>
                 </fieldset>
             </div>
@@ -38,7 +38,7 @@
                 if(demo.status == 1)
                 {
                     notification('success',demo.msg);
-                    document.getElementById('rate').value = demo.data.lname;
+                    document.getElementById('rate').value = demo.data.commission_percentage;
                 }
                 else
                 {
