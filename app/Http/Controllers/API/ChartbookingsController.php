@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Bookings;
 use DB;
+use Carbon\Carbon;
 
 class ChartbookingsController extends Controller
 {
@@ -13,15 +14,41 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $present = Carbon::now();
+            $past = Carbon::now()->subMonth()->toDateString();
+
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->groupBy('date')->get();
             
-            $dateLabel = ["2018-07-23","2018-07-26"];
-            $booking = [2,6];
+            $dateLabel = [];
+            $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -78,17 +105,40 @@ class ChartbookingsController extends Controller
         try
         {
             $today = today();
-            $week = $today->modify('-7 days');
+            $week = $today->modify('-6 days');
+
+            $date_from = strtotime($week); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime(today()); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->whereBetween('created_at',[$week,today()])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -112,15 +162,41 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $first_day = Carbon::now()->startOfMonth();
+            $last_day = Carbon::now()->endOfMonth();
+
+            $date_from = strtotime($first_day); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($last_day); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -144,15 +220,38 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $date_from = strtotime($request->b_date1); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($request->b_date2); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -176,15 +275,41 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $present = Carbon::now();
+            $past = Carbon::now()->subMonth()->toDateString();
+
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->groupBy('date')->get();
             
-            $dateLabel = ["2018-07-23","2018-07-26"];
-            $booking = [2,6];
+            $dateLabel = [];
+            $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -241,17 +366,40 @@ class ChartbookingsController extends Controller
         try
         {
             $today = today();
-            $week = $today->modify('-7 days');
+            $week = $today->modify('-6 days');
 
+            $date_from = strtotime($week); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime(today()); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+            
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->whereBetween('created_at',[$week,today()])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -275,15 +423,41 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $first_day = Carbon::now()->startOfMonth();
+            $last_day = Carbon::now()->endOfMonth();
+
+            $date_from = strtotime($first_day); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($last_day); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -307,15 +481,38 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $date_from = strtotime($request->b_date1); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($request->b_date2); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -339,15 +536,41 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $present = Carbon::now();
+            $past = Carbon::now()->subMonth()->toDateString();
+
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->groupBy('date')->get();
             
-            $dateLabel = ["2018-07-23","2018-07-26"];
-            $booking = [2,6];
+            $dateLabel = [];
+            $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -376,10 +599,21 @@ class ChartbookingsController extends Controller
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -404,17 +638,40 @@ class ChartbookingsController extends Controller
         try
         {
             $today = today();
-            $week = $today->modify('-7 days');
+            $week = $today->modify('-6 days');
+
+            $date_from = strtotime($week); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime(today()); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->whereBetween('created_at',[$week,today()])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -438,15 +695,41 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $first_day = Carbon::now()->startOfMonth();
+            $last_day = Carbon::now()->endOfMonth();
+
+            $date_from = strtotime($first_day); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($last_day); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [
@@ -470,15 +753,38 @@ class ChartbookingsController extends Controller
     {
         try
         {
+            $date_from = strtotime($request->b_date1); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($request->b_date2); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+            
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                array_push($booking,$value->count);
-                array_push($dateLabel,$value->date);
+                foreach($bookings as $b)
+                {
+                    if($b->date == $value)
+                    {
+                        array_push($booking,$b->count);
+                        array_push($dateLabel,$b->date);
+                    }
+                    else
+                    {
+                        array_push($booking,0);
+                        array_push($dateLabel,$value);
+                    }
+                }                                   
             }
 
             $response = [

@@ -116,7 +116,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: false,                             
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -133,7 +133,7 @@
                             pointRadius: 4,
                             pointHitRadius: 10,
                             data:res.bookings,
-                            spanGaps: true,
+                            spanGaps: true
                         }],
                     }
 
@@ -160,7 +160,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: false,                               
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -177,7 +177,7 @@
                             pointRadius: 4,
                             pointHitRadius: 10,
                             data:res.bookings,
-                            spanGaps: true,
+                            spanGaps: true
                         }],
                     }
 
@@ -204,7 +204,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: false,                              
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -221,7 +221,7 @@
                             pointRadius: 4,
                             pointHitRadius: 10,
                             data:res.bookings,
-                            spanGaps: true,
+                            spanGaps: true
                         }],
                     }
 
@@ -248,7 +248,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: false,                               
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -265,7 +265,7 @@
                             pointRadius: 4,
                             pointHitRadius: 10,
                             data:res.bookings,
-                            spanGaps: true,
+                            spanGaps: true
                         }],
                     }
 
@@ -300,7 +300,7 @@
                             labels: res.dateLabel,
                             datasets:[{
                                 label:'Bookings',
-                                fill: false,                            
+                                fill: false,                               
                                 backgroundColor: "#00857B",
                                 borderColor: "#00857B", // The main line color
                                 borderCapStyle: 'square',
@@ -317,7 +317,7 @@
                                 pointRadius: 4,
                                 pointHitRadius: 10,
                                 data:res.bookings,
-                                spanGaps: true,
+                                spanGaps: true
                             }],
                         }
 
@@ -327,7 +327,7 @@
                         var ctx = $('#pendingchart');
                         var myLineChart = new Chart(ctx, {
                             type:'line',
-                            data:data
+                            data:data,
                         })
                     }
                 }

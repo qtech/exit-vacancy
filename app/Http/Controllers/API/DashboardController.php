@@ -5,9 +5,6 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
-use DateTime;
-use DateInterval;
-use DatePeriod;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -16,88 +13,61 @@ class DashboardController extends Controller
     {
         try
         {
-            $begin = new DateTime( '2018-07-01' ); 
-            $end = new DateTime( '2018-08-10' );
-            $end = $end->modify( '+1 day' ); 
-            $interval = new DateInterval('P1D');
-            $daterange = new DatePeriod($begin, $interval ,$end);
+            $present = Carbon::now();
+            $past = Carbon::now()->subMonth()->toDateString();
 
-            // $present = Carbon::now();
-            // $past = Carbon::now()->subMonth()->toDateString();
-            // $begin = new DateTime( $present ); 
-            // $end = new DateTime( $past );
-            // $interval = new DateInterval('P1D');
-            // $daterange = new DatePeriod($begin, $interval ,$end);
-
-            $dates = [];
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
             
-            foreach($daterange as $date){
-                array_push($dates,$date->format('Y-m-d'));
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
             }
 
-            $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('role'))->groupBy('date')->get();
+            $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('role'))->where('role','!=',1)->groupBy('date')->get();
             
             $hotel = [];
             $user = [];
             $dateLabel = [];
-
-            foreach($users as $value)
+            
+            foreach($dates as $k => $value)
             {
-                if($value->role == 2)
+                foreach($users as $u)
                 {
-                    array_push($user,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($hotel,0);
-                }
-                if($value->role == 3)
-                {
-                    array_push($hotel,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($user,0);
-                }
+                    if($u->date == $value)
+                    {
+                        if($u->role == 2)
+                        {
+                            array_push($user,$u->count);
+                            array_push($dateLabel,$u->date);
+                            array_push($hotel,0);
+                        }
+                        else
+                        {
+                            array_push($hotel,$u->count);
+                            array_push($dateLabel,$u->date);
+                            array_push($user,0);
+                        }
+                    }
+                    else
+                    {
+                        array_push($hotel,0);
+                        array_push($dateLabel,$value);
+                        array_push($user,0);
+                    }
+                }                                   
             }
-           
-            $result = array_diff($dates,$dateLabel);
-            $nice = [];
-            foreach($result as $tmp)
-            {
-                array_push($nice,$tmp);
-            }
-
-            $zero = count($nice);
-
-            for($i=1;$i<=$zero;$i++)
-            {
-                array_push($user,0);
-                array_push($hotel,0);
-            }
-
-            // $dateLabel = ["2018-07-01","2018-07-14","2018-07-19"];
-            // $user = [0,5,3];
-            // $hotel = [0,2,1];
-                      
-            // foreach($users as $value)
-            // {
-            //     if($value->role == 2)
-            //     {
-            //         array_push($user,$value->count);
-            //         array_push($dateLabel,$value->date);
-            //         array_push($hotel,0);
-            //     }
-            //     if($value->role == 3)
-            //     {
-            //         array_push($hotel,$value->count);
-            //         array_push($dateLabel,$value->date);
-            //         array_push($user,0);
-            //     }
-            // }
             
             $response = [
                 'msg' => 'Registrations Day-wise',
                 'status' => 1,
                 'users' => $user,
                 'hotels' => $hotel,
-                'dateLabel' => $nice
+                'dateLabel' => $dateLabel
             ];
         }
         catch(\Exception $e)
@@ -115,26 +85,50 @@ class DashboardController extends Controller
     {
         try
         {
+            $date_from = strtotime($request->r_date1); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($request->r_date2); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $dateLabel = [];
             $user = [];
             $hotel = [];
 
             $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('role'))->whereBetween('created_at',[$request->r_date1,$request->r_date2])->groupBy('date')->get();
 
-            foreach($users as $value)
+            foreach($dates as $k => $value)
             {
-                if($value->role == 2)
+                foreach($users as $u)
                 {
-                    array_push($user,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($hotel,0);
-                }
-                if($value->role == 3)
-                {
-                    array_push($hotel,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($user,0);
-                }
+                    if($u->date == $value)
+                    {
+                        if($u->role == 2)
+                        {
+                            array_push($user,$u->count);
+                            array_push($dateLabel,$u->date);
+                            array_push($hotel,0);
+                        }
+                        else
+                        {
+                            array_push($hotel,$u->count);
+                            array_push($dateLabel,$u->date);
+                            array_push($user,0);
+                        }
+                    }
+                    else
+                    {
+                        array_push($hotel,0);
+                        array_push($dateLabel,$value);
+                        array_push($user,0);
+                    }
+                }                                   
             }
 
             $response = [
@@ -160,26 +154,53 @@ class DashboardController extends Controller
     {
         try
         {
+            $present = Carbon::now();
+            $past = Carbon::now()->subMonth()->toDateString();
+
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('is_visited'))->where(['status' => 1])->groupBy('date')->get();
             
-            $dateLabel = ["2018-07-01","2018-07-14","2018-07-19"];
-            $complete = [4,1,8];
-            $pending = [0,2,1];
+            $dateLabel = [];
+            $complete = [];
+            $pending = [];
 
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                if($value->is_visited == 1)
+                foreach($bookings as $b)
                 {
-                    array_push($complete,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($pending,0);
-                }
-                else
-                {
-                    array_push($pending,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($complete,0);
-                }
+                    if($b->date == $value)
+                    {
+                        if($b->is_visited == 1)
+                        {
+                            array_push($complete,$b->count);
+                            array_push($dateLabel,$b->date);
+                            array_push($pending,0);
+                        }
+                        else
+                        {
+                            array_push($pending,$b->count);
+                            array_push($dateLabel,$b->date);
+                            array_push($complete,0);
+                        }
+                    }
+                    else
+                    {
+                        array_push($pending,0);
+                        array_push($dateLabel,$value);
+                        array_push($complete,0);
+                    }
+                }                                   
             }
 
             $response = [
@@ -205,26 +226,50 @@ class DashboardController extends Controller
     {
         try
         {
+            $date_from = strtotime($request->b_date1); // Convert date to a UNIX timestamp  
+  
+            // Specify the end date. This date can be any English textual format  
+            $date_to = strtotime($request->b_date2); // Convert date to a UNIX timestamp  
+            
+            $dates = [];
+
+            // Loop from the start date to end date and output all dates inbetween  
+            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+                array_push($dates,date("Y-m-d", $i));  
+            }
+
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('is_visited'))->where(['status' => 1])->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
+            
             $dateLabel = [];
             $complete = [];
             $pending = [];
 
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('is_visited'))->where(['status' => 1])->whereBetween('created_at',[$request->b_date1,$request->b_date2])->groupBy('date')->get();
-            
-            foreach($bookings as $value)
+            foreach($dates as $k => $value)
             {
-                if($value->is_visited == 1)
+                foreach($bookings as $b)
                 {
-                    array_push($complete,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($pending,0);
-                }
-                else
-                {
-                    array_push($pending,$value->count);
-                    array_push($dateLabel,$value->date);
-                    array_push($complete,0);
-                }
+                    if($b->date == $value)
+                    {
+                        if($b->is_visited == 1)
+                        {
+                            array_push($complete,$b->count);
+                            array_push($dateLabel,$b->date);
+                            array_push($pending,0);
+                        }
+                        else
+                        {
+                            array_push($pending,$b->count);
+                            array_push($dateLabel,$b->date);
+                            array_push($complete,0);
+                        }
+                    }
+                    else
+                    {
+                        array_push($pending,0);
+                        array_push($dateLabel,$value);
+                        array_push($complete,0);
+                    }
+                }                                   
             }
 
             $response = [
@@ -334,5 +379,25 @@ class DashboardController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function practice_code()
+    {
+            //$begin = new DateTime( '2018-07-01' ); 
+            // $end = new DateTime( '2018-08-10' );
+            // $end = $end->modify( '+1 day' ); 
+            // $interval = new DateInterval('P1D');
+            // $daterange = new DatePeriod($begin, $interval ,$end);
+
+            // $present = Carbon::now();
+            // $past = Carbon::now()->subMonth()->toDateString();
+            // $begin = new DateTime( $present ); 
+            // $end = new DateTime( $past );
+            // $interval = new DateInterval('P1D');
+            // $daterange = new DatePeriod($begin, $interval ,$end);
+
+            // foreach($daterange as $date){
+            //     array_push($dates,$date->format('Y-m-d'));
+            // }
     }
 }
