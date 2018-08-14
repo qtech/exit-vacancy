@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/font-awesome/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/bootstrap/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('/n-asset/css/main.css')}}">
+    <link rel="stylesheet" href="{{asset('/n-asset/css/nprogress.css')}}">
 </head>
 <body style="background-image: url(bg.jpg);background-position: center;background-repeat: no-repeat; background-attachment: fixed; background-size: cover; height: 100%; overflow: hidden;">
 
@@ -117,5 +118,6 @@
         });
     </script>
 <script src="{{asset('/n-asset/js/app.js')}}"></script>
+<script src="{{asset('/n-asset/js/nprogress.js')}}"></script>
 </body>
 </html>
