@@ -24,6 +24,10 @@
     </form>
 </div>
 
+<div id="fade">
+    <img id="modal" src="{{asset('loader.gif')}}" />
+</div>
+
 <section class="card">
     <div class="card-block">
         <div class="row">
@@ -50,9 +54,6 @@
             </tr>
             </thead>
             <tbody>
-                @php
-                    $i = 1;
-                @endphp
                 @foreach($users as $value)
                 <tr>
                     <td>
@@ -98,6 +99,16 @@
 </section>
 
 <script type="text/javascript">
+    function openModal() {
+        document.getElementById('modal').style.display = 'block';
+        document.getElementById('fade').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('fade').style.display = 'none';
+    }
+
     function addmail(){
         var temp = [];
         var subject = document.getElementById("subject").value;
@@ -118,9 +129,11 @@
             "mails":temp,
             "_token":'{{csrf_token()}}'
         }
+        
         var ajx = new XMLHttpRequest();
         ajx.onreadystatechange = function () {
             if (ajx.readyState == 4 && ajx.status == 200) {
+                closeModal();
                 var demo = JSON.parse(ajx.responseText);
                 if(demo.status == 1)
                 {
@@ -131,10 +144,13 @@
                 }
                 else
                 {
+                    closeModal();
                     notification('danger',demo.msg);
                 }
             }
         };
+
+        openModal();
         ajx.open("POST", "{{route('storemail')}}", true);
         ajx.setRequestHeader("Content-type", "application/json");
         ajx.send(JSON.stringify(param));

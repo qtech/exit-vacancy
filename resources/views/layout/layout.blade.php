@@ -41,7 +41,6 @@
 	<link rel="stylesheet" href="{{asset('/n-asset/css/custom.css')}}">
 </head>
 <body class="with-side-menu">
-
 	@include('include.navbar')<!--.site-header-->
 
 	@include('include.sidebar')<!--.side-menu-->
