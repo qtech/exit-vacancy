@@ -267,6 +267,7 @@
         }
 
         $(document).ready(function(){
+            NProgress.start();
             Chart.defaults.global.defaultFontColor = 'grey';
             Chart.defaults.global.defaultFontStyle = 'bold';
             Chart.defaults.global.defaultFontSize = 14;
@@ -281,6 +282,7 @@
                 }
             });
             closeModal();
+            NProgress.done();
         });
 
         function registration(){

@@ -50,6 +50,7 @@
 
     <script type="text/javascript">
         function checklogin() {
+            NProgress.start();
             var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
             var param = {
@@ -64,6 +65,7 @@
                     var demo = JSON.parse(ajx.responseText);
                     if(demo.status == 1)
                     {
+                        NProgress.done();
                         notification('success',demo.msg);
                         setTimeout(function(){
                             window.location.href = "{{route('dashboard')}}";

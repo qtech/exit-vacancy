@@ -38,7 +38,8 @@
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/font-awesome/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/bootstrap/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('/n-asset/css/main.css')}}">
-	<link rel="stylesheet" href="{{asset('/n-asset/css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('/n-asset/css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('/n-asset/css/nprogress.css')}}">
 </head>
 <body class="with-side-menu">
 	@include('include.navbar')<!--.site-header-->
@@ -93,6 +94,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     
 <script src="{{asset('/n-asset/js/app.js')}}"></script>
+<script src="{{asset('/n-asset/js/nprogress.js')}}"></script>
 
 @yield('scripts')
 </body>

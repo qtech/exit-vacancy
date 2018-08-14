@@ -110,6 +110,7 @@
     }
 
     function addmail(){
+        NProgress.start();
         var temp = [];
         var subject = document.getElementById("subject").value;
         var message = document.getElementById("message").value;
@@ -137,6 +138,7 @@
                 var demo = JSON.parse(ajx.responseText);
                 if(demo.status == 1)
                 {
+                    NProgress.done();
                     notification('success',demo.msg);
                     setTimeout(function(){
                         window.location.href = '{{route("mails")}}';
@@ -144,6 +146,7 @@
                 }
                 else
                 {
+                    NProgress.done();
                     closeModal();
                     notification('danger',demo.msg);
                 }
