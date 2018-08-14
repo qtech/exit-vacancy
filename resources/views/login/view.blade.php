@@ -74,6 +74,7 @@
                     }
                     else if(demo.status == 2)
                     {
+                        NProgress.done();
                         notification('success',demo.msg);
                         setTimeout(function(){
                             window.location.href = "{{route('h.dashboard')}}";
@@ -81,6 +82,7 @@
                     }
                     else
                     {
+                        NProgress.done();
                         notification('danger',demo.msg);
                     }
                 }
