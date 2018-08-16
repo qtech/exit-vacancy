@@ -180,29 +180,39 @@ class PaymentDetailsController extends Controller
 			\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
 
 			$storecard = User::find($request->user_id);
+            
+            if($storecard->role == 2)
+            {
+                // $token = \Stripe\Token::create(array(
+                //     "card" => [
+                //         "name" => "Shreeraj Jadeja",
+                //         "number" => "4000056655665556",
+                //         "exp_month" => 5,
+                //         "exp_year" => 2019,
+                //         "cvc" => "314"
+                //     ]
+                // ));
 
-			/*$token = \Stripe\Token::create(array(
-			  "card" => [
-			  	"name" => "Shreeraj Jadeja",
-			    "number" => "4000056655665556",
-			    "exp_month" => 5,
-			    "exp_year" => 2019,
-			    "cvc" => "314"
-			  ]
-			));*/
+                $customer = \Stripe\Customer::create([
+                    "description" => "ExitVacancy User",
+                    "source" => $request->token
+                ]);
 
-			$customer = \Stripe\Customer::create([
-			  	"description" => "ExitVacancy User",
-			  	"source" => $request->token
-			]);
-			
-			$storecard->customer_id = $customer->id;
-			$storecard->save();
-
-			$response = [
-				'msg' => "Success",
-				'status' => 1
-			];
+                $storecard->customer_id = $customer->id;
+                $storecard->save();
+                
+                $response = [
+                    'msg' => "Success",
+                    'status' => 1
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => "Sorry, this user cannot store card",
+                    'status' => 1
+                ];
+            }
 		}
 		catch(\Exception $e)
 		{
@@ -235,7 +245,7 @@ class PaymentDetailsController extends Controller
 				];
 
 				$response = [
-					'msg' => "Your card details",
+					'msg' => "Your saved card details",
 					'status' => 1,
 					'data' => $data
 				];

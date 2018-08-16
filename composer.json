@@ -11,6 +11,7 @@
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "~2.1.0",
         "nexmo/client": "^1.4",
+        "stripe/stripe-php": "^6.15",
         "twilio/sdk": "^5.21"
     },
     "require-dev": {

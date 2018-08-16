@@ -42,6 +42,31 @@ class AmenityController extends Controller
         return response()->json($response);
     }
 
+    public function get_custom_amenities(Request $request)
+    {
+        try
+        {
+            $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_user_id])->first();
+
+            $amenities = explode(",",$amenity->amenities);
+
+            $response = [
+                'msg' => 'Hotel amenities',
+                'status' => 1,
+                'amenities' => $amenities
+            ];
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
     public function update_custom_amenities(Request $request)
     {
         try
