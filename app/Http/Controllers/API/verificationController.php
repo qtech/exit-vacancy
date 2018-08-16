@@ -87,31 +87,61 @@ class verificationController extends Controller
         {
             // $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
             // $client = new \Nexmo\Client($basic);
+            $check_number = User::with('customer','hotel')->find($request->user_id);
+            if($check_number->role == 2 && $request->type == 2 && $check_number->customer->number == $request->phone)
+            {
+                $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                $token  = "580e851b75fad321439473c84ccd0145";
+                $twilio = new Client($sid, $token);
+    
+                $otp = mt_rand(999,9999);
+    
+                $message = $twilio->messages->create('+'.$request->phone, // to
+                    [
+                        "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                        "from" => "+16072149834"
+                    ]
+                );
 
-            $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
-            $token  = "580e851b75fad321439473c84ccd0145";
-            $twilio = new Client($sid, $token);
+                $response = [
+                    'msg' => 'OTP sent to the user',
+                    'status' => 1,
+                    'OTP' => $otp
+                ];
+            }
+            elseif($check_number->role == 3 && $request->type == 3 && $check_number->hotel->number == $request->phone)
+            {
+                $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                $token  = "580e851b75fad321439473c84ccd0145";
+                $twilio = new Client($sid, $token);
+    
+                $otp = mt_rand(999,9999);
+    
+                $message = $twilio->messages->create('+'.$request->phone, // to
+                    [
+                        "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                        "from" => "+16072149834"
+                    ]
+                );
 
-            $otp = mt_rand(999,9999);
-
-            $message = $twilio->messages->create($request->phone, // to
-                [
-                    "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
-                    "from" => "+16072149834"
-                ]
-            );
-
+                $response = [
+                    'msg' => 'OTP sent to the user',
+                    'status' => 1,
+                    'OTP' => $otp
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'Please use the registered number',
+                    'status' => 0,
+                ];
+            }
             // $message = $client->message()->send([
             //     'to' => $request->phone,
             //     'from' => '+919727959595',
             //     'text' => "Your OTP for ExitVacancy App is ".$otp
             // ]);
-
-            $response = [
-                'msg' => 'OTP sent to the user',
-                'status' => 1,
-                'OTP' => $otp
-            ];
         }
         catch(\Exception $e)
         {
