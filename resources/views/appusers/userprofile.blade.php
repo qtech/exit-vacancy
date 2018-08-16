@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="tbl-row">
                                     <div class="tbl-cell tbl-cell-lbl">Number</div>
-                                    <div class="tbl-cell" style="font-size:14px;">{{$user->customer->number}}</div>
+                                    <div class="tbl-cell" style="font-size:14px;">+{{$user->customer->number}}</div>
                                 </div>
                                 <div class="tbl-row">
                                     <div class="tbl-cell tbl-cell-lbl">Address</div>

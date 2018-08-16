@@ -8,6 +8,7 @@ use Mail;
 use App\Mail\emailverify;
 use App\User;
 use App\randomPassword;
+use Twilio\Rest\Client;
 
 class verificationController extends Controller
 {
@@ -34,8 +35,7 @@ class verificationController extends Controller
                 $response = [
                     'msg' => "Verification Code is sent to your Email",
                     'status' => 1,
-                    'code' => $code,
-                    'user_id' => $user_id
+                    'code' => $code
                 ];
             }
             else
@@ -84,16 +84,27 @@ class verificationController extends Controller
     {
         try
         {
-            $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
-            $client = new \Nexmo\Client($basic);
+            // $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
+            // $client = new \Nexmo\Client($basic);
+
+            $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+            $token  = "580e851b75fad321439473c84ccd0145";
+            $twilio = new Client($sid, $token);
 
             $otp = mt_rand(999,9999);
 
-            $message = $client->message()->send([
-                'to' => $request->phone,
-                'from' => '+919727959595',
-                'text' => "Your OTP for ExitVacancy App is ".$otp
-            ]);
+            $message = $twilio->messages->create($request->phone, // to
+                [
+                    "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                    "from" => "+16072149834"
+                ]
+            );
+
+            // $message = $client->message()->send([
+            //     'to' => $request->phone,
+            //     'from' => '+919727959595',
+            //     'text' => "Your OTP for ExitVacancy App is ".$otp
+            // ]);
 
             $response = [
                 'msg' => 'OTP sent to the user',

@@ -40,7 +40,7 @@
                     </td>
                     <td>{{$value->fname}} {{$value->lname}}</td>
                     <td>{{$value->email}}</td>
-                    <td>{{$value->hotel->number}}</td>
+                    <td>+{{$value->hotel->number}}</td>
                     <td>
                         @if($value->is_email_verify == 1)
                             <label class="label label-success">Verified</label>

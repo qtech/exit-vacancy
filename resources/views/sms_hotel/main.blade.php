@@ -46,7 +46,7 @@
                                         <table class="display table table-striped table-bordered recipients" cellspacing="0" width="100%">
                                             <thead>
                                                 <th>Name</th>
-                                                <th>Email</th>
+                                                <th>Number</th>
                                             </thead>
                                             <tbody>
                                                 @php
@@ -55,11 +55,11 @@
                                                 @if(!empty($users))
                                                     @foreach($users as $tmp)
                                                         @php
-                                                            $user = App\User::where(['user_id' => $tmp])->first();
+                                                            $user = App\User::with('hotel')->where(['user_id' => $tmp])->first();
                                                         @endphp
                                                         <tr>
                                                             <td>{{$user->fname}} {{$user->lname}}</td>
-                                                            <td>{{$user->email}}</td>
+                                                            <td>+{{$user->hotel->number}}</td>
                                                         </tr>
                                                     @endforeach
                                                 @endif

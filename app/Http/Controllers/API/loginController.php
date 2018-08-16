@@ -35,74 +35,96 @@ class loginController extends Controller
 
                 if(count($check_login) > 0)
                 {
-                    if(Hash::check($request->password,$check_login->password))
+                    if($check_login->is_email_verify == 1)
                     {
-                        $check_login->fcm_id = $request->fcm_id;
-                        $check_login->last_login = date('d-m-y H:i:s');
-                        $check_login->save();
-                        
-                        if($check_login->role == 2)
+                        if($check_login->is_mobile_verify == 1)
                         {
-                            $customer = Customer::where(['user_id' => $check_login->user_id])->first();
-
-                            $data = [
-                                'user_id' => $check_login->user_id,
-                                'fname' => $check_login->fname,
-                                'lname' => $check_login->lname,
-                                'role' => $check_login->role,
-                                'number' => $customer->number,
-                                'building' => $customer->building,
-                                'street' => $customer->street,
-                                'landmark' => $customer->landmark,
-                                'city' => $customer->city,
-                                'state' => $customer->state,
-                                'country' => $customer->country,
-                                'zipcode' => $customer->zipcode
-                            ];
-
-                            $response = [
-                                'msg' => 'Login Successful',
-                                'status' => 1,
-                                'data' => $data
-                            ];
+                            if(Hash::check($request->password,$check_login->password))
+                            {
+                                $check_login->fcm_id = $request->fcm_id;
+                                $check_login->last_login = date('d-m-y H:i:s');
+                                $check_login->save();
+                                
+                                if($check_login->role == 2)
+                                {
+                                    $customer = Customer::where(['user_id' => $check_login->user_id])->first();
+        
+                                    $data = [
+                                        'user_id' => $check_login->user_id,
+                                        'fname' => $check_login->fname,
+                                        'lname' => $check_login->lname,
+                                        'role' => $check_login->role,
+                                        'number' => $customer->number,
+                                        'building' => $customer->building,
+                                        'street' => $customer->street,
+                                        'landmark' => $customer->landmark,
+                                        'city' => $customer->city,
+                                        'state' => $customer->state,
+                                        'country' => $customer->country,
+                                        'zipcode' => $customer->zipcode
+                                    ];
+        
+                                    $response = [
+                                        'msg' => 'Login Successful',
+                                        'status' => 1,
+                                        'data' => $data
+                                    ];
+                                }
+                                else
+                                {
+                                    $hotel = Hoteldata::where(['user_id' => $check_login->user_id])->first();
+        
+                                    $data = [
+                                        'hotel_user_id' => $check_login->user_id,
+                                        'hotel_id' => $hotel->hotel_data_id,
+                                        'fname' => $check_login->fname,
+                                        'lname' => $check_login->lname,
+                                        'hotel_name' => $hotel->hotel_name,
+                                        'hotel_stars' => $hotel->stars,
+                                        'hotel_ratings' => $hotel->ratings,
+                                        'hotel_image' => ($hotel->image != NULL) ? $hotel->image : "",
+                                        'hotel_base_price' => $hotel->price,
+                                        'role' => $check_login->role,
+                                        'number' => $hotel->number,
+                                        'building' => $hotel->building,
+                                        'street' => $hotel->street,
+                                        'landmark' => $hotel->landmark,
+                                        'city' => $hotel->city,
+                                        'state' => $hotel->state,
+                                        'country' => $hotel->country,
+                                        'zipcode' => $hotel->zipcode
+                                    ];
+        
+                                    $response = [
+                                        'msg' => 'Login Successful',
+                                        'status' => 1,
+                                        'data' => $data
+                                    ];
+                                }
+                            }
+                            else
+                            {
+                                $response = [
+                                    'msg' => 'Invalid Password.',
+                                    'status' => 0,
+                                ];
+                            }
                         }
                         else
                         {
-                            $hotel = Hoteldata::where(['user_id' => $check_login->user_id])->first();
-
-                            $data = [
-                                'hotel_user_id' => $check_login->user_id,
-                                'hotel_id' => $hotel->hotel_data_id,
-                                'fname' => $check_login->fname,
-                                'lname' => $check_login->lname,
-                                'hotel_name' => $hotel->hotel_name,
-                                'hotel_stars' => $hotel->stars,
-                                'hotel_ratings' => $hotel->ratings,
-                                'hotel_image' => ($hotel->image != NULL) ? $hotel->image : "",
-                                'hotel_base_price' => $hotel->price,
-                                'role' => $check_login->role,
-                                'number' => $hotel->number,
-                                'building' => $hotel->building,
-                                'street' => $hotel->street,
-                                'landmark' => $hotel->landmark,
-                                'city' => $hotel->city,
-                                'state' => $hotel->state,
-                                'country' => $hotel->country,
-                                'zipcode' => $hotel->zipcode
-                            ];
-
                             $response = [
-                                'msg' => 'Login Successful',
-                                'status' => 1,
-                                'data' => $data
+                                'msg' => 'Please verify your Mobile Number',
+                                'status' => 3,
+                                'user_id' => $check_login->user_id
                             ];
                         }
                     }
                     else
                     {
                         $response = [
-                            'msg' => 'Invalid Password.',
-                            'status' => 0,
+                            'msg' => 'Please verify your Email',
+                            'status' => 2,
+                            'user_id' => $check_login->user_id
                         ];
                     }
                 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Notifications;
 use App\User;
 use Validator;
+use Twilio\Rest\Client;
 
 class SMSController extends Controller
 {
@@ -86,7 +87,19 @@ class SMSController extends Controller
 
                 foreach($request->sms as $user)
                 {
-                    $count = User::find($user);
+                    $count = User::with('customer')->find($user);
+                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                    $token  = "580e851b75fad321439473c84ccd0145";
+                    $twilio = new Client($sid, $token);
+
+                    $otp = mt_rand(999,9999);
+
+                    $message = $twilio->messages->create('+'.$count->customer->number, // to
+                        [
+                            "body" => $request->message." ".$otp,
+                            "from" => "+16072149834"
+                        ]
+                     );
                 }
 
                 $response = [
@@ -150,7 +163,19 @@ class SMSController extends Controller
 
                 foreach($request->sms as $user)
                 {
-                    $count = User::find($user);
+                    $count = User::with('hotel')->find($user);
+                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                    $token  = "580e851b75fad321439473c84ccd0145";
+                    $twilio = new Client($sid, $token);
+
+                    $otp = mt_rand(999,9999);
+
+                    $message = $twilio->messages->create('+'.$count->hotel->number, // to
+                        [
+                            "body" => $request->message." ".$otp,
+                            "from" => "+16072149834"
+                        ]
+                     );
                 }
 
                 $response = [

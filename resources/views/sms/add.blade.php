@@ -58,7 +58,7 @@
                     </td>
                     <td>{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</td>
                     <td>{{$value->email or $value->user->email}}</td>
-                    <td>{{$value->customer->number}}</td>
+                    <td>+{{$value->customer->number}}</td>
                     <td>
                         @if($value->is_email_verify == 1 || @$value->user->is_email_verify == 1)
                             <label class="label label-success">Verified</label>
@@ -110,7 +110,7 @@
             }
         }
         var param = {
-            "message":message
+            "message":message,
             "sms":temp,
             "_token":'{{csrf_token()}}'
         }

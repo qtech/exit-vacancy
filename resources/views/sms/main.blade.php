@@ -46,7 +46,7 @@
                                         <table class="display table table-striped table-bordered recipients" cellspacing="0" width="100%">
                                             <thead>
                                                 <th>Name</th>
-                                                <th>Email</th>
+                                                <th>Number</th>
                                             </thead>
                                             <tbody>
                                                 @php
@@ -59,7 +59,7 @@
                                                         @endphp
                                                         <tr>
                                                             <td>{{$user->fname}} {{$user->lname}}</td>
-                                                            <td>{{$user->customer->number}}</td>
+                                                            <td>+{{$user->customer->number}}</td>
                                                         </tr>
                                                     @endforeach
                                                 @endif

@@ -53,7 +53,7 @@
                             </div>
                             <div class="tbl-row">
                                 <div class="tbl-cell tbl-cell-lbl">Number</div>
-                                <div class="tbl-cell" style="font-size:14px;">{{$hoteluser->hotel->number}}</div>
+                                <div class="tbl-cell" style="font-size:14px;">+{{$hoteluser->hotel->number}}</div>
                             </div>
                             <div class="tbl-row">
                                 <div class="tbl-cell tbl-cell-lbl">Ratings</div>
