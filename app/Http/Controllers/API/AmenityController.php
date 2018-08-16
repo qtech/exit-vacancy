@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Amenities;
+use App\Hoteldata;
 
 class AmenityController extends Controller
 {
@@ -38,6 +39,30 @@ class AmenityController extends Controller
                 'status' => 0
             ];
         }
+        return response()->json($response);
+    }
+
+    public function update_custom_amenities(Request $request)
+    {
+        try
+        {
+            $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_user_id])->first();
+            $amenity->amenities = $request->amenities;
+            $amenity->save();
+
+            $response = [
+                'msg' => 'Your custom amenities successfully added',
+                'status' => 1
+            ];
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
         return response()->json($response);
     }
 }

@@ -90,6 +90,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // COMMON HOTEL AMENITIES
     Route::get('/amenities', 'API\AmenityController@getAmenities');
 
+    // ADD CUSTOM HOTEL AMENITIES
+    Route::post('/custom_amenities', 'API\AmenityController@update_custom_amenities');
+    
     // QUERY REQUESTS
     Route::post('/query', 'API\QueryController@storequery');
 
