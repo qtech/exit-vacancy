@@ -36,8 +36,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // SEARCH HOTEL
     Route::post('/searchhotel', 'API\nearbyhotelController@search_hotels');
 
-    // RESET PASSWORD
+    // RESET AND CHANGE PASSWORD
     Route::post('/resetpass', 'API\resetpassController@resetpass');
+    Route::post('/changepass', 'API\resetpassController@changepass');
 
     // EMAIL VERIFICATION
     Route::post('/sendcode', 'API\verificationController@emailverify');

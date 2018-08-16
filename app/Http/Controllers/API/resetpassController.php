@@ -57,4 +57,49 @@ class resetpassController extends Controller
 
         return response()->json($response);
     }
+
+    public function changepass(Request $request)
+    {
+        try
+        {
+            $check_email = User::where(['email' => $request->email])->first();
+
+            if(count($check_email) > 0)
+            {
+                if(Hash::check($request->old_password,$check_email->password))
+                {
+                    $check_email->password = Hash::make($request->new_password);
+                    $check_email->save();
+
+                    $response = [
+                        'msg' => 'Password changed successfully',
+                        'status' => 1
+                    ];
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'Invalid Old Password',
+                        'status' => 0
+                    ];
+                }
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'Invalid Email address',
+                    'status' => 0
+                ];
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ]; 
+        }
+
+        return response()->json($response);
+    }
 }
