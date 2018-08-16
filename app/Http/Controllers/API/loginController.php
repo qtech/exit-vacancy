@@ -45,7 +45,7 @@ class loginController extends Controller
                                 $check_login->last_login = date('d-m-y H:i:s');
                                 $check_login->save();
                                 
-                                if($check_login->role == 2)
+                                if($check_login->role == 2 && $request->type == 2)
                                 {
                                     $customer = Customer::where(['user_id' => $check_login->user_id])->first();
         
@@ -70,7 +70,7 @@ class loginController extends Controller
                                         'data' => $data
                                     ];
                                 }
-                                else
+                                elseif($check_login->role == 3 && $request->type == 3)
                                 {
                                     $hotel = Hoteldata::where(['user_id' => $check_login->user_id])->first();
         
@@ -99,6 +99,13 @@ class loginController extends Controller
                                         'msg' => 'Login Successful',
                                         'status' => 1,
                                         'data' => $data
+                                    ];
+                                }
+                                else
+                                {
+                                    $response = [
+                                        'msg' => 'Un-Authorized Access',
+                                        'status' => 0
                                     ];
                                 }
                             }
