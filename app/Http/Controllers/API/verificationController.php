@@ -35,7 +35,8 @@ class verificationController extends Controller
                 $response = [
                     'msg' => "Verification Code is sent to your Email",
                     'status' => 1,
-                    'code' => $code
+                    'code' => $code,
+                    'user_id' => $check_email->user_id
                 ];
             }
             else
