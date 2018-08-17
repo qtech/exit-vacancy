@@ -53,7 +53,7 @@ class PaymentDetailsController extends Controller
             
 			if($user)
 			{
-				$details = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->get();
+				$details = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
 				$details->hotel_owner_id = $request->hotel_owner_id;
 				$details->account_name = $request->account_name;
 				$details->account_type = $request->account_type;
@@ -97,10 +97,6 @@ class PaymentDetailsController extends Controller
 				$details->bank_id = $bank->id;
 				$details->account_id = $account->id;
 				$details->save();
-
-				$status = User::where(['user_id' => $request->hotel_owner_id])->first();
-				$status->bank_status = 1;
-				$status->save();
 
 				$response = [
 					'msg' => "Your details have been updated successfully",
