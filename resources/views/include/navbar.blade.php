@@ -1,10 +1,10 @@
 <header class="site-header" style="background-color:#00867C;">
     <div class="container-fluid">
         <a href="{{route('dashboard')}}" class="site-logo">
-            <img class="hidden-md-down" style="height:60px;width:70px;position:relative;top:-10px;left:30px;" src="{{asset('logo.png')}}" alt="">
+            <img class="hidden-md-down" style="height:60px;width:60px;position:relative;top:-10px;left:30px;" src="{{asset('logo.png')}}" alt="">
         </a>
 
-        <button id="show-hide-sidebar-toggle" style="top:0px;left:50px;" class="show-hide-sidebar">
+        <button id="show-hide-sidebar-toggle" style="top:5px;left:60px;" class="show-hide-sidebar">
             <span>toggle menu</span>
         </button>
 

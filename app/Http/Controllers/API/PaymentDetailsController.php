@@ -15,24 +15,34 @@ class PaymentDetailsController extends Controller
 		try
 		{
 			$collect = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
-			
-			$data['hotel_owner_id'] = $collect['hotel_owner_id'];
-			$data['account_name'] = $collect['account_name'];
-			$data['account_type'] = $collect['account_type'];
-			$data['routing_number'] = $collect['routing_number'];
-			$data['account_number'] = $collect['account_number'];			    
-			$data['email'] = $collect['email'];
-			$data['day'] = $collect['day'];
-			$data['month'] = $collect['month'];
-			$data['year'] = $collect['year'];
-			$data['fname'] = $collect['fname'];
-			$data['lname'] = $collect['lname'];
-
-			$response = [
-				'msg' => "Available payment details",
-				'status' => 1,
-				'data' => $data
-			];
+            
+            if(count($collect) > 0)
+            {
+                $data['hotel_owner_id'] = $collect['hotel_owner_id'];
+                $data['account_name'] = $collect['account_name'];
+                $data['account_type'] = $collect['account_type'];
+                $data['routing_number'] = $collect['routing_number'];
+                $data['account_number'] = $collect['account_number'];			    
+                $data['email'] = $collect['email'];
+                $data['day'] = $collect['day'];
+                $data['month'] = $collect['month'];
+                $data['year'] = $collect['year'];
+                $data['fname'] = $collect['fname'];
+                $data['lname'] = $collect['lname'];
+    
+                $response = [
+                    'msg' => "Available payment details",
+                    'status' => 1,
+                    'data' => $data
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => "No data available",
+                    'status' => 0
+                ];
+            }
 		}
 		catch(\Exception $e)
 		{

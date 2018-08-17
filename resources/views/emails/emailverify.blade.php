@@ -130,7 +130,7 @@
                                         <tr>
                                             <td style="word-wrap:break-word;font-size:0px;padding:10px 30px 16px; background-color: #00867C" align="left">
                                                  <div style="margin: 0px auto; display: table;">
-                                                    <img style="width: 60px;" src="http://34.202.173.112/exitvacancy/logo.png" alt="">
+                                                    <img style="width: 70px; height: 70px; border: 1px solid white;" src="http://34.202.173.112/exitvacancy/logo.png" alt="">
                                                  </div>
                                              </td>
                                         </tr>
@@ -161,7 +161,8 @@
                                              </td>
                                          </tr>
                                          <tr>
-                                             <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 6px;" align="left">
+                                            <td style="word-wrap:break-word;font-size:0px; border: 2px solid #00867C; align="left">
+                                             <td style="word-wrap:break-word;font-size:0px; " align="left">
                                                  <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;"></div>
                                              </td>
                                          </tr>

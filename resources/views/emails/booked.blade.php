@@ -130,7 +130,7 @@
                                        <tr>
                                            <td style="word-wrap:break-word;font-size:0px;padding:10px 30px 16px; background-color: #00867C" align="left">
                                                 <div style="margin: 0px auto; display: table;">
-                                                   <img style="width: 70px; height: 70px; border: 1px solid #FFFFFF !important;" src="http://34.202.173.112/exitvacancy/logo.png" alt="">
+                                                   <img style="width: 70px; height: 70px; border: 1px solid white;" src="http://34.202.173.112/exitvacancy/logo.png" alt="">
                                                 </div>
                                             </td>
                                        </tr>
@@ -141,27 +141,16 @@
                                         </tr>
                                         <tr> 
                                             <td style="word-wrap:break-word;font-size:0px;padding:25px 30px 16px;" align="left">
-                                                <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">Hello <strong>{{$data['fname']}} {{$data['lname']}}</strong>,<br>Below given is the new password for your account.</div>
+                                                <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">Hello <strong>{{$data['fname']}} {{$data['lname']}}</strong>,</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 6px;" align="left">
-                                                <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">Login with this password in the application and after that you can set the password as per your wish.</div>
+                                            <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 25px;" align="left">
+                                                <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">Congrats! Your request for booking <strong>{{$data['roomtype']}}</strong> room in <strong>{{$data['hotel_name']}}</strong> is accepted</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="word-wrap:break-word;font-size:0px;padding:8px 16px 10px;padding-bottom:16px;padding-right:30px;padding-left:30px;" align="left">
-                                                <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="left" border="0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style="border:none;border-radius:25px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#00857B"><a href="#" style="text-decoration:none;background:#00857B;color:white;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:16px;font-weight:500;line-height:120%;text-transform:none;margin:0px;" target="_blank">{{$data['password']}}</a></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="word-wrap:break-word;font-size:0px; border: 2px solid #00867C; align="left">
+                                           <td style="word-wrap:break-word;font-size:0px; border: 2px solid #00867C; align="left">
                                             <td style="word-wrap:break-word;font-size:0px; " align="left">
                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;"></div>
                                             </td>

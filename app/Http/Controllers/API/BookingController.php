@@ -10,6 +10,9 @@ use App\Bookings;
 use App\Hoteldata;
 use App\Notifications;
 use DB;
+use Mail;
+use App\Mail\booked;
+use App\Mail\arrived;
 
 class BookingController extends Controller
 {
@@ -53,11 +56,11 @@ class BookingController extends Controller
                     $accept->save();
 
                     $count_user_booking = User::where(['user_id' => $request->user_id])->first();
-                    $count_user_booking->bookings = $count_booking->bookings + 1;
+                    $count_user_booking->bookings = $count_user_booking->bookings + 1;
                     $count_user_booking->save();
 
-                    $count_hotel_bookings = User::where(['user_id' => $request->hotel_id])->first();
-                    $count_hotel_booking->bookings = $count_booking->bookings + 1;
+                    $count_hotel_booking = User::where(['user_id' => $request->hotel_id])->first();
+                    $count_hotel_booking->bookings = $count_hotel_booking->bookings + 1;
                     $count_hotel_booking->save();
 
                     $hotel = Hoteldata::where(['user_id' => $request->hotel_id])->first();
@@ -82,11 +85,20 @@ class BookingController extends Controller
                     $collect = [
                         'hotel_data_id' => $hotel->hotel_data_id,
                         'hotel_name' => $hotel->hotel_name,
-                        'roomtype' => $request->roomtype
+                        'roomtype' => $request->roomtype == 1 ? "King Size" : "Two-Queens"
                     ];
 
                     $user = User::where(['user_id' => $request->user_id])->first();
                     $result = Notifications::hotelacceptNotification($user->fcm_id, $collect);
+
+                    $data = [
+                        'fname' => $user->fname,
+                        'lname' => $user->lname,
+                        'hotel_name' => $hotel->hotel_name,
+                        'roomtype' => $request->roomtype == 1 ? "King Size" : "Two-Queens"
+                    ];
+
+                    \Mail::to($user->email)->send(new booked($data));
 
                     $decline = Bookings::where(['user_id' => $request->user_id, 'status' => 0, 'ref_id' => $request->reference_id])->get();
                     
@@ -249,6 +261,17 @@ class BookingController extends Controller
                     $visited->is_visited = 1;
                     $visited->visited_time = date('d-m-y H:i:s');
                     $visited->save();
+
+                    $user = User::where(['user_id' => $request->user_id])->first();
+                    $hotel = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
+
+                    $data = [
+                        'fname' => $user->fname,
+                        'lname' => $user->lname,
+                        'hotel_name' => $hotel->hotel_name
+                    ];
+
+                    \Mail::to($user->email)->send(new arrived($data));
 
                     $response = [
                         'msg' => 'Success!',

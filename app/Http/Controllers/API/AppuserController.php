@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Hoteldata;
 use App\Bookings;
 use DB;
+use Mail;
+use App\Mail\registration;
 
 class AppuserController extends Controller
 {
@@ -64,6 +66,12 @@ class AppuserController extends Controller
                     $customer['user_id'] = $user->user_id;
                     
                     $customer = Customer::create($customer);
+
+                    $data = [
+                        'fname' => $user->fname,
+                        'lname' => $user->lname,
+                    ];
+                    \Mail::to($user->email)->send(new registration($data));
 
                     $response = [
                         'msg' => "User registration successful",
@@ -144,6 +152,12 @@ class AppuserController extends Controller
                     $hotel->latitude = $request->latitude;
                     $hotel->longitude = $request->longitude;
                     $hotel->save();
+                    
+                    $data = [
+                        'fname' => $user->fname,
+                        'lname' => $user->lname,
+                    ];
+                    \Mail::to($user->email)->send(new registration($data));
 
                     $response = [
                         'msg' => 'Hotel registration Successful',
