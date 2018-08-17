@@ -145,7 +145,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 6px;" align="left">
+                                            <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 25px;" align="left">
                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">{{$data['message']}}</div>
                                             </td>
                                         </tr>
