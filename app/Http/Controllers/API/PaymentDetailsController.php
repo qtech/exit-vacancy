@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Payment;
+use App\Commission;
 
 class PaymentDetailsController extends Controller
 {
@@ -48,11 +49,11 @@ class PaymentDetailsController extends Controller
 		try
 		{
 			\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
-			$get = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
-
-			if(count($get) > 0)
+			$user = User::where(['user_id' => $request->hotel_owner_id, 'bank_status' => 1])->first();
+            
+			if($user)
 			{
-				$details = Payment::find($get->payment_id);
+				$details = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->get();
 				$details->hotel_owner_id = $request->hotel_owner_id;
 				$details->account_name = $request->account_name;
 				$details->account_type = $request->account_type;
@@ -97,7 +98,7 @@ class PaymentDetailsController extends Controller
 				$details->account_id = $account->id;
 				$details->save();
 
-				$status = User::where(['id' => $request->hotel_owner_id])->first();
+				$status = User::where(['user_id' => $request->hotel_owner_id])->first();
 				$status->bank_status = 1;
 				$status->save();
 
@@ -153,7 +154,7 @@ class PaymentDetailsController extends Controller
 				$details->account_id = $account->id;
 				$details->save();
 
-				$status = User::where(['id' => $request->hotel_owner_id])->first();
+				$status = User::where(['user_id' => $request->hotel_owner_id])->first();
 				$status->bank_status = 1;
 				$status->save();
 
@@ -275,11 +276,11 @@ class PaymentDetailsController extends Controller
     	{	
     		\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
             $check_user = User::find($request->user_id);
-            $admin = User::find(1);
+            $commission = Commission::find(1);
     		
 			$account = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
             $amount = $request->amount * 100;
-            $hotel_percentage = (100 - $admin->lname);
+            $hotel_percentage = (100 - $commission->commission_percentage);
 			$hotel_payment = ($hotel_percentage / 100) * $amount;
 
 			$charge = \Stripe\Charge::create([
@@ -293,9 +294,8 @@ class PaymentDetailsController extends Controller
 			]);	
 
 			$response = [
-				'msg' => "Payment successfully done",
-				'status' => 1,
-				'data' => $charge
+				'msg' => "Payment successful",
+				'status' => 1
 			];
     	}
     	catch(\Exception $e)

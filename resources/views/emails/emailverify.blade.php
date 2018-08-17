@@ -1,200 +1,239 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Welcome to {{ config('app.name') }}</title>
-    </head>
-    <body paddingwidth="0" paddingheight="0" style="padding-top: 0; padding-bottom: 0; padding-top: 0; padding-bottom: 0; background-repeat: repeat; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased;" offset="0" toppadding="0" leftpadding="0" style="margin-left:5px; margin-right:5px; margin-top:0px; margin-bottom:0px;">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableContent bgBody" align="center" style='font-family:helvetica, sans-serif;'>
-<!--  =========================== The header ===========================  -->
-<tbody>
-<tr>
-<td height='25' bgcolor='#43474A' colspan='3'></td>
-</tr>
-<tr>
-<td>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td valign="top" class="spechide">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td height='130' bgcolor='#43474A'>&nbsp;</td>
-</tr>
-<tr>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td valign="top" width="600">
-<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class="MainContainer" bgcolor="#ffffff">
-<tbody>
-<!--  =========================== The body ===========================  -->
-<tr>
-<td class='movableContentContainer'>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-<tr>
-<td bgcolor='#43474A' valign='top'>
-	<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-    <tr>
-        <td align='left' valign='middle'>
-            <div class="contentEditableContainer contentImageEditable">
-                <div class="contentEditable">
-                    <!-- <img src="{{asset('logo.png')}}" alt='Company logo' data-default="placeholder" width="225px"> -->
-                </div>
-            </div>
-        </td>
-    </tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-<tr>
-<td align='left' valign='middle'>
-<div class="contentEditableContainer contentImageEditable">
-<div class="contentEditable">
+ <!doctype html>
+ <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
-</div>
-</div>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</div>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-<tr>
-<td height='25' bgcolor='#43474A'></td>
-</tr>
-<tr>
-<td height='5' bgcolor='#FFFFFF'></td>
-</tr>
-</table>
-</div>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-<tr>
-<td>
-<div class='contentEditableContainer contentImageEditable'>
-<div class="contentEditable">
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td height='10' bgcolor='#000000'></td>
-</tr>
-<tr>
-<td bgcolor='#000000' style='padding:8px 0;'>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td width="20" class="spechide">&nbsp;</td>
-<td>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td align='left' valign='top' width='370' class="specbundle3">
-<div class='contentEditableContainer contentTextEditable'>
-<div class="contentEditable" style='font-size:21px;line-height:19px;'>
-<p><span style="color:#ffffff;" class="font">Welcome to {{ config('app.name') }}, {{$data['fname']}} {{$data['lname']}}</p>
-</div>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td width="20" class="spechide">&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td height='10' bgcolor='#000000'></td>
-</tr>
-</table>
-</div>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;background-color: #f2f2f2;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-        <tr>
-            <td width='291' class="specbundle2" valign='top'>
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-                    <tr>
-                        <td height='15' colspan='3'></td>
-                    </tr>
-                    <tr>
-                        <td width='20'></td>
-                        <td>
-                            <table border="0" cellspacing="0" cellpadding="0" align="center" valign='top'>
-                                <tr>
-                                    <td>
-                                    	<br>
-                                        <div class='contentEditableContainer contentTextEditable'>
-                                            <div class='contentEditable' style='color:#cccccc;font-size:21px;font-weight:normal'>
-                                                <h3>Email verification code for ExitVacancy app : </h3><h2 class='big'>{{$data['code']}}</h2>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td height='16'></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class='contentEditableContainer contentTextEditable'>
-                                            <div class='contentEditable' style='color:#cccccc;font-size:13px;line-height:19px;'>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td height='16'></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width='20'></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</div>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" valign='top' class='bgBody' >
-        <tr></tr>
-        <tr>
-            <td height='54' style='border-bottom:1px solid #DAE0E4; font-size: 10px;background-color: #43474A; color: white; text-align: center; padding: 0px 0px 0px 10px'>Copyright 2018 ExitVacancy. All rights reserved. </td>
-        </tr>
-    </table>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td valign="top" class="spechide">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height='130' bgcolor='#43474A'>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
-    </tbody>
-</table>
-</td>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-
+ <head>
+     <title></title>
+     <!--[if !mso]><!-- -->
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <!--<![endif]-->
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <style type="text/css">
+         #outlook a {
+             padding: 0;
+         }
+         
+         .ReadMsgBody {
+             width: 100%;
+         }
+         
+         .ExternalClass {
+             width: 100%;
+         }
+         
+         .ExternalClass * {
+             line-height: 100%;
+         }
+         
+         body {
+             margin: 0;
+             padding: 0;
+             -webkit-text-size-adjust: 100%;
+             -ms-text-size-adjust: 100%;
+         }
+         
+         table,
+         td {
+             border-collapse: collapse;
+             mso-table-lspace: 0pt;
+             mso-table-rspace: 0pt;
+         }
+         
+         img {
+             border: 0;
+             height: auto;
+             line-height: 100%;
+             outline: none;
+             text-decoration: none;
+             -ms-interpolation-mode: bicubic;
+         }
+         
+         p {
+             display: block;
+             margin: 13px 0;
+         }
+     </style>
+     <!--[if !mso]><!-->
+     <style type="text/css">
+         @media only screen and (max-width:480px) {
+             @-ms-viewport {
+                 width: 320px;
+             }
+             @viewport {
+                 width: 320px;
+             }
+         }
+     </style>
+     <!--<![endif]-->
+     <!--[if mso]>
+ <xml>
+   <o:OfficeDocumentSettings>
+     <o:AllowPNG/>
+     <o:PixelsPerInch>96</o:PixelsPerInch>
+   </o:OfficeDocumentSettings>
+ </xml>
+ <![endif]-->
+     <!--[if lte mso 11]>
+ <style type="text/css">
+   .outlook-group-fix {
+     width:100% !important;
+   }
+ </style>
+ <![endif]-->
+     <style type="text/css">
+         @media only screen and (min-width:480px) {
+             .mj-column-per-100 {
+                 width: 100%!important;
+             }
+         }
+     </style>
+ </head>
+ 
+ <body style="background: #eceff4;">
+ 
+     <div class="mj-container" style="background-color: transparent !important;">
+         <!--[if mso | IE]>
+       <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="700" align="center" style="width:700px;">
+         <tr>
+           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+       <![endif]-->
+         <div style="margin:0px auto;max-width:700px;">
+             <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                 <tbody>
+                     <tr>
+                         <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;padding-bottom:24px;padding-top:0px;"></td>
+                     </tr>
+                 </tbody>
+             </table>
+         </div>
+         <!--[if mso | IE]>
+       </td></tr></table>
+       <![endif]-->
+         <!--[if mso | IE]>
+       <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="700" align="center" style="width:700px;">
+         <tr>
+           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+       <![endif]-->
+         <div style="margin:0px auto;max-width:700px;background:#d8e2e7;">
+             <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;background:#d8e2e7;" align="center" border="0">
+                 <tbody>
+                     <tr>
+                         <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:1px;">
+                             <!--[if mso | IE]>
+       <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+         <tr>
+           <td style="vertical-align:top;width:700px;">
+       <![endif]-->
+                             <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                 <table role="presentation" cellpadding="0" cellspacing="0" style="background:white;" width="100%" border="0">
+                                     <tbody>
+                                        <tr>
+                                            <td style="word-wrap:break-word;font-size:0px;padding:10px 30px 16px; background-color: #00867C" align="left">
+                                                 <div style="margin: 0px auto; display: table;">
+                                                    <img style="width: 60px;" src="http://34.202.173.112/exitvacancy/logo.png" alt="">
+                                                 </div>
+                                             </td>
+                                        </tr>
+                                        <tr> 
+                                             <td style="word-wrap:break-word;font-size:0px;padding:30px 30px 16px;" align="center">
+                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:18px;line-height:22px;text-align:center;">Welcome to {{ config('app.name') }}</div>
+                                             </td>
+                                         </tr>
+                                         <tr> 
+                                             <td style="word-wrap:break-word;font-size:0px;padding:25px 30px 16px;" align="left">
+                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">Hello <strong>{{$data['fname']}} {{$data['lname']}}</strong>,<br> Please confirm your email address by using this verification code in your ExitVacancy App.</div>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 6px;" align="left">
+                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">We may need to send you crucial information about our service and it is important that we have an accurate email address.</div>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td style="word-wrap:break-word;font-size:0px;padding:8px 16px 10px;padding-bottom:16px;padding-right:30px;padding-left:30px;" align="left">
+                                                 <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="left" border="0">
+                                                     <tbody>
+                                                         <tr>
+                                                             <td style="border:none;border-radius:25px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#00857B"><a href="#" style="text-decoration:none;background:#00857B;color:white;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:16px;font-weight:500;line-height:120%;text-transform:none;margin:0px;" target="_blank">{{$data['code']}}</a></td>
+                                                         </tr>
+                                                     </tbody>
+                                                 </table>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 6px;" align="left">
+                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;"></div>
+                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                             <!--[if mso | IE]>
+       </td></tr></table>
+       <![endif]-->
+                         </td>
+                     </tr>
+                 </tbody>
+             </table>
+         </div>
+         <!--[if mso | IE]>
+       </td></tr></table>
+       <![endif]-->
+         <!--[if mso | IE]>
+       <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="700" align="center" style="width:700px;">
+         <tr>
+           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+       <![endif]-->
+         <div style="margin:0px auto;max-width:700px;">
+             <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                 <tbody>
+                     <tr>
+                         <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px 0px;">
+                             <!--[if mso | IE]>
+       <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+         <tr>
+           <td style="vertical-align:top;width:700px;">
+       <![endif]-->
+                             <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                     <tbody>
+                                         <tr>
+                                             <td style="word-wrap:break-word;font-size:0px;padding:0px;" align="center">
+                                                 <div style="cursor:auto;color:#6b7a85;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:center;">Copyright 2018 ExitVacancy. All rights reserved.</div>
+                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                             <!--[if mso | IE]>
+       </td></tr></table>
+       <![endif]-->
+                         </td>
+                     </tr>
+                 </tbody>
+             </table>
+         </div>
+         <!--[if mso | IE]>
+       </td></tr></table>
+       <![endif]-->
+         <!--[if mso | IE]>
+       <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="700" align="center" style="width:700px;">
+         <tr>
+           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+       <![endif]-->
+         <div style="margin:0px auto;max-width:700px;">
+             <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                 <tbody>
+                     <tr>
+                         <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;padding-bottom:24px;padding-top:0px;"></td>
+                     </tr>
+                 </tbody>
+             </table>
+         </div>
+         <!--[if mso | IE]>
+       </td></tr></table>
+       <![endif]-->
+     </div>
+ </body>
+ 
+ </html>
