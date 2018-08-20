@@ -130,7 +130,7 @@
                                        <tr>
                                            <td style="word-wrap:break-word;font-size:0px;padding:10px 30px 16px; background-color: #00867C" align="left">
                                                 <div style="margin: 0px auto; display: table;">
-                                                   <img style="width: 70px; height: 70px;" src="http://167.99.13.90/exitvacancy/logo.png" alt="">
+                                                   <img style="width: 70px; height: 70px;" src="http://167.99.13.90/logo.png" alt="">
                                                 </div>
                                             </td>
                                        </tr>
