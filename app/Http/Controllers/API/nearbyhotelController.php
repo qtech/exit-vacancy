@@ -193,49 +193,104 @@ class nearbyhotelController extends Controller
     
                             foreach($nearby as $value)
                             {
-                                $lat1 = $request->latitude;
-                                $long1 = $request->longitude;
-
-                                $lat2 = $value->latitude;
-                                $long2 = $value->longitude;
-
-                                $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
-
-                                $temp = [
-                                    'hotel_id' => $value->hotel_data_id,
-                                    'user_id' => $value->user_id, 
-                                    'hotel_name' => $value->hotel_name,
-                                    'image' => ($value->image != NULL) ? $value->image : "",
-                                    'price' => $value->price,
-                                    'ratings' => $value->ratings,
-                                    'country' => $value->country,
-                                    'stars' => $value->stars,
-                                    'city' => $value->city,
-                                    'address' => $value->address,
-                                    'state' => $value->state,
-                                    'url' => $value->url,
-                                    'latitude' => $value->latitude,
-                                    'longitude' => $value->longitude,
-                                    'distance' => $value->distance,
-                                    'time' => $time
-                                ];
-    
-                                $temp['rooms'] = [
-                                    [
-                                        'room_type' => "King Room",
-                                        'room_available' => $value->king_room,
-                                        'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
-                                        'room_price' => $value->king_room_price,
-                                    ],
-                                    [
-                                        'room_type' => "2 Queen Room",
-                                        'room_available' => $value->queen_room,
-                                        'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
-                                        'room_price' => $value->queen_room_price,
-                                    ]
-                                ];
-    
-                                array_push($data,$temp);
+                                if($request->roomtype == "king_room > 0")
+                                {
+                                    if($value->king_room > 0)
+                                    {
+                                        $lat1 = $request->latitude;
+                                        $long1 = $request->longitude;
+        
+                                        $lat2 = $value->latitude;
+                                        $long2 = $value->longitude;
+        
+                                        $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
+        
+                                        $temp = [
+                                            'hotel_id' => $value->hotel_data_id,
+                                            'user_id' => $value->user_id, 
+                                            'hotel_name' => $value->hotel_name,
+                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'price' => $value->price,
+                                            'ratings' => $value->ratings,
+                                            'country' => $value->country,
+                                            'stars' => $value->stars,
+                                            'city' => $value->city,
+                                            'address' => $value->address,
+                                            'state' => $value->state,
+                                            'url' => $value->url,
+                                            'latitude' => $value->latitude,
+                                            'longitude' => $value->longitude,
+                                            'distance' => $value->distance,
+                                            'time' => $time
+                                        ];
+            
+                                        $temp['rooms'] = [
+                                            [
+                                                'room_type' => "King Room",
+                                                'room_available' => $value->king_room,
+                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_price' => $value->king_room_price,
+                                            ],
+                                            [
+                                                'room_type' => "2 Queen Room",
+                                                'room_available' => $value->queen_room,
+                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_price' => $value->queen_room_price,
+                                            ]
+                                        ];
+            
+                                        array_push($data,$temp);
+                                    }
+                                }
+                                else
+                                {
+                                    if($value->queen_room > 0)
+                                    {
+                                        $lat1 = $request->latitude;
+                                        $long1 = $request->longitude;
+        
+                                        $lat2 = $value->latitude;
+                                        $long2 = $value->longitude;
+        
+                                        $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
+        
+                                        $temp = [
+                                            'hotel_id' => $value->hotel_data_id,
+                                            'user_id' => $value->user_id, 
+                                            'hotel_name' => $value->hotel_name,
+                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'price' => $value->price,
+                                            'ratings' => $value->ratings,
+                                            'country' => $value->country,
+                                            'stars' => $value->stars,
+                                            'city' => $value->city,
+                                            'address' => $value->address,
+                                            'state' => $value->state,
+                                            'url' => $value->url,
+                                            'latitude' => $value->latitude,
+                                            'longitude' => $value->longitude,
+                                            'distance' => $value->distance,
+                                            'time' => $time
+                                        ];
+            
+                                        $temp['rooms'] = [
+                                            [
+                                                'room_type' => "King Room",
+                                                'room_available' => $value->king_room,
+                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_price' => $value->king_room_price,
+                                            ],
+                                            [
+                                                'room_type' => "2 Queen Room",
+                                                'room_available' => $value->queen_room,
+                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_price' => $value->queen_room_price,
+                                            ]
+                                        ];
+            
+                                        array_push($data,$temp);
+                                    }
+                                }
                             }
     
                             $user = User::where(['user_id' => $request->user_id])->first();
@@ -339,64 +394,135 @@ class nearbyhotelController extends Controller
                                     $direction = "North-West";
                                 }
                                 
-                                $lat1 = $request->latitude;
-                                $long1 = $request->longitude;
-
-                                $lat2 = $value->latitude;
-                                $long2 = $value->longitude;
-
-                                $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
-
-                                $data = [
-                                    'hotel_id' => $value->hotel_data_id,
-                                    'user_id' => $value->user_id,
-                                    'hotel_name' => $value->hotel_name,
-                                    'image' => ($value->image != NULL) ? $value->image : "",
-                                    'price' => $value->price,
-                                    'ratings' => $value->ratings,
-                                    'country' => $value->country,
-                                    'stars' => $value->stars,
-                                    'city' => $value->city,
-                                    'address' => $value->address,
-                                    'state' => $value->state,
-                                    'url' => $value->url,
-                                    'latitude' => $value->latitude,
-                                    'longitude' => $value->longitude,
-                                    'distance' => $value->distance,
-                                    'direction' => $direction,
-                                    'time' => $time
-                                ];
-    
-                                $data['rooms'] = [
-                                    [
-                                        'room_type' => "King",
-                                        'room_available' => $value->king_room,
-                                        'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
-                                        'room_price' => $value->king_room_price,
-                                    ],
-                                    [
-                                        'room_type' => "2 Queen",
-                                        'room_available' => $value->queen_room,
-                                        'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
-                                        'room_price' => $value->queen_room_price,
-                                    ]
-                                ];
-    
-                                if($data['direction'] == "North" || $data['direction'] == "North-East" || $data['direction'] == "North-West")
+                                if($request->roomtype == "king_room > 0")
                                 {
-                                    array_push($north,$data);
+                                    if($value->king_room > 0)
+                                    {
+                                        $lat1 = $request->latitude;
+                                        $long1 = $request->longitude;
+        
+                                        $lat2 = $value->latitude;
+                                        $long2 = $value->longitude;
+        
+                                        $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
+        
+                                        $data = [
+                                            'hotel_id' => $value->hotel_data_id,
+                                            'user_id' => $value->user_id,
+                                            'hotel_name' => $value->hotel_name,
+                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'price' => $value->price,
+                                            'ratings' => $value->ratings,
+                                            'country' => $value->country,
+                                            'stars' => $value->stars,
+                                            'city' => $value->city,
+                                            'address' => $value->address,
+                                            'state' => $value->state,
+                                            'url' => $value->url,
+                                            'latitude' => $value->latitude,
+                                            'longitude' => $value->longitude,
+                                            'distance' => $value->distance,
+                                            'direction' => $direction,
+                                            'time' => $time
+                                        ];
+            
+                                        $data['rooms'] = [
+                                            [
+                                                'room_type' => "King",
+                                                'room_available' => $value->king_room,
+                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_price' => $value->king_room_price,
+                                            ],
+                                            [
+                                                'room_type' => "2 Queen",
+                                                'room_available' => $value->queen_room,
+                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_price' => $value->queen_room_price,
+                                            ]
+                                        ];
+            
+                                        if($data['direction'] == "North" || $data['direction'] == "North-East" || $data['direction'] == "North-West")
+                                        {
+                                            array_push($north,$data);
+                                        }
+                                        if($data['direction'] == "East" || $data['direction'] == "North-East" || $data['direction'] == "South-East")
+                                        {
+                                            array_push($east,$data);
+                                        }
+                                        if($data['direction'] == "South" || $data['direction'] == "South-East" || $data['direction'] == "South-West")
+                                        {
+                                            array_push($south,$data);
+                                        }
+                                        if($data['direction'] == "West" || $data['direction'] == "South-West" || $data['direction'] == "North-West")
+                                        {
+                                            array_push($west,$data);
+                                        }
+                                    }
                                 }
-                                if($data['direction'] == "East" || $data['direction'] == "North-East" || $data['direction'] == "South-East")
+                                else
                                 {
-                                    array_push($east,$data);
-                                }
-                                if($data['direction'] == "South" || $data['direction'] == "South-East" || $data['direction'] == "South-West")
-                                {
-                                    array_push($south,$data);
-                                }
-                                if($data['direction'] == "West" || $data['direction'] == "South-West" || $data['direction'] == "North-West")
-                                {
-                                    array_push($west,$data);
+                                    if($value->queen_room > 0)
+                                    {
+                                        $lat1 = $request->latitude;
+                                        $long1 = $request->longitude;
+        
+                                        $lat2 = $value->latitude;
+                                        $long2 = $value->longitude;
+        
+                                        $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
+        
+                                        $data = [
+                                            'hotel_id' => $value->hotel_data_id,
+                                            'user_id' => $value->user_id,
+                                            'hotel_name' => $value->hotel_name,
+                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'price' => $value->price,
+                                            'ratings' => $value->ratings,
+                                            'country' => $value->country,
+                                            'stars' => $value->stars,
+                                            'city' => $value->city,
+                                            'address' => $value->address,
+                                            'state' => $value->state,
+                                            'url' => $value->url,
+                                            'latitude' => $value->latitude,
+                                            'longitude' => $value->longitude,
+                                            'distance' => $value->distance,
+                                            'direction' => $direction,
+                                            'time' => $time
+                                        ];
+            
+                                        $data['rooms'] = [
+                                            [
+                                                'room_type' => "King",
+                                                'room_available' => $value->king_room,
+                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_price' => $value->king_room_price,
+                                            ],
+                                            [
+                                                'room_type' => "2 Queen",
+                                                'room_available' => $value->queen_room,
+                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_price' => $value->queen_room_price,
+                                            ]
+                                        ];
+            
+                                        if($data['direction'] == "North" || $data['direction'] == "North-East" || $data['direction'] == "North-West")
+                                        {
+                                            array_push($north,$data);
+                                        }
+                                        if($data['direction'] == "East" || $data['direction'] == "North-East" || $data['direction'] == "South-East")
+                                        {
+                                            array_push($east,$data);
+                                        }
+                                        if($data['direction'] == "South" || $data['direction'] == "South-East" || $data['direction'] == "South-West")
+                                        {
+                                            array_push($south,$data);
+                                        }
+                                        if($data['direction'] == "West" || $data['direction'] == "South-West" || $data['direction'] == "North-West")
+                                        {
+                                            array_push($west,$data);
+                                        }
+                                    }
                                 }
                             }
                             

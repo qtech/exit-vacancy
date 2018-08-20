@@ -50,6 +50,43 @@ class BookingController extends Controller
                 }
                 else
                 {
+                    $hotel = Hoteldata::where(['user_id' => $request->hotel_id])->first();
+
+                    if($request->roomtype == 1)
+                    {
+                        if($hotel->king_room > 0)
+                        {
+                            $hotel->king_room = $hotel->king_room - 1;
+                            $hotel->save();
+                        }
+                        else
+                        {
+                            $response = [
+                                'msg' => 'Sorry, you cant accept this request as there are no rooms available',
+                                'status' => 1
+                            ];
+
+                            return response()->json($response);
+                        }
+                    }
+                    else
+                    {
+                        if($hotel->queen_room > 0)
+                        {
+                            $hotel->queen_room = $hotel->queen_room - 1;
+                            $hotel->save();
+                        }
+                        else
+                        {
+                            $response = [
+                                'msg' => 'Sorry, you cant accept this request as there are no rooms available',
+                                'status' => 1
+                            ];
+
+                            return response()->json($response);
+                        }
+                    }
+
                     $accept = Bookings::where(['user_id' => $request->user_id,'hotel_owner_id' => $request->hotel_id,'status' => 0, 'ref_id' => $request->reference_id])->first();
                     $accept->status = 1;
                     $accept->status_time = date('d-m-y H:i:s');
@@ -62,25 +99,6 @@ class BookingController extends Controller
                     $count_hotel_booking = User::where(['user_id' => $request->hotel_id])->first();
                     $count_hotel_booking->bookings = $count_hotel_booking->bookings + 1;
                     $count_hotel_booking->save();
-
-                    $hotel = Hoteldata::where(['user_id' => $request->hotel_id])->first();
-
-                    if($request->roomtype == 1)
-                    {
-                        if(count($hotel->king_room) > 0)
-                        {
-                            $hotel->king_room = $hotel->king_room - 1;
-                            $hotel->save();
-                        }
-                    }
-                    else
-                    {
-                        if(count($hotel->queen_room) > 0)
-                        {
-                            $hotel->queen_room = $hotel->queen_room - 1;
-                            $hotel->save();
-                        }
-                    }
 
                     $collect = [
                         'hotel_data_id' => $hotel->hotel_data_id,
