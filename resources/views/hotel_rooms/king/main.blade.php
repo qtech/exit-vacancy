@@ -6,7 +6,7 @@
     @php    
         $split = explode(",", $room->king_room_amenity);
     @endphp
-    <form id="myform" method="POST">
+    <form id="myform" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <div class="col-md-12">
                 <label class="form-label semibold" for="title">Select Amenities</label>
@@ -59,11 +59,25 @@
                 </fieldset>
             </div>
         </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-7" style="padding-left:30px;">
+                    <fieldset class="form-group">
+                        <label class="form-label semibold">Image</label>
+                        <input type="file" class="form-control" name="image" id="image">
+                        <small class="text-muted">Add Image of your room</small>
+                    </fieldset>
+                </div>
+                <div class="col-lg-5">
+                    <img style="position:relative; left:100px; box-shadow:0px 0px 5px 3px #00857b" height="100" width="200" src="{{asset('/storage/uploads/'.$room->king_room_image)}}">
+                </div>
+            </div>
+        </div>
         <br>
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
-                    <a href="{{route('s.addimages')}}" class="btn btn-custom pull-left">Add Images</a>
+                    <a href="#" class="btn btn-custom pull-left">View Images</a>
                     <input onclick="updateroom(); event.preventDefault();" type="submit" class="btn btn-custom pull-right" value="Update">
                 </fieldset>
             </div>
@@ -76,6 +90,7 @@
     function updateroom(){
         var form = document.getElementById("myform");
         var formData = new FormData(form);
+        formData.append('image',image.files[0]);
         formData.append('_token','{{csrf_token()}}');
 
         var ajx = new XMLHttpRequest();

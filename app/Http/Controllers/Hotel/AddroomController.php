@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Hoteldata;
 use App\User;
+use App\ImageUpload;
 
 class AddroomController extends Controller
 {
@@ -42,7 +43,8 @@ class AddroomController extends Controller
             $validator = Validator::make($request->all(),[
                 'amenities' => 'required',
                 'price' => 'required',
-                'rooms' => 'required'
+                'rooms' => 'required',
+                'image' => 'nullable'
             ]);
 
             if($validator->fails())
@@ -58,6 +60,10 @@ class AddroomController extends Controller
 
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
                 $room->king_room_amenity = $amenities;
+                if($request->hasFile('image'))
+                {
+                    $room->king_room_image = ImageUpload::imageupload($request, 'image');
+                }
                 $room->king_room_price = $request->price;
                 $room->king_room = $request->rooms;
                 $room->save();
@@ -99,7 +105,8 @@ class AddroomController extends Controller
             $validator = Validator::make($request->all(),[
                 'amenities' => 'required',
                 'price' => 'required',
-                'rooms' => 'required'
+                'rooms' => 'required',
+                'image' => 'nullable'
             ]);
 
             if($validator->fails())
@@ -116,6 +123,10 @@ class AddroomController extends Controller
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
                 $room->queen_room_amenity = $amenities;
                 $room->queen_room_price = $request->price;
+                if($request->hasFile('image'))
+                {
+                    $room->queen_room_image = ImageUpload::imageupload($request, 'image');
+                }
                 $room->queen_room = $request->rooms;
                 $room->save();
 

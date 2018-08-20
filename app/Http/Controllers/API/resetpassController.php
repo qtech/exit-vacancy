@@ -62,7 +62,7 @@ class resetpassController extends Controller
     {
         try
         {
-            $check_email = User::where(['email' => $request->email])->first();
+            $check_email = User::where(['user_id' => $request->user_id])->first();
 
             if(count($check_email) > 0)
             {

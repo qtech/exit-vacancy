@@ -59,6 +59,20 @@
                 </fieldset>
             </div>
         </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-7" style="padding-left:30px;">
+                    <fieldset class="form-group">
+                        <label class="form-label semibold">Image</label>
+                        <input type="file" class="form-control" name="image" id="image">
+                        <small class="text-muted">Add Image of your room</small>
+                    </fieldset>
+                </div>
+                <div class="col-lg-5">
+                    <img style="position:relative; left:100px; box-shadow:0px 0px 5px 3px #00857b" height="100" width="200" src="{{asset('/storage/uploads/'.$room->queen_room_image)}}">
+                </div>
+            </div>
+        </div>
         <br>
         <div class="form-group">
             <div class="col-lg-12">
@@ -76,6 +90,7 @@
     function updateroom(){
         var form = document.getElementById("myform");
         var formData = new FormData(form);
+        formData.append('image',image.files[0]);
         formData.append('_token','{{csrf_token()}}');
 
         var ajx = new XMLHttpRequest();
