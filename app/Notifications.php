@@ -73,11 +73,6 @@ class Notifications extends Model
                 "user_name":"'.$collect['name'].'",
                 "user_email":"'.$collect['email'].'",
                 "user_number":"'.$collect['number'].'",
-                "user_building":"'.$collect['building'].'",
-                "user_street":"'.$collect['street'].'",
-                "user_landmark":"'.$collect['landmark'].'",
-                "user_city":"'.$collect['city'].'",
-                "user_state":"'.$collect['state'].'",
                 "reference_id":"'.$collect['reference_id'].'",
                 "roomtype":"'.$collect['roomtype'].'",
                  "notiType":"1"

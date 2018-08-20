@@ -250,11 +250,6 @@ class nearbyhotelController extends Controller
                                 'name' => $user->fname." ".$user->lname,
                                 'email' => $user->email,
                                 'number' => $customer->number,
-                                'building' => $customer->building,
-                                'street' => $customer->street,
-                                'landmark' => $customer->landmark,
-                                'city' => $customer->city,
-                                'state' => $customer->state,
                                 'reference_id' => $ref->booking_ref_id,
                                 'roomtype' => ($request->roomtype == 'king_room > 0') ? 1 : 2,
                             ];

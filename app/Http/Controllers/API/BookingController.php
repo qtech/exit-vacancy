@@ -249,14 +249,7 @@ class BookingController extends Controller
             {
                 $visited = Bookings::where(['user_id' => $request->user_id,'hotel_id' => $request->hotel_id, 'status' => 1, 'ref_id' => $request->reference_id , 'is_visited' => 0])->first();
 
-                if(count($visited) == 0)
-                {
-                    $response = [
-                        'msg' => 'Oops! No record found',
-                        'status' => 0
-                    ];
-                }
-                else
+                if(count($visited) > 0)
                 {
                     $visited->is_visited = 1;
                     $visited->visited_time = date('d-m-y H:i:s');
@@ -276,6 +269,13 @@ class BookingController extends Controller
                     $response = [
                         'msg' => 'Success!',
                         'status' => 1
+                    ];
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'Oops! No record found',
+                        'status' => 0
                     ];
                 }
             }
