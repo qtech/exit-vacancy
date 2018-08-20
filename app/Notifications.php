@@ -20,9 +20,8 @@ class Notifications extends Model
         $fields = '{
             "to": "'.$fcm_id.'",
             "data": {
-                "body":"New Notification",
+                "body":"'.$message.'",
                 "title":"'.$title.'",
-                "message": "'.$message.'",
                 "badge":"'.$count.'",
                  "notiType":"0"
                }
