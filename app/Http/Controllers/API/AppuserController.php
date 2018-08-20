@@ -26,13 +26,6 @@ class AppuserController extends Controller
                 'email' => 'required',
                 'password' => 'required',
                 'number' => 'required',
-                'building' => 'required',
-                'street' => 'required',
-                'landmark' => 'required',
-                'city' => 'required',
-                'state' => 'required',
-                'country' => 'required',
-                'zipcode' => 'required',
                 'terms_status' => 'required'
             ]);
 
@@ -186,13 +179,6 @@ class AppuserController extends Controller
                 'fname' => 'required',
                 'lname' => 'required',
                 'number' => 'required',
-                'building' => 'required',
-                'street' => 'required',
-                'landmark' => 'required',
-                'city' => 'required',
-                'state' => 'required',
-                'country' => 'required',
-                'zipcode' => 'required',
                 'role' => 'required'
             ]);
 
@@ -217,13 +203,6 @@ class AppuserController extends Controller
                     if(count($profile) > 0)
                     {
                         $profile->number = $request->number;
-                        $profile->building = $request->building;
-                        $profile->street = $request->street;
-                        $profile->landmark = $request->landmark;
-                        $profile->city = $request->city;
-                        $profile->state = $request->state;
-                        $profile->country = $request->country;
-                        $profile->zipcode = $request->zipcode;
                         $profile->save();
 
                         $response = [
