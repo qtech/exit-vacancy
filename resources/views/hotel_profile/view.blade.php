@@ -10,7 +10,7 @@
                         <div class="tbl-cell tbl-cell-admin">
                             <div class="avatar-preview avatar-preview-32">
                                 <a href="#">
-                                    <img src="{{asset('user.png')}}" alt="">
+                                    <img src="{{asset('/storage/uploads/'.$hoteluser->image)}}" alt="">
                                 </a>
                             </div>
                             <div class="title">
@@ -19,7 +19,6 @@
                         </div>
                         <div class="tbl-cell tbl-cell-date">
                             <strong>Last Login:</strong> {{$hoteluser->last_login}}
-                            <a href="{{route('hotelusers')}}" class="btn btn-sm btn-custom" style="margin-left:25px;">BACK</a>
                         </div>
                     </div>
                 </div>
@@ -106,51 +105,6 @@
                     @endforeach
                 </div>  
             </section>
-
-            <section class="proj-page-section proj-page-people">
-                <header class="proj-page-subtitle padding-sm">
-                    <h3>Bookings</h3>
-                </header>
-                <br>
-                <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Room Type</th>
-                        <th>Room Price</th>
-                        <th>Status</th>
-                        <th>Arrived</th>
-                        <th>Arrival Time</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($bookings as $value)
-                        <tr>
-                            <td>{{$loop->index + 1}}</td>
-                            <td>{{$value->user->fname}} {{$value->user->lname}}</td>
-                            <td>{{$value->roomtype}}</td>
-                            <td>${{$value->roomprice}}</td>
-                            <td style="text-align:center;">
-                                @if($value->status == 1)
-                                    <label class="label label-success">Accepted</label>
-                                @else
-                                    <label class="label label-danger">Declined</label>
-                                @endif
-                            </td>
-                            <td style="text-align:center;">
-                                @if($value->is_visited == 1)
-                                    <label class="label label-success">YES</label>
-                                @else
-                                    <label class="label label-danger">NO</label>
-                                @endif
-                            </td>
-                            <td>{{$value->visited_time or 'Not available'}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </section><!--.proj-page-section-->
         </section><!--.proj-page-->
     </div>
 </div><!--.row-->
@@ -252,8 +206,8 @@
                         });
                 }
             };
-            ajx.open("POST", "{{route('hotel.bookingchart')}}", true);
-            ajx.setRequestHeader("Content-type", "application/json");
+            ajx.open("POST", "{{route('h.bookingchart')}}", true);
+            // ajx.setRequestHeader("Content-type", "application/json");
             ajx.send(JSON.stringify(param));
         }
     </script>

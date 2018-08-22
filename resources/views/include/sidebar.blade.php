@@ -107,28 +107,32 @@
 <div class="mobile-menu-left-overlay"></div>
 	<nav class="side-menu">
 	    <ul class="side-menu-list">
-	        <li class="grey">
+	        <li class="grey {{Request::is('Hotelowner/dashboard/*') || Request::is('Hotelowner/dashboard') ? 'opened' : ''}}">
 	            <a href="{{route('h.dashboard')}}">
 	                <i class="font-icon font-icon-dashboard"></i>
 	                <span class="lbl">Dashboard</span>
 	            </a>
             </li>
             
-            <li class="purple">
-	            <a href="{{route('hotelprofile')}}">
-	                <i class="font-icon glyphicon glyphicon-send"></i>
-	                <span class="lbl">Profile</span>
-	            </a>
-			</li>
+            <li class="purple with-sub {{Request::is('Hotelowner/hotelprofile/*') || Request::is('Hotelowner/hotelprofile') ? 'opened' : ''}}">
+                <span>
+                    <i class="font-icon glyphicon glyphicon-send"></i>
+                    <span class="lbl">Profile</span>
+                </span>
+                <ul>
+                    <li><a href="{{route('viewhotelprofile')}}"><span class="lbl">View</span></a></li>
+                    <li><a href="{{route('hotelprofile')}}"><span class="lbl">Edit</span></a></li>
+                </ul>
+            </li>
 			
-			<li class="brown">
+			<li class="brown {{Request::is('Hotelowner/bookings/*') || Request::is('Hotelowner/bookings') ? 'opened' : ''}}">
 				<a href="{{route('hotelbookings')}}">
 					<i class="fa fa-book"></i>
 					<span class="lbl">Booking Details</span>
 				</a>
 			</li>
             
-            <li class="red with-sub">
+            <li class="red with-sub {{Request::is('Hotelowner/rooms/*') || Request::is('Hotelowner/rooms') ? 'opened' : ''}}">
 	            <span>
 	                <i class="font-icon font-icon-help"></i>
 	                <span class="lbl">Rooms</span>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Payment;
 use App\Commission;
+use App\Bookings;
 
 class PaymentDetailsController extends Controller
 {
@@ -287,7 +288,7 @@ class PaymentDetailsController extends Controller
 			$account = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
             $amount = $request->amount * 100;
             $hotel_percentage = (100 - $commission->commission_percentage);
-			$hotel_payment = ($hotel_percentage / 100) * $amount;
+            $hotel_payment = ($hotel_percentage / 100) * $amount;
 
 			$charge = \Stripe\Charge::create([
 			  "amount" => $amount,
@@ -297,7 +298,15 @@ class PaymentDetailsController extends Controller
 			    "amount" => $hotel_payment,
 			    "account" => $account->account_id,
 			  ],
-			]);	
+            ]);	
+            
+            $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_owner_id, 'ref_id' => $request->ref_id])->first();
+
+            $booking_payment->total_amount = $request->amount;
+            $booking_payment->admin_commission = $commission->commission_percentage;
+            $booking_payment->hotel_payment = ($hotel_payment/100);
+            $booking_payment->payment_status = 1;
+            $booking_payment->save();
 
 			$response = [
 				'msg' => "Payment successful",
@@ -307,7 +316,7 @@ class PaymentDetailsController extends Controller
     	catch(\Exception $e)
     	{
 			$response = [
-				'msg' => $e->getMessage(),
+				'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
 				'status' => 0
 			];	
     	}

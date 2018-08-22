@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Bookings;
 use App\Hoteldata;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -21,10 +22,10 @@ class BookingController extends Controller
                 }   
                 if($id == 2)
                 {
-                    $today = today();
-                    $week = $today->modify('-7 days');
+                    $present = Carbon::now();
+                    $past = Carbon::now()->subDays(6)->toDateString();
                     
-                    $bookings = Bookings::with('user','hotel')->where(['status' => 1, 'is_visited' => 1])->whereBetween('created_at',[$week,today()])->get();
+                    $bookings = Bookings::with('user','hotel')->where(['status' => 1, 'is_visited' => 1])->whereBetween('created_at',[$past,$present])->get();
                 }
                 if($id == 3)
                 {
@@ -61,10 +62,10 @@ class BookingController extends Controller
                 }   
                 if($id == 2)
                 {
-                    $today = today();
-                    $week = $today->modify('-7 days');
+                    $present = Carbon::now();
+                    $past = Carbon::now()->subDays(6)->toDateString();
                     
-                    $bookings = Bookings::with('user','hotel')->where(['status' => 2])->whereBetween('created_at',[$week,today()])->get();
+                    $bookings = Bookings::with('user','hotel')->where(['status' => 2])->whereBetween('created_at',[$past,$present])->get();
                 }
                 if($id == 3)
                 {
@@ -101,10 +102,10 @@ class BookingController extends Controller
                 }   
                 if($id == 2)
                 {
-                    $today = today();
-                    $week = $today->modify('-7 days');
+                    $present = Carbon::now();
+                    $past = Carbon::now()->subDays(6)->toDateString();
                     
-                    $bookings = Bookings::with('user','hotel')->where(['status' => 1, 'is_visited' => 0])->whereBetween('created_at',[$week,today()])->get();
+                    $bookings = Bookings::with('user','hotel')->where(['status' => 1, 'is_visited' => 0])->whereBetween('created_at',[$past,$present])->get();
                 }
                 if($id == 3)
                 {

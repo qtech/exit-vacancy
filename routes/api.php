@@ -23,8 +23,14 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     Route::post('/user/register', 'API\AppuserController@customer_register');
     Route::post('/hotel/register', 'API\AppuserController@hotel_register');
 
+    // CHANGE EMAIL
+    Route::post('/emailchange', 'API\AppuserController@change_email');
+
     // EDIT CUSTOMER PROFILE
     Route::post('/user/editprofile', 'API\AppuserController@edit_customer_profile');
+
+    // EDIT HOTEL PROFILE
+    Route::post('/hotel/editprofile', 'API\AppuserController@edit_hotel_profile');
 
     // LOGIN AND LOGOUT
     Route::post('/login', 'API\loginController@check_login');
@@ -62,6 +68,10 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 
     // HOTEL BOOKING DETAILS
     Route::post('/hotelbookingdetails', 'API\HotelbookingdetailsController@bookingdetails_hotel');
+
+    // HOTEL IMAGES
+    Route::post('/gethotelimages', 'API\HotelImagesController@get_hotel_images');
+    Route::post('/updatehotelimages', 'API\HotelImagesController@update_hotel_images');
 
     // VISITING AND VISITED GUEST
     Route::post('/visiting', 'API\HotelbookingdetailsController@visiting_guest');

@@ -19,7 +19,7 @@ class resetpassController extends Controller
         {
             $check_email = User::where(['email' => $request->email])->first();
 
-            if(count($check_email) > 0)
+            if($check_email)
             {
                 $password = randomPassword::randomPassword(7);
                 $check_email->password = Hash::make($password);

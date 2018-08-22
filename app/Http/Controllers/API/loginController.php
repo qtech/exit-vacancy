@@ -55,6 +55,7 @@ class loginController extends Controller
                                         'lname' => $check_login->lname,
                                         'role' => $check_login->role,
                                         'number' => $customer->number,
+                                        'user_image' => ($check_login->image != NULL) ? url("/")."/".$check_login->image : "",
                                         'is_mobile_verified' => $check_login->is_mobile_verify == 1 ? "Yes" : "No"
                                     ];
         
@@ -89,10 +90,11 @@ class loginController extends Controller
                                             'hotel_id' => $hotel->hotel_data_id,
                                             'fname' => $check_login->fname,
                                             'lname' => $check_login->lname,
+                                            'bank_status' => $check_login->bank_status,
                                             'hotel_name' => $hotel->hotel_name,
                                             'hotel_stars' => $hotel->stars,
                                             'hotel_ratings' => $hotel->ratings,
-                                            'hotel_image' => ($hotel->image != NULL) ? $hotel->image : "",
+                                            'hotel_user_image' => ($hotel->image != NULL) ? url("/")."/".$hotel->image : "",
                                             'hotel_base_price' => $hotel->price,
                                             'role' => $check_login->role,
                                             'number' => $hotel->number,

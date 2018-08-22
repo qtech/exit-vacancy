@@ -46,7 +46,7 @@ class AmenityController extends Controller
     {
         try
         {
-            $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_user_id])->first();
+            $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_owner_id])->first();
 
             $amenities = explode(",",$amenity->amenities);
 
@@ -71,7 +71,7 @@ class AmenityController extends Controller
     {
         try
         {
-            $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_user_id])->first();
+            $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_owner_id])->first();
             $amenity->amenities = $request->amenities;
             $amenity->save();
 

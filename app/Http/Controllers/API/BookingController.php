@@ -40,7 +40,7 @@ class BookingController extends Controller
                 
                 if(count($check) > 0)
                 {
-                    $decline = Bookings::where(['user_id' => $request->user_id, 'hotel_id' => $request->hotel_id, 'ref_id' => $request->reference_id, 'status' => 3])->first();
+                    $decline = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'ref_id' => $request->reference_id, 'status' => 0])->first();
                     
                     $hotel = User::where(['user_id' => $decline->hotel_owner_id])->first();
                     $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
@@ -101,9 +101,12 @@ class BookingController extends Controller
                     $count_hotel_booking->save();
 
                     $collect = [
+                        'ref_id' => $request->reference_id,
                         'hotel_data_id' => $hotel->hotel_data_id,
+                        'hotel_owner_id' => $request->hotel_id,
+                        'price' => $accept->roomprice,
                         'hotel_name' => $hotel->hotel_name,
-                        'roomtype' => $request->roomtype == 1 ? "King Size" : "Two-Queens"
+                        'roomtype' => $request->roomtype
                     ];
 
                     $user = User::where(['user_id' => $request->user_id])->first();
@@ -139,7 +142,7 @@ class BookingController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -336,7 +339,10 @@ class BookingController extends Controller
                         $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
                     
                         $tmp = [
+                            'ref_id' => $recent->ref_id,
+                            'payment_status' => $recent->payment_status,
                             'hotel_id' => $hotel->hotel_data_id,
+                            'hotel_owner_id' => $hotel->user_id,
                             'hotel_name' => $hotel->hotel_name,
                             'amenities' => $hotel->amenities,
                             'stars' => $hotel->stars,

@@ -8,6 +8,7 @@ use Validator;
 use App\Hoteldata;
 use App\User;
 use App\ImageUpload;
+use Storage;
 
 class AddroomController extends Controller
 {
@@ -24,11 +25,12 @@ class AddroomController extends Controller
         }
     }
 
-    public function add_king_room_images()
+    public function show_king_room_images($id)
     {
         try
         {
-            return view('hotel_rooms.king.addimage');
+            $images = Hoteldata::where(['user_id' => $id])->first();
+            return view('hotel_rooms.king.showimage')->with('images', $images);
         }
         catch(\Exception $e)
         {
@@ -44,7 +46,7 @@ class AddroomController extends Controller
                 'amenities' => 'required',
                 'price' => 'required',
                 'rooms' => 'required',
-                'image' => 'nullable'
+                'images' => 'nullable'
             ]);
 
             if($validator->fails())
@@ -60,10 +62,22 @@ class AddroomController extends Controller
 
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
                 $room->king_room_amenity = $amenities;
-                if($request->hasFile('image'))
+                if($request->hasFile('images'))
                 {
-                    $room->king_room_image = ImageUpload::imageupload($request, 'image');
+                    if(!empty($room->king_room_image))
+                    {
+                        foreach(json_decode($room->king_room_image) as $image)
+                        {
+                            Storage::delete(getenv('IMG_UPLOAD').$image);
+                        }
+                        $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                    }
+                    else
+                    {
+                        $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                    }
                 }
+                
                 $room->king_room_price = $request->price;
                 $room->king_room = $request->rooms;
                 $room->save();
@@ -106,7 +120,7 @@ class AddroomController extends Controller
                 'amenities' => 'required',
                 'price' => 'required',
                 'rooms' => 'required',
-                'image' => 'nullable'
+                'images' => 'nullable'
             ]);
 
             if($validator->fails())
@@ -123,10 +137,23 @@ class AddroomController extends Controller
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
                 $room->queen_room_amenity = $amenities;
                 $room->queen_room_price = $request->price;
-                if($request->hasFile('image'))
+                
+                if($request->hasFile('images'))
                 {
-                    $room->queen_room_image = ImageUpload::imageupload($request, 'image');
+                    if(!empty($room->queen_room_image))
+                    {
+                        foreach(json_decode($room->queen_room_image) as $image)
+                        {
+                            Storage::delete(getenv('IMG_UPLOAD').$image);
+                        }
+                        $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                    }
+                    else
+                    {
+                        $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                    }
                 }
+
                 $room->queen_room = $request->rooms;
                 $room->save();
 
@@ -147,11 +174,12 @@ class AddroomController extends Controller
         return response()->json($response);
     }
 
-    public function add_queen_room_images()
+    public function show_queen_room_images($id)
     {
         try
         {
-            return view('hotel_rooms.queen.addimage');
+            $images = Hoteldata::where(['user_id' => $id])->first();
+            return view('hotel_rooms.queen.showimage')->with('images', $images);
         }
         catch(\Exception $e)
         {

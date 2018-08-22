@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Hoteldata;
 use App\User;
 use App\Amenities;
+use App\Bookings;
 use Validator;
+use Storage;
+use App\ImageUpload;
 
 class HotelprofileController extends Controller
 {
@@ -28,7 +31,9 @@ class HotelprofileController extends Controller
             $validator = Validator::make($request->all(),[
                 'number' => 'required',
                 'hotelclass' => 'required',
-                'amenities' => 'required'
+                'amenities' => 'required',
+                'images' => 'nullable',
+                'image' => 'nullable'
             ]);
     
             if($validator->fails())
@@ -41,11 +46,42 @@ class HotelprofileController extends Controller
             else
             {
                 $amenities = implode(",", $request->amenities);
+                $hotelowner = User::where(['user_id' => Auth()->user()->user_id])->first();
+                if($request->hasFile('image'))
+                {
+                    if($hotelowner->image != NULL || $hotelowner->image != "user.png")
+                    {
+                        Storage::delete(getenv('IMG_UPLOAD').$hotelowner->image);
+                        $hotelowner->image = ImageUpload::imageupload($request,'image');
+                        $hotelowner->save();
+                    }
+                    {
+                        $hotelowner->image = ImageUpload::imageupload($request,'image');
+                        $hotelowner->save();
+                    }
+                }
 
                 $update = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
                 $update->number = $request->number;
                 $update->price = $request->price;
                 $update->stars = $request->hotelclass;
+
+                if($request->hasFile('images'))
+                {
+                    if(!empty($update->image))
+                    {
+                        foreach(json_decode($update->image) as $image)
+                        {
+                            Storage::delete(getenv('IMG_UPLOAD').$image);
+                        }
+                        $update->image = ImageUpload::multipleimageupload($request,'images');
+                    }
+                    else
+                    {
+                        $update->image = ImageUpload::multipleimageupload($request,'images');
+                    }
+                }
+
                 $update->amenities = $amenities;
                 $update->save();
 
@@ -58,11 +94,40 @@ class HotelprofileController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
 
         return response()->json($response);
+    }
+
+    public function hotel_images($id)
+    {
+        try
+        {
+            $images = Hoteldata::where(['user_id' => $id])->first();
+            return view('hotel_profile.showimage')->with('images', $images);
+        }
+        catch(\Exception $e)
+        {
+            return $e->getMessage()." ".$e->getFile()." ".$e->getLine();
+        }
+    }
+
+    public function view_hotel_profile()
+    {
+        try
+        {
+            $data = [
+                'bookings' => Bookings::with('user')->where(['hotel_owner_id' => Auth()->user()->user_id])->get(),
+                'hoteluser' => User::with('hotel')->where(['user_id' => Auth()->user()->user_id])->first()
+            ];
+            return view('hotel_profile.view')->with($data);
+        }
+        catch(\Exception $e)
+        {
+            return $e->getMessage()." ".$e->getFile()." ".$e->getLine();
+        }
     }
 }

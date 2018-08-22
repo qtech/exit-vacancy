@@ -104,13 +104,13 @@ class ChartbookingsController extends Controller
     {
         try
         {
-            $today = today();
-            $week = $today->modify('-6 days');
+            $present = Carbon::now();
+            $past = Carbon::now()->subDays(6)->toDateString();
 
-            $date_from = strtotime($week); // Convert date to a UNIX timestamp  
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
   
             // Specify the end date. This date can be any English textual format  
-            $date_to = strtotime(today()); // Convert date to a UNIX timestamp  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
             
             $dates = [];
 
@@ -119,7 +119,7 @@ class ChartbookingsController extends Controller
                 array_push($dates,date("Y-m-d", $i));  
             }
 
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->whereBetween('created_at',[$week,today()])->groupBy('date')->get();
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
@@ -365,13 +365,13 @@ class ChartbookingsController extends Controller
     {
         try
         {
-            $today = today();
-            $week = $today->modify('-6 days');
+            $present = Carbon::now();
+            $past = Carbon::now()->subDays(6)->toDateString();
 
-            $date_from = strtotime($week); // Convert date to a UNIX timestamp  
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
   
             // Specify the end date. This date can be any English textual format  
-            $date_to = strtotime(today()); // Convert date to a UNIX timestamp  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
             
             $dates = [];
 
@@ -380,7 +380,7 @@ class ChartbookingsController extends Controller
                 array_push($dates,date("Y-m-d", $i));  
             }
             
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->whereBetween('created_at',[$week,today()])->groupBy('date')->get();
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];
@@ -637,13 +637,13 @@ class ChartbookingsController extends Controller
     {
         try
         {
-            $today = today();
-            $week = $today->modify('-6 days');
+            $present = Carbon::now();
+            $past = Carbon::now()->subDays(6)->toDateString();
 
-            $date_from = strtotime($week); // Convert date to a UNIX timestamp  
+            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
   
             // Specify the end date. This date can be any English textual format  
-            $date_to = strtotime(today()); // Convert date to a UNIX timestamp  
+            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
             
             $dates = [];
 
@@ -652,7 +652,7 @@ class ChartbookingsController extends Controller
                 array_push($dates,date("Y-m-d", $i));  
             }
 
-            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->whereBetween('created_at',[$week,today()])->groupBy('date')->get();
+            $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
             $dateLabel = [];
             $booking = [];

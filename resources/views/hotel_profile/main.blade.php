@@ -3,13 +3,27 @@
 @section('content')
 <div class="box-typical" style="padding-left:25px;">
     <h4 class="m-t-lg with-border">Hotel Profile</h4>
-    <form id="myform" method="POST">
+    <form id="myform" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-7" style="padding-left:32px;">
+                    <fieldset class="form-group">
+                        <label class="form-label semibold">Hotel Owner's Profile Image</label>
+                        <input type="file" class="form-control" name="image" id="image" multiple>
+                        <small class="text-muted">Change Hotel owner's profile picture.</small>
+                    </fieldset>
+                </div>
+                <div class="col-lg-5" style="padding-left:100px; padding-top:5px;">
+                    <img height="80" width="80" src="{{asset('/storage/uploads/'.$getdetails['details']->image)}}">
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="title">Number</label>
                     <input type="text" class="form-control" name="number" id="number" value="{{$getdetails['details']->hotel->number}}">
-                    <small class="text-muted">Update number for your Hotel</small>
+                    <small class="text-muted">Update number for your Hotel. Please add your country code without '+' as prefix.</small>
                 </fieldset>
             </div>
         </div>
@@ -62,10 +76,23 @@
                 </fieldset>
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label class="form-label semibold">Upload Images</label>
+                    <input type="file" class="form-control" name="images[]" id="images" multiple>
+                    <small class="text-muted">Select multiple images for room by pressing "Ctrl" button</small>
+                </fieldset>
+            </div>
+        </div>
         <br>
         <div class="form-group">
             <div class="col-lg-12">
-                <input onclick="editprofile(); event.preventDefault();" type="submit" class="btn btn-custom" value="Update">
+                <fieldset class="form-group">
+                    <a href="{{route('hotelimages',['id' => Auth()->user()->user_id])}}" class="btn btn-custom pull-left">View Images</a>
+                    <input onclick="editprofile(); event.preventDefault();" type="submit" class="btn btn-custom pull-right" value="Update">
+                </fieldset>
+            </div>
             </div>
         </div>
     </form>
@@ -77,7 +104,6 @@
         var formData = new FormData(form);
         formData.append('_token','{{csrf_token()}}');
         
-
         var ajx = new XMLHttpRequest();
         ajx.onreadystatechange = function () {
             if (ajx.readyState == 4 && ajx.status == 200) {

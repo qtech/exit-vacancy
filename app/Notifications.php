@@ -121,7 +121,10 @@ class Notifications extends Model
             "data": {
                 "body":"'.$collect['hotel_name'].' accepted your booking",
                 "hotel_id":"'.$collect['hotel_data_id'].'",
+                "hotel_owner_id":"'.$collect['hotel_owner_id'].'",
                 "roomtype":"'.$collect['roomtype'].'",
+                "price":"'.$collect['price'].'",
+                "ref_id":"'.$collect['ref_id'].'",
                  "notiType":"2"
                }
         }';

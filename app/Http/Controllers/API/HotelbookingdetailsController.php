@@ -42,6 +42,7 @@ class HotelbookingdetailsController extends Controller
                         'user_id' => $value->user_id,
                         'name' => $user->fname." ".$user->lname,
                         'email' => $user->email,
+                        'image' => url("/")."/".$user->image,
                         'number' => $user->customer->number,
                         'status' => $value->status,
                         'location' => $user->customer->city." ".$user->customer->state,

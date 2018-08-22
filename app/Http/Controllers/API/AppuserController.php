@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\User;
 use App\Customer;
+use App\ImageUpload;
 use Illuminate\Support\Facades\Hash;
 use App\Hoteldata;
 use App\Bookings;
@@ -22,10 +23,9 @@ class AppuserController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'fname' => 'required',
-                'lname' => 'required',
+                'lname' => 'nullable',
                 'email' => 'required',
                 'password' => 'required',
-                'number' => 'required',
                 'terms_status' => 'required'
             ]);
 
@@ -52,6 +52,7 @@ class AppuserController extends Controller
                     $user = $request->all();
                     $user['password'] = Hash::make($request->password);
                     $user['role'] = 2;
+                    $user['image'] = "user.png";
 
                     $user = User::create($user);
 
@@ -68,7 +69,8 @@ class AppuserController extends Controller
 
                     $response = [
                         'msg' => "User registration successful",
-                        'status' => 1
+                        'status' => 1,
+                        'user_id' => $user->user_id
                     ];
                 }
             }
@@ -90,11 +92,10 @@ class AppuserController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'fname' => 'required',
-                'lname' => 'required',
+                'lname' => 'nullable',
                 'email' => 'required',
                 'password' => 'required',
                 'hotel_name' => 'required',
-                'number' => 'required',
                 'building' => 'required',
                 'street' => 'required',
                 'landmark' => 'required',
@@ -128,12 +129,12 @@ class AppuserController extends Controller
                     $user = $request->all();
                     $user['password'] = Hash::make($request->password);
                     $user['role'] = 3;
+                    $user['image'] = "user.png";
                     $user = User::create($user);
 
                     $hotel = Hoteldata::orderBy('user_id', 'ASC')->first();
                     $hotel->hotel_name = $request->hotel_name;
                     $hotel->user_id = $user->user_id;
-                    $hotel->number = $request->number;
                     $hotel->building = $request->building;
                     $hotel->street = $request->street;
                     $hotel->landmark = $request->landmark;
@@ -154,7 +155,8 @@ class AppuserController extends Controller
 
                     $response = [
                         'msg' => 'Hotel registration Successful',
-                        'status' => 1
+                        'status' => 1,
+                        'user_id' => $uesr->user_id
                     ];
                 }
             }
@@ -163,6 +165,63 @@ class AppuserController extends Controller
         {
             $response = [
                 'msg' => $e->getMessage(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function change_email(Request $request)
+    {
+        try
+        {
+            $change = User::find($request->user_id);
+
+            if($change != NULL)
+            {
+                if($change->is_email_verfiy == 0)
+                {
+                    $checkemail = User::where(['email' => $request->email])->first();
+
+                    if(count($checkemail) > 0)
+                    {
+                        $response = [
+                            'msg' => 'This Email ID already registered. Please try some other email.',
+                            'status' => 1
+                        ]; 
+                    }
+                    else
+                    {
+                        $change->email = $request->email;
+                        $change->save();
+    
+                        $response = [
+                            'msg' => 'Email ID updated successfully',
+                            'status' => 1
+                        ];   
+                    }
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'Sorry, your email ID is already registered. You can\'t change it now',
+                        'status' => 0
+                    ];
+                }
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'Invalid Parameters',
+                    'status' => 0
+                ];
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -179,6 +238,7 @@ class AppuserController extends Controller
                 'fname' => 'required',
                 'lname' => 'required',
                 'number' => 'required',
+                'image' => 'nullable',
                 'role' => 'required'
             ]);
 
@@ -197,6 +257,21 @@ class AppuserController extends Controller
                 {
                     $user->fname = $request->fname;
                     $user->lname = $request->lname;
+                    if($user->image != "user.png" || $user->image != NULL)
+                    {
+                        if($request->hasFile('image'))
+                        {
+                            Storage::delete(getenv('IMG_UPLOAD').$user->image);
+                            $user->image = ImageUpload::imageupload($request,'image');
+                        }
+                    }
+                    else
+                    {
+                        if($request->hasFile('image'))
+                        {
+                            $user->image = ImageUpload::imageupload($request,'image');
+                        }
+                    }
                     $user->save();
 
                     $profile = Customer::where(['user_id' => $user->user_id])->first();
@@ -222,6 +297,90 @@ class AppuserController extends Controller
                 {
                     $response = [
                         'msg' => 'No user available',
+                        'status' => 0
+                    ];
+                }
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function edit_hotel_profile(Request $request)
+    {
+        try
+        {
+            $validator = Validator::make($request->all(),[
+                'user_id' => 'required',
+                'fname' => 'required',
+                'lname' => 'required',
+                'number' => 'required',
+                'image' => 'nullable',
+                'role' => 'required'
+            ]);
+
+            if($validator->fails())
+            {
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $hotel = User::where(['user_id' => $request->user_id,'role' => $request->role])->first();
+
+                if(count($hotel) > 0)
+                {
+                    $hotel->fname = $request->fname;
+                    $hotel->lname = $request->lname;
+                    if($hotel->image != "user.png" || $hotel->image != NULL)
+                    {
+                        if($request->hasFile('image'))
+                        {
+                            Storage::delete(getenv('IMG_UPLOAD').$hotel->image);
+                            $hotel->image = ImageUpload::imageupload($request,'image');
+                        }
+                    }
+                    else
+                    {
+                        if($request->hasFile('image'))
+                        {
+                            $hotel->image = ImageUpload::imageupload($request,'image');
+                        }
+                    }
+                    $hotel->save();
+
+                    $profile = Hoteldata::where(['user_id' => $hotel->user_id])->first();
+                    if(count($profile) > 0)
+                    {
+                        $profile->number = $request->number;
+                        $profile->save();
+
+                        $response = [
+                            'msg' => 'Hotel profile successfully updated',
+                            'status' => 1
+                        ];
+                    }
+                    else
+                    {
+                        $response = [
+                            'msg' => 'No profile details found for this hotel',
+                            'status' => 0
+                        ];
+                    }
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'No hotel available',
                         'status' => 0
                     ];
                 }
@@ -395,7 +554,7 @@ class AppuserController extends Controller
                 }
 
                 $response = [
-                    'msg' => 'User Bookings',
+                    'msg' => 'Hotel Bookings',
                     'status' => 1,
                     'completed' => $completed,
                     'pending' => $pending,

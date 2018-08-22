@@ -97,7 +97,7 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // HOTEL OWNER
     Route::prefix('hotelowners')->group(function(){
-        Route::post('/hotelbookingchart', 'API\AppuserController@hotelbooking_chart')->name('h.bookingchart');
+        Route::post('/hotelbookingchart', 'API\AppuserController@hotelbooking_chart')->name('hotel.bookingchart');
         Route::get('/hoteluserexport', 'ExcelController@gethotelusers')->name('e.hotelusers');
         Route::get('/', 'HotelusersController@view')->name('hotelusers');
         Route::get('/details/{id}', 'HotelusersController@hotel_user_details')->name('hoteldetails');
@@ -163,8 +163,15 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
 
     // TRANSACTIONS
     Route::prefix('transactions')->group(function(){
-        Route::get('/t_chart', 'TransactionController@transaction_chart')->name('t.chart');
+        // TRANSACTION CHARTS
+        Route::get('/transactions', 'TransactionController@all_transaction')->name('t.chart');
+        Route::get('/t.transactions', 'TransactionController@today_transaction')->name('t.transactions');
+        Route::get('/w.transactions', 'TransactionController@week_transaction')->name('w.transactions');
+        Route::get('/m.transactions', 'TransactionController@month_transaction')->name('m.transactions');
+        Route::post('/wd.transactions', 'TransactionController@dates_transaction')->name('wd.transactions');
+
         Route::get('/', 'TransactionController@view')->name('transaction');
+        Route::get('/{id?}', 'TransactionController@view')->name('all_transactions');
     });
 
     // SETTINGS
@@ -192,7 +199,10 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
 
     Route::prefix('hotelprofile')->group(function(){
         Route::get('/', 'Hotel\HotelprofileController@view')->name('hotelprofile');
+        Route::get('/view', 'Hotel\HotelprofileController@view_hotel_profile')->name('viewhotelprofile');
         Route::post('/update', 'Hotel\HotelprofileController@update')->name('updatehotelprofile');
+        Route::get('/showimages/{id}', 'Hotel\HotelprofileController@hotel_images')->name('hotelimages');
+        Route::post('/hotelbookingchart', 'API\AppuserController@hotelbooking_chart')->name('h.bookingchart');
     });
 
     Route::prefix('bookings')->group(function(){
@@ -203,13 +213,13 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
         Route::prefix('king')->group(function(){
             Route::get('/', 'Hotel\AddroomController@add_king_room')->name('h.s.room');
             Route::post('/update', 'Hotel\AddroomController@update_king_room')->name('h.s.update');
-            Route::get('/addimage', 'Hotel\AddroomController@add_king_room_images')->name('s.addimages');
+            Route::get('/showimages/{id}', 'Hotel\AddroomController@show_king_room_images')->name('s.showimages');
         });
 
         Route::prefix('queen')->group(function(){
             Route::get('/', 'Hotel\AddroomController@add_queen_room')->name('h.d.room');
             Route::post('/update', 'Hotel\AddroomController@update_queen_room')->name('h.d.update');
-            Route::get('/addimage', 'Hotel\AddroomController@add_queen_room_images')->name('d.addimages');
+            Route::get('/showimages/{id}', 'Hotel\AddroomController@show_queen_room_images')->name('d.showimages');  
         });
     });
 });

@@ -543,7 +543,8 @@ class nearbyhotelController extends Controller
                                 'landmark' => $customer->landmark,
                                 'city' => $customer->city,
                                 'state' => $customer->state,
-                                'reference_id' => $ref->booking_ref_id
+                                'reference_id' => $ref->booking_ref_id,
+                                'roomtype' => ($request->roomtype == 'king_room > 0') ? 1 : 2
                             ];
                         
                             if($request->direction == 1)
@@ -718,7 +719,7 @@ class nearbyhotelController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }

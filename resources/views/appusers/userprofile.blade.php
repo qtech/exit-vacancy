@@ -45,22 +45,6 @@
                                     <div class="tbl-cell tbl-cell-lbl">Number</div>
                                     <div class="tbl-cell" style="font-size:14px;">+{{$user->customer->number}}</div>
                                 </div>
-                                <div class="tbl-row">
-                                    <div class="tbl-cell tbl-cell-lbl">Address</div>
-                                    <div class="tbl-cell" style="font-size:14px;">{{$user->customer->building}}, {{$user->customer->street}}</div>
-                                </div>
-                                <div class="tbl-row">
-                                    <div class="tbl-cell tbl-cell-lbl">City</div>
-                                    <div class="tbl-cell" style="font-size:14px;">{{$user->customer->city}}</div>
-                                </div>
-                                <div class="tbl-row">
-                                    <div class="tbl-cell tbl-cell-lbl">State</div>
-                                    <div class="tbl-cell" style="font-size:14px;">{{$user->customer->state}}</div>
-                                </div>
-                                <div class="tbl-row">
-                                    <div class="tbl-cell tbl-cell-lbl">Country</div>
-                                    <div class="tbl-cell" style="font-size:14px;">{{$user->customer->country}}</div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-sm-6" style="margin-top:-15px;">

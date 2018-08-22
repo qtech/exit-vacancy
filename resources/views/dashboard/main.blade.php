@@ -11,9 +11,6 @@
         color: white !important;
     }
 </style>
-<div id="fade">
-    <img id="modal" src="{{asset('loader.gif')}}" />
-</div>
 <div class="row">
     <div class="col-sm-3">
         <a class="a_tag" href="{{route('appusers')}}">
@@ -256,22 +253,12 @@
 @endsection
 @section('scripts')
     <script>
-        function openModal() {
-            document.getElementById('modal').style.display = 'block';
-            document.getElementById('fade').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('fade').style.display = 'none';
-        }
 
         $(document).ready(function(){
             NProgress.start();
             Chart.defaults.global.defaultFontColor = 'grey';
             Chart.defaults.global.defaultFontStyle = 'bold';
             Chart.defaults.global.defaultFontSize = 14;
-            openModal();
             registration();
             bookings();
             transactions();
@@ -281,7 +268,6 @@
                     b_withdates();
                 }
             });
-            closeModal();
             NProgress.done();
         });
 
@@ -333,7 +319,7 @@
                             pointRadius: 4,
                             pointHitRadius: 10,
                             data:res.users,
-                            spanGaps: false,                          
+                            spanGaps: true,                          
                         }],
                     }
                     //Start Chart plotting.
@@ -404,7 +390,7 @@
                                     pointRadius: 4,
                                     pointHitRadius: 10,
                                     data:res.users,
-                                    spanGaps: false,                          
+                                    spanGaps: true,                          
                                 }],
                             }
                             $('#myChart1').remove();
