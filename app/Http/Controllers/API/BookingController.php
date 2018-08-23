@@ -171,7 +171,7 @@ class BookingController extends Controller
             {
                 $check = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'status' => 2, 'ref_id' => $request->reference_id])->first();
 
-                if(count($check) > 0)
+                if($check)
                 {
                     $response = [
                         'msg' => "This user's request is already accepted by other hotel",
@@ -195,7 +195,7 @@ class BookingController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -241,7 +241,7 @@ class BookingController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -269,28 +269,38 @@ class BookingController extends Controller
             else
             {
                 $visited = Bookings::where(['user_id' => $request->user_id,'hotel_id' => $request->hotel_id, 'status' => 1, 'ref_id' => $request->reference_id , 'is_visited' => 0])->first();
-
-                if(count($visited) > 0)
+                
+                if($visited)
                 {
-                    $visited->is_visited = 1;
-                    $visited->visited_time = date('d-m-y H:i:s');
-                    $visited->save();
+                    if($visited->payment_status == 1)
+                    {
+                        $visited->is_visited = 1;
+                        $visited->visited_time = date('d-m-y H:i:s');
+                        $visited->save();
+    
+                        $user = User::where(['user_id' => $request->user_id])->first();
+                        $hotel = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
+    
+                        $data = [
+                            'fname' => $user->fname,
+                            'lname' => $user->lname,
+                            'hotel_name' => $hotel->hotel_name
+                        ];
+    
+                        \Mail::to($user->email)->send(new arrived($data));
 
-                    $user = User::where(['user_id' => $request->user_id])->first();
-                    $hotel = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
-
-                    $data = [
-                        'fname' => $user->fname,
-                        'lname' => $user->lname,
-                        'hotel_name' => $hotel->hotel_name
-                    ];
-
-                    \Mail::to($user->email)->send(new arrived($data));
-
-                    $response = [
-                        'msg' => 'Success!',
-                        'status' => 1
-                    ];
+                        $response = [
+                            'msg' => 'Success!',
+                            'status' => 1
+                        ];
+                    }
+                    else
+                    {
+                        $response = [
+                            'msg' => 'User payment for this booking is DUE',
+                            'status' => 0
+                        ];
+                    }
                 }
                 else
                 {
@@ -304,7 +314,7 @@ class BookingController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }   
@@ -406,7 +416,7 @@ class BookingController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -505,7 +515,7 @@ class BookingController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }

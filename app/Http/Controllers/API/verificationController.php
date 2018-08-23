@@ -20,7 +20,7 @@ class verificationController extends Controller
         {
             $check_email = User::where(['email' => $request->email])->first();
 
-            if(count($check_email) > 0)
+            if($check_email)
             {
                 $code = randomPassword::randomPassword(7);
                 $user_id = $check_email->user_id;
@@ -52,7 +52,7 @@ class verificationController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -65,18 +65,28 @@ class verificationController extends Controller
         {
             $check_code = User::where(['user_id' => $request->user_id])->first();
 
-            $check_code->is_email_verify = 1;
-            $check_code->save();
+            if($check_code)
+            {
+                $check_code->is_email_verify = 1;
+                $check_code->save();
 
-            $response = [
-                'msg' => 'Email verification successful',
-                'status' => 1
-            ];
+                $response = [
+                    'msg' => 'Email verification successful',
+                    'status' => 1
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'No such user found',
+                    'status' => 0
+                ];
+            }
         }
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -176,7 +186,7 @@ class verificationController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -190,18 +200,29 @@ class verificationController extends Controller
         {
             $check_otp = User::where(['user_id' => $request->user_id])->first();
 
-            $check_otp->is_mobile_verify = 1;
-            $check_otp->save();
-
-            $response = [
-                'msg' => 'Mobile verification successful',
-                'status' => 1
-            ];            
+            if($check_otp)
+            {
+                $check_otp->is_mobile_verify = 1;
+                $check_otp->save();
+    
+                $response = [
+                    'msg' => 'Mobile verification successful',
+                    'status' => 1
+                ]; 
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'No such user found',
+                    'status' => 0
+                ];
+            }
+                       
         }
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }

@@ -33,7 +33,7 @@ class loginController extends Controller
             {
                 $check_login = User::where(['email' => $request->email])->first();
 
-                if(count($check_login) > 0)
+                if($check_login)
                 {
                     if($check_login->role == $request->type)
                     {
@@ -41,37 +41,49 @@ class loginController extends Controller
                         {
                             if($check_login->role == 2)
                             {
-                                if(Hash::check($request->password,$check_login->password))
+                                if($check_login->is_mobile_verify == 1)
                                 {
-                                    $check_login->fcm_id = $request->fcm_id;
-                                    $check_login->last_login = date('d-m-y H:i:s');
-                                    $check_login->save();
-
-                                    $customer = Customer::where(['user_id' => $check_login->user_id])->first();
-        
-                                    $data = [
-                                        'user_id' => $check_login->user_id,
-                                        'fname' => $check_login->fname,
-                                        'lname' => $check_login->lname,
-                                        'role' => $check_login->role,
-                                        'number' => $customer->number,
-                                        'user_image' => ($check_login->image != NULL) ? url("/")."/".$check_login->image : "",
-                                        'is_mobile_verified' => $check_login->is_mobile_verify == 1 ? "Yes" : "No"
-                                    ];
-        
-                                    $response = [
-                                        'msg' => 'Login Successful',
-                                        'status' => 1,
-                                        'data' => $data
-                                    ];
+                                    if(Hash::check($request->password,$check_login->password))
+                                    {
+                                        $check_login->fcm_id = $request->fcm_id;
+                                        $check_login->last_login = date('d-m-y H:i:s');
+                                        $check_login->save();
+    
+                                        $customer = Customer::where(['user_id' => $check_login->user_id])->first();
+            
+                                        $data = [
+                                            'user_id' => $check_login->user_id,
+                                            'fname' => $check_login->fname,
+                                            'lname' => $check_login->lname,
+                                            'role' => $check_login->role,
+                                            'number' => $customer->number,
+                                            'user_image' => ($check_login->image != NULL) ? url("/")."/storage/uploads/".$check_login->image : "",
+                                            'is_mobile_verified' => $check_login->is_mobile_verify == 1 ? "Yes" : "No"
+                                        ];
+            
+                                        $response = [
+                                            'msg' => 'Login Successful',
+                                            'status' => 1,
+                                            'data' => $data
+                                        ];
+                                    }
+                                    else
+                                    {
+                                        $response = [
+                                            'msg' => 'Invalid Password.',
+                                            'status' => 0,
+                                        ];
+                                    }
                                 }
                                 else
                                 {
                                     $response = [
-                                        'msg' => 'Invalid Password.',
-                                        'status' => 0,
+                                        'msg' => 'Please verify your Mobile Number',
+                                        'status' => 3,
+                                        'user_id' => $check_login->user_id
                                     ];
                                 }
+
                             }
                             else
                             {
@@ -94,7 +106,7 @@ class loginController extends Controller
                                             'hotel_name' => $hotel->hotel_name,
                                             'hotel_stars' => $hotel->stars,
                                             'hotel_ratings' => $hotel->ratings,
-                                            'hotel_user_image' => ($hotel->image != NULL) ? url("/")."/".$hotel->image : "",
+                                            'hotel_user_image' => ($hotel->image != NULL) ? url("/")."/storage/uploads/".$hotel->image : "",
                                             'hotel_base_price' => $hotel->price,
                                             'role' => $check_login->role,
                                             'number' => $hotel->number,
@@ -188,18 +200,18 @@ class loginController extends Controller
             {
                 $logout = User::where(['user_id' => $request->id, 'email' => $request->email])->first();
                 
-                if(count($logout) == 0)
+                if($logout)
                 {
                     $response = [
-                        'msg' => 'No such user found',
-                        'status' => 0
+                        'msg' => 'Signout successful',
+                        'status' => 1
                     ];
                 }
                 else
                 {
                     $response = [
-                        'msg' => 'Signout successful',
-                        'status' => 1
+                        'msg' => 'No such user found',
+                        'status' => 0
                     ];
                 }
             }

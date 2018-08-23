@@ -25,7 +25,7 @@ class AddroomController extends Controller
         }
         catch(\Exception $e)
         {
-            return $e->getMessage()." ".$e->getLine();
+            return $e->getMessage()." ".$e->getFile()." ".$e->getLine();
         }
     }
 
@@ -38,7 +38,7 @@ class AddroomController extends Controller
         }
         catch(\Exception $e)
         {
-            return $e->getMessage()." ".$e->getLine();
+            return $e->getMessage()." ".$e->getFile()." ".$e->getLine();
         }
     }
 
@@ -95,7 +95,7 @@ class AddroomController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -112,7 +112,7 @@ class AddroomController extends Controller
         }
         catch(\Exception $e)
         {
-            return $e->getMessage()." ".$e->getLine();
+            return $e->getMessage()." ".$e->getFile()." ".$e->getLine();
         }
     }
 
@@ -170,7 +170,7 @@ class AddroomController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -187,7 +187,7 @@ class AddroomController extends Controller
         }
         catch(\Exception $e)
         {
-            return $e->getMessage()." ".$e->getLine();
+            return $e->getMessage()." ".$e->getFile()." ".$e->getLine();
         }
     }
 }

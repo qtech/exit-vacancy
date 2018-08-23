@@ -50,7 +50,7 @@ class resetpassController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -64,7 +64,7 @@ class resetpassController extends Controller
         {
             $check_email = User::where(['user_id' => $request->user_id])->first();
 
-            if(count($check_email) > 0)
+            if($check_email)
             {
                 if(Hash::check($request->old_password,$check_email->password))
                 {
@@ -95,7 +95,7 @@ class resetpassController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ]; 
         }

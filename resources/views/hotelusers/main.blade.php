@@ -78,10 +78,10 @@
                 <tr>
                     <td>{{$i++}}</td>
                     <td>
-                        <a style="border-bottom:none !important; color:black;" href="{{route('hoteldetails',['id' => $value->user_id])}}">{{$value->fname}} {{$value->lname}}</a>
+                        <a style="border-bottom:none !important; color:#00857b;" href="{{route('hoteldetails',['id' => $value->user_id])}}">{{$value->fname}}</a>
                     </td>
                     <td>{{$value->email}}</td>
-                    <td>{{$value->hotel->number}}</td>
+                    <td>+{{$value->hotel->number}}</td>
                     <td>
                         @if($value->is_email_verify == 1)
                             <label class="label label-success">Verified</label>

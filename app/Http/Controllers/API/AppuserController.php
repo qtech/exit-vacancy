@@ -53,7 +53,6 @@ class AppuserController extends Controller
                     $user = $request->all();
                     $user['password'] = Hash::make($request->password);
                     $user['role'] = 2;
-                    $user['image'] = "user.png";
 
                     $user = User::create($user);
 
@@ -130,7 +129,6 @@ class AppuserController extends Controller
                     $user = $request->all();
                     $user['password'] = Hash::make($request->password);
                     $user['role'] = 3;
-                    $user['image'] = "user.png";
                     $user = User::create($user);
 
                     $hotel = Hoteldata::orderBy('user_id', 'ASC')->first();
@@ -459,7 +457,7 @@ class AppuserController extends Controller
             {
                 $hotel = User::where(['user_id' => $request->user_id,'role' => $request->role])->first();
 
-                if(count($hotel) > 0)
+                if($hotel)
                 {
                     $hotel->fname = $request->fname;
                     $hotel->lname = $request->lname;
@@ -481,7 +479,7 @@ class AppuserController extends Controller
                     $hotel->save();
 
                     $profile = Hoteldata::where(['user_id' => $hotel->user_id])->first();
-                    if(count($profile) > 0)
+                    if($profile)
                     {
                         $profile->number = $request->number;
                         $profile->save();
@@ -536,7 +534,6 @@ class AppuserController extends Controller
                     'roomtype' => $userbookings->roomtype,
                     'status' => $userbookings->status,
                     'roomprice' => $userbookings->roomprice,
-                    'roomimage' => url("/")."/".$userbookings->roomimage,
                     'is_visited' => $userbookings->is_visited
                 ];
 

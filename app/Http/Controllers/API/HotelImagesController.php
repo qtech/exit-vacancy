@@ -33,7 +33,7 @@ class HotelImagesController extends Controller
 
                 $images = [];
 
-                if(count($update) > 0)
+                if($update)
                 {
                     if(!empty($update->image))
                     {
@@ -69,7 +69,7 @@ class HotelImagesController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -98,7 +98,7 @@ class HotelImagesController extends Controller
 
                 if($request->hasFile('images'))
                 {
-                    if(!empty($update->image))
+                    if($update->image != NULL)
                     {
                         foreach(json_decode($update->image) as $image)
                         {
@@ -123,7 +123,7 @@ class HotelImagesController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }

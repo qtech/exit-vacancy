@@ -72,14 +72,25 @@ class AmenityController extends Controller
     {
         try
         {
-            $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_owner_id])->first();
-            $amenity->amenities = $request->amenities;
-            $amenity->save();
-
-            $response = [
-                'msg' => 'Your custom amenities successfully added',
-                'status' => 1
-            ];
+            if($request->amenities != NULL)
+            {
+                $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_owner_id])->first();
+                $amenity->amenities = $request->amenities;
+                $amenity->save();
+    
+                $response = [
+                    'msg' => 'Your custom amenities successfully added',
+                    'status' => 1
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'Please add atleast some one amenity',
+                    'status' => 1
+                ];
+            }
+            
         }
         catch(\Exception $e)
         {

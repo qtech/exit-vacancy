@@ -17,7 +17,7 @@ class PaymentDetailsController extends Controller
 		{
 			$collect = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
             
-            if(count($collect) > 0)
+            if($collect)
             {
                 $data['hotel_owner_id'] = $collect['hotel_owner_id'];
                 $data['account_name'] = $collect['account_name'];
@@ -48,7 +48,7 @@ class PaymentDetailsController extends Controller
 		catch(\Exception $e)
 		{
 			$response = [
-				'msg' => $e->getMessage()." ".$e->getLine(),
+				'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
 				'status' => 0
 			];	
 		}
@@ -174,7 +174,7 @@ class PaymentDetailsController extends Controller
 		catch(\Exception $e)
 		{
 			$response = [
-				'msg' => $e->getMessage(),
+				'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
 				'status' => 0
 			];	
 		}
@@ -225,7 +225,7 @@ class PaymentDetailsController extends Controller
 		catch(\Exception $e)
 		{
 			$response = [
-				'msg' => $e->getMessage(),
+				'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
 				'status' => 0
 			];	
 		}
@@ -270,7 +270,7 @@ class PaymentDetailsController extends Controller
 		catch(\Exception $e)
 		{
 			$response = [
-				'msg' => $e->getMessage(),
+				'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
 				'status' => 0
 			];	
 		}
@@ -290,6 +290,24 @@ class PaymentDetailsController extends Controller
             $hotel_percentage = (100 - $commission->commission_percentage);
             $hotel_payment = ($hotel_percentage / 100) * $amount;
 
+            $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_owner_id, 'ref_id' => $request->ref_id])->first();
+            
+            if($booking_payment)
+            {
+                $booking_payment->total_amount = $request->amount;
+                $booking_payment->admin_commission = $commission->commission_percentage;
+                $booking_payment->hotel_payment = ($hotel_payment/100);
+                $booking_payment->payment_status = 1;
+                $booking_payment->save();
+            }
+            else
+            {
+                $response = [
+                    'msg' => "Oops! Something went wrong",
+                    'status' => 1
+                ];
+            }
+
 			$charge = \Stripe\Charge::create([
 			  "amount" => $amount,
 			  "currency" => "usd",
@@ -299,19 +317,11 @@ class PaymentDetailsController extends Controller
 			    "account" => $account->account_id,
 			  ],
             ]);	
-            
-            $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_owner_id, 'ref_id' => $request->ref_id])->first();
 
-            $booking_payment->total_amount = $request->amount;
-            $booking_payment->admin_commission = $commission->commission_percentage;
-            $booking_payment->hotel_payment = ($hotel_payment/100);
-            $booking_payment->payment_status = 1;
-            $booking_payment->save();
-
-			$response = [
-				'msg' => "Payment successful",
-				'status' => 1
-			];
+            $response = [
+                'msg' => "Payment successful",
+                'status' => 1
+            ];
     	}
     	catch(\Exception $e)
     	{

@@ -33,29 +33,22 @@ class HotelbookingdetailsController extends Controller
                 $getdetails = Bookings::where(['hotel_id' => $request->hotel_id, 'hotel_owner_id' => $request->hotel_owner_id])->orderBy('created_at', 'DESC')->get();
 
                 $data = [];
-
+                
                 foreach($getdetails as $value)
                 {
                     $user = User::with('customer')->where(['user_id' => $value->user_id])->first();
-                    $image = [];
-                    foreach(json_decode($value->roomimage) as $r)
-                    {
-                        $i = url('/')."/storage/uploads/".$r;
-                        array_push($image,$i);
-                    }
+                    
                     $tmp = [
                         'user_id' => $value->user_id,
                         'name' => $user->fname." ".$user->lname,
                         'email' => $user->email,
-                        'image' => url("/")."/".$user->image,
+                        'user_image' => url("/")."/storage/uploads/".$user->image,
                         'number' => $user->customer->number,
                         'status' => $value->status,
-                        'location' => $user->customer->city." ".$user->customer->state,
                         'is_visited' => $value->is_visited,
                         'reference_id' => $value->ref_id,
                         'roomtype' => $value->roomtype,
                         'roomprice' => $value->roomprice,
-                        'roomimage' => $image,
                         'roomamenity' => $value->roomamenity,
                         'arrival_time' => $value->arrival_time,
                         'time' => $value->created_at->format('d-m-y H:i:s')
@@ -74,7 +67,7 @@ class HotelbookingdetailsController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -120,14 +113,13 @@ class HotelbookingdetailsController extends Controller
                             'user_id' => $value->user_id,
                             'name' => $user->fname." ".$user->lname,
                             'email' => $user->email,
+                            'user_image' => url("/")."/storage/uploads/".$user->image,
                             'number' => $user->customer->number,
                             'status' => $value->status,
-                            'location' => $user->customer->city." ".$user->customer->state,
                             'is_visited' => $value->is_visited,
                             'reference_id' => $value->ref_id,
                             'roomtype' => $value->roomtype,
                             'roomprice' => $value->roomprice,
-                            'roomimage' => url("/")."/".$value->roomimage,
                             'roomamenity' => $value->roomamenity,
                             'arrival_time' => $value->arrival_time,
                             'time' => $value->created_at->format('d-m-y H:i:s')
@@ -147,7 +139,7 @@ class HotelbookingdetailsController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -189,19 +181,18 @@ class HotelbookingdetailsController extends Controller
                     foreach($visited as $value)
                     {
                         $user = User::with('customer')->where(['user_id' => $value->user_id])->first();
-    
+                        
                         $tmp = [
                             'user_id' => $value->user_id,
                             'name' => $user->fname." ".$user->lname,
                             'email' => $user->email,
+                            'user_image' => url("/")."/storage/uploads/".$user->image,
                             'number' => $user->customer->number,
                             'status' => $value->status,
-                            'location' => $user->customer->city." ".$user->customer->state,
                             'is_visited' => $value->is_visited,
                             'reference_id' => $value->ref_id,
                             'roomtype' => $value->roomtype,
                             'roomprice' => $value->roomprice,
-                            'roomimage' => url("/")."/".$value->roomimage,
                             'roomamenity' => $value->roomamenity,
                             'time' => $value->created_at->format('d-m-y H:i:s')
                         ];
@@ -220,7 +211,7 @@ class HotelbookingdetailsController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -250,16 +241,20 @@ class HotelbookingdetailsController extends Controller
 
                 $image = [];
 
-                foreach(json_decode($gethotel->image) as $r)
+                if($gethotel->image != NULL)
                 {
-                    $i = url('/')."/storage/uploads/".$r;
-                    array_push($image,$i);
+                    foreach(json_decode($gethotel->image) as $r)
+                    {
+                        $i = url('/')."/storage/uploads/".$r;
+                        array_push($image,$i);
+                    }
                 }
 
                 $data = [
                     'hotel_name' => $gethotel->hotel_name,
                     'stars' => $gethotel->stars,
                     'ratings' => $gethotel->ratings,
+                    'amenities' => $gethotel->amenities,
                     'hotel_image' => $image,
                     'number' => $gethotel->number,
                     'base_price' => $gethotel->price,
@@ -271,10 +266,13 @@ class HotelbookingdetailsController extends Controller
                 {
                     $roomimage = [];
 
-                    foreach(json_decode($gethotel->king_room_image) as $j)
+                    if($gethotel->king_room_image != NULL)
                     {
-                        $k = url('/')."/storage/uploads/".$j;
-                        array_push($roomimage,$k);
+                        foreach(json_decode($gethotel->king_room_image) as $j)
+                        {
+                            $k = url('/')."/storage/uploads/".$j;
+                            array_push($roomimage,$k);
+                        }
                     }
 
                     $data['room'] = [
@@ -312,7 +310,7 @@ class HotelbookingdetailsController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }

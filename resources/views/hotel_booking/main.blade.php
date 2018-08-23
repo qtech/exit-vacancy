@@ -100,29 +100,30 @@
 </header>
 <section class="card">
     <div class="card-block">
-        <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+        <table id="example" class="display table table-striped table-bordered" cellspacing="0">
             <thead>
             <tr>
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Number</th>
+                <th>Room Type</th>
                 <th>Status</th>
+                <th>Total Amount</th>
+                <th>Your Payment</th>
             </tr>
             </thead>
             <tbody>
-                @php
-                    $i = 1;
-                @endphp
                 @foreach($getdetails as $value)
                 <tr>
-                    <td>{{$i++}}</td>
+                    <td>{{$loop->index+1}}</td>
                     <td>{{$value->user->fname}} {{$value->user->lname}}</td>
                     <td>{{$value->user->email}}</td>
-                    <td>{{$value->customer->number}}</td>
+                    <td>+{{$value->customer->number}}</td>
+                    <td>{{$value->roomtype}}</td>
                     <td>
                         @if($value->status == 0)
-                        <label class="label label-secondary">Pending</label>
+                        <label class="label label-warning">Pending</label>
                         @endif
                         @if($value->status == 1)
                         <label class="label label-success">Accepted</label>
@@ -134,6 +135,8 @@
                         <label class="label label-warning">No response</label>
                         @endif
                     </td>
+                    <td>${{$value->total_amount or "0"}}</td>
+                    <td>${{$value->hotel_payment}}</td>
                 </tr>
                 @endforeach
             </tbody>

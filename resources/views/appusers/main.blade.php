@@ -96,10 +96,10 @@
                 <tr>
                     <td>{{$i++}}</td>
                     <td>
-                        <a style="border-bottom:none !important; color:black;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</a>
+                        <a style="border-bottom:none !important; color:#00857b;" href="{{route('userbookings',['id' => $value->user_id])}}">{{$value->fname or $value->user->fname}}</a>
                     </td>
                     <td>{{$value->email or $value->user->email}}</td>
-                    <td>{{$value->customer->number}}</td>
+                    <td>+{{$value->customer->number}}</td>
                     <td>
                         @if($value->is_email_verify == 1 || @$value->user->is_email_verify == 1)
                             <label class="label label-success">Verified</label>
