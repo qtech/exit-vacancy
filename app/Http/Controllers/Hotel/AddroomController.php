@@ -8,6 +8,7 @@ use Validator;
 use App\Hoteldata;
 use App\User;
 use App\ImageUpload;
+use App\RoomAmenity;
 use Storage;
 
 class AddroomController extends Controller
@@ -16,8 +17,11 @@ class AddroomController extends Controller
     {
         try
         {
-            $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-            return view('hotel_rooms.king.main')->with('room', $room);
+            $getdetails = [
+                'room' => Hoteldata::where(['user_id' => Auth()->user()->user_id])->first(),
+                'room_amenity' => RoomAmenity::where(['status' => 1])->get()
+            ];
+            return view('hotel_rooms.king.main')->with('getdetails',$getdetails);
         }
         catch(\Exception $e)
         {

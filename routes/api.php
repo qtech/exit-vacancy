@@ -26,6 +26,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // CHANGE EMAIL
     Route::post('/emailchange', 'API\AppuserController@change_email');
 
+    // CHANGE NUMBER
+    Route::post('/numberchange', 'API\AppuserController@change_number');
+
     // EDIT CUSTOMER PROFILE
     Route::post('/user/editprofile', 'API\AppuserController@edit_customer_profile');
 
@@ -99,6 +102,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 
     // COMMON HOTEL AMENITIES
     Route::get('/amenities', 'API\AmenityController@getAmenities');
+
+    // COMMON ROOM AMENITIES
+    Route::get('/roomamenities', 'API\AmenityController@getRoomAmenities');
 
     // ADD CUSTOM HOTEL AMENITIES
     Route::post('/custom_amenities', 'API\AmenityController@update_custom_amenities');

@@ -107,7 +107,6 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Number</th>
-                <th>Location</th>
                 <th>Status</th>
             </tr>
             </thead>
@@ -121,7 +120,6 @@
                     <td>{{$value->user->fname}} {{$value->user->lname}}</td>
                     <td>{{$value->user->email}}</td>
                     <td>{{$value->customer->number}}</td>
-                    <td>{{$value->customer->state}}, {{$value->customer->city}}</td>
                     <td>
                         @if($value->status == 0)
                         <label class="label label-secondary">Pending</label>

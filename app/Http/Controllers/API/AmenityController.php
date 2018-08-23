@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Amenities;
 use App\Hoteldata;
+use App\RoomAmenity;
 
 class AmenityController extends Controller
 {
@@ -13,7 +14,7 @@ class AmenityController extends Controller
     {
         try
         {
-            $amenities = Amenities::all();
+            $amenities = Amenities::where(['status' => 1])->get();
             $data = [];
 
             foreach($amenities as $value)
@@ -88,6 +89,41 @@ class AmenityController extends Controller
             ];
         }
 
+        return response()->json($response);
+    }
+
+    // ROOM AMENITY
+
+    public function getRoomAmenities()
+    {
+        try
+        {
+            $amenities = RoomAmenity::where(['status' => 1])->get();
+            $data = [];
+
+            foreach($amenities as $value)
+            {   
+                $tmp = [
+                    'room_amenity_id' => $value->room_amenity_id,
+                    'room_amenity_name' => $value->name
+                ];
+
+                array_push($data, $tmp);
+            }
+
+            $response = [
+                'msg' => "List of Room Amenities",
+                'status' => 1,
+                'data' => $data
+            ];
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
         return response()->json($response);
     }
 }

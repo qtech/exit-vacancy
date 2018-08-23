@@ -156,7 +156,7 @@ class AppuserController extends Controller
                     $response = [
                         'msg' => 'Hotel registration Successful',
                         'status' => 1,
-                        'user_id' => $uesr->user_id
+                        'user_id' => $user->user_id
                     ];
                 }
             }
@@ -178,7 +178,7 @@ class AppuserController extends Controller
         {
             $change = User::find($request->user_id);
 
-            if($change != NULL)
+            if($change)
             {
                 if($change->is_email_verfiy == 0)
                 {
@@ -206,6 +206,90 @@ class AppuserController extends Controller
                 {
                     $response = [
                         'msg' => 'Sorry, your email ID is already registered. You can\'t change it now',
+                        'status' => 0
+                    ];
+                }
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'Invalid Parameters',
+                    'status' => 0
+                ];
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function change_number(Request $request)
+    {
+        try
+        {
+            $change = User::find($request->user_id);
+
+            if($change)
+            {
+                if($change->is_mobile_verfiy == 0)
+                {
+                    if($request->role == 2)
+                    {
+                        $checknumber = Customer::where(['number' => $request->number])->first();
+
+                        if(count($checknumber) > 0)
+                        {
+                            $response = [
+                                'msg' => 'This Number is already registered. Please try some other number.',
+                                'status' => 1
+                            ]; 
+                        }
+                        else
+                        {
+                            $number = Customer::where(['user_id' => $request->user_id])->first();
+                            $number->number = $request->number;
+                            $number->save();
+        
+                            $response = [
+                                'msg' => 'Mobile number updated successfully',
+                                'status' => 1
+                            ];   
+                        }
+                    }
+                    else
+                    {
+                        $checkphone = Hoteldata::where(['number' => $request->number])->first();
+
+                        if(count($checkphone) > 0)
+                        {
+                            $response = [
+                                'msg' => 'This Number is already registered. Please try some other number.',
+                                'status' => 1
+                            ]; 
+                        }
+                        else
+                        {
+                            $phone = Hoteldata::where(['user_id' => $request->user_id])->first();
+                            $phone->number = $request->number;
+                            $phone->save();
+        
+                            $response = [
+                                'msg' => 'Mobile number updated successfully',
+                                'status' => 1
+                            ];   
+                        }
+                    }
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'Sorry, your number is already registered. You can\'t change it now',
                         'status' => 0
                     ];
                 }

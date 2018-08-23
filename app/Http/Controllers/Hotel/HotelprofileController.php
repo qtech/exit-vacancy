@@ -18,7 +18,7 @@ class HotelprofileController extends Controller
     {
         $getdetails = [
             'details' => User::with('hotel')->where(['role' => 3,'user_id' => Auth()->user()->user_id])->first(),
-            'amenities' => Amenities::all()
+            'amenities' => Amenities::where(['status' => 1])->get()
         ];
         
         return view('hotel_profile.main')->with('getdetails',$getdetails);
@@ -49,9 +49,9 @@ class HotelprofileController extends Controller
                 $hotelowner = User::where(['user_id' => Auth()->user()->user_id])->first();
                 if($request->hasFile('image'))
                 {
-                    if($hotelowner->image != NULL || $hotelowner->image != "user.png")
+                    if($hotelowner->image != NULL)
                     {
-                        Storage::delete(getenv('IMG_UPLOAD').$hotelowner->image);
+                        //Storage::delete(getenv('IMG_UPLOAD').$hotelowner->image);
                         $hotelowner->image = ImageUpload::imageupload($request,'image');
                         $hotelowner->save();
                     }

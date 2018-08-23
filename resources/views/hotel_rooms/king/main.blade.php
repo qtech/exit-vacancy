@@ -4,30 +4,20 @@
 <div class="box-typical" style="padding-left:25px;">
     <h4 class="m-t-lg with-border">King Room Details</h4>
     @php    
-        $split = explode(",", $room->king_room_amenity);
+        $split = explode(",", $getdetails['room']->king_room_amenity);
     @endphp
     <form id="myform" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <div class="col-md-12">
                 <label class="form-label semibold" for="title">Select Amenities</label>
                 <select class="select2" name="amenities[]" id="amenities" multiple="multiple">
+                    @foreach($getdetails['room_amenity'] as $tmp)
                         <option
-                        @if(in_array('Breakfast', $split))
-                            selected
-                        @endif
-                        value="Breakfast">Breakfast</option>
-
-                        <option
-                        @if(in_array('Lunch', $split))
-                            selected
-                        @endif
-                        value="Lunch">Lunch</option>
-
-                        <option
-                        @if(in_array('Dinner', $split))
-                            selected
-                        @endif
-                        value="Dinner">Dinner</option>
+                            @if(in_array($tmp->name, $split))
+                                selected
+                            @endif
+                            value="{{$tmp->name}}">{{$tmp->name}}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -45,7 +35,7 @@
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="title">Price</label>
-                    <input type="number" class="form-control" name="price" id="price" value="{{$room->king_room_price}}">
+                    <input type="number" class="form-control" name="price" id="price" value="{{$getdetails['room']->king_room_price}}">
                     <small class="text-muted">Update price of this room</small>
                 </fieldset>
             </div>
@@ -54,7 +44,7 @@
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="title">Rooms Available</label>
-                    <input type="number" class="form-control" name="rooms" id="rooms" value="{{$room->king_room}}">
+                    <input type="number" class="form-control" name="rooms" id="rooms" value="{{$getdetails['room']->king_room}}">
                     <small class="text-muted">Update number of rooms available</small>
                 </fieldset>
             </div>
@@ -72,7 +62,7 @@
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
-                    <a href="{{route('s.showimages',['id' => $room->user_id])}}" class="btn btn-custom pull-left">View Images</a>
+                    <a href="{{route('s.showimages',['id' => $getdetails['room']->user_id])}}" class="btn btn-custom pull-left">View Images</a>
                     <input onclick="updateroom(); event.preventDefault();" type="submit" class="btn btn-custom pull-right" value="Update">
                 </fieldset>
             </div>

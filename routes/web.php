@@ -111,6 +111,14 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::post('/disable', 'AmenityController@disable')->name('disableamenity');
     });
 
+    // ROOM AMENITIES
+    Route::prefix('room_amenity')->group(function(){
+        Route::get('/getamenities', 'RoomAmenityController@getData')->name('getroomamenities'); //AJAX GET DATA
+        Route::get('/', 'RoomAmenityController@view')->name('roomamenity');
+        Route::post('/update', 'RoomAmenityController@add')->name('addroomamenity');
+        Route::post('/disable', 'RoomAmenityController@disable')->name('disableroomamenity');
+    });
+
     // SEND MAILS
     Route::prefix('mails')->group(function(){
         Route::prefix('users')->group(function(){
