@@ -14,18 +14,39 @@ class RoomsController extends Controller
         {
             $room = Hoteldata::where(['user_id' => $request->hotel_id])->first();
 
+            $kingroom = [];
+            $queenroom = [];
+
+            if($room->king_room_image != NULL)
+            {
+                foreach(json_decode($room->king_room_image) as $k)
+                {
+                    $s = url('/')."/storage/uploads/".$k;
+                    array_push($kingroom,$s);
+                }
+            }
+
+            if($room->queen_room_image != NULL)
+            {
+                foreach(json_decode($room->queen_room_image) as $q)
+                {
+                    $j = url('/')."/storage/uploads/".$q;
+                    array_push($queenroom,$j);
+                }
+            }
+
             $data = [
                 [
                     'room_type' => "King Size Room",
                     'room_available' => $room->king_room,
-                    'room_image' => ($room->king_room_image != NULL) ? url("/")."/".$room->king_room_image : "",
+                    'room_image' => $kingroom,
                     'room_price' => $room->king_room_price,
                     'room_amenity' => ($room->king_room_amenity != NULL) ? $room->king_room_amenity : ""
                 ],
                 [
                     'room_type' => "Queen Size Room",
                     'room_available' => $room->queen_room,
-                    'room_image' => ($room->queen_room_image != NULL) ? url("/")."/".$room->queen_room_image : "",
+                    'room_image' => $queenroom,
                     'room_price' => $room->queen_room_price,
                     'room_amenity' => ($room->queen_room_amenity != NULL) ? $room->queen_room_amenity : ""
                 ]

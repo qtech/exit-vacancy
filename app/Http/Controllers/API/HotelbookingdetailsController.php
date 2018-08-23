@@ -37,7 +37,12 @@ class HotelbookingdetailsController extends Controller
                 foreach($getdetails as $value)
                 {
                     $user = User::with('customer')->where(['user_id' => $value->user_id])->first();
-
+                    $image = [];
+                    foreach(json_decode($value->roomimage) as $r)
+                    {
+                        $i = url('/')."/storage/uploads/".$r;
+                        array_push($image,$i);
+                    }
                     $tmp = [
                         'user_id' => $value->user_id,
                         'name' => $user->fname." ".$user->lname,
@@ -50,7 +55,7 @@ class HotelbookingdetailsController extends Controller
                         'reference_id' => $value->ref_id,
                         'roomtype' => $value->roomtype,
                         'roomprice' => $value->roomprice,
-                        'roomimage' => url("/")."/".$value->roomimage,
+                        'roomimage' => $image,
                         'roomamenity' => $value->roomamenity,
                         'arrival_time' => $value->arrival_time,
                         'time' => $value->created_at->format('d-m-y H:i:s')
@@ -243,11 +248,19 @@ class HotelbookingdetailsController extends Controller
             {
                 $gethotel = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
 
+                $image = [];
+
+                foreach(json_decode($gethotel->image) as $r)
+                {
+                    $i = url('/')."/storage/uploads/".$r;
+                    array_push($image,$i);
+                }
+
                 $data = [
                     'hotel_name' => $gethotel->hotel_name,
                     'stars' => $gethotel->stars,
                     'ratings' => $gethotel->ratings,
-                    'hotel_image' => $gethotel->image,
+                    'hotel_image' => $image,
                     'number' => $gethotel->number,
                     'base_price' => $gethotel->price,
                     'city' => $gethotel->city,
@@ -256,19 +269,35 @@ class HotelbookingdetailsController extends Controller
 
                 if($request->roomtype == 1)
                 {
+                    $roomimage = [];
+
+                    foreach(json_decode($gethotel->king_room_image) as $j)
+                    {
+                        $k = url('/')."/storage/uploads/".$j;
+                        array_push($roomimage,$k);
+                    }
+
                     $data['room'] = [
                         'room_type' => "King Size Room",
                         'room_price' => $gethotel->king_room_price,
-                        'room_image' => url("/")."/".$gethotel->king_room_image,
+                        'room_image' => $roomimage,
                         'room_amenity' => $gethotel->king_room_amenity
                     ];
                 }
                 else
                 {
+                    $roomimage = [];
+
+                    foreach(json_decode($gethotel->queen_room_image) as $j)
+                    {
+                        $k = url('/')."/storage/uploads/".$j;
+                        array_push($roomimage,$k);
+                    }
+
                     $data['room'] = [
                         'room_type' => "2 Queens Room",
                         'room_price' => $gethotel->queen_room_price,
-                        'room_image' => url("/")."/".$gethotel->queen_room_image,
+                        'room_image' => $roomimage,
                         'room_amenity' => $gethotel->queen_room_amenity
                     ];
                 }

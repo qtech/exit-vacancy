@@ -11,6 +11,7 @@ use App\ImageUpload;
 use Illuminate\Support\Facades\Hash;
 use App\Hoteldata;
 use App\Bookings;
+use Storage;
 use DB;
 use Mail;
 use App\Mail\registration;
@@ -313,6 +314,44 @@ class AppuserController extends Controller
         return response()->json($response);
     }
 
+    public function get_user_details(Request $request)
+    {
+        try
+        {
+            $user = User::with('customer')->find($request->user_id);
+
+            if($user)
+            {
+                $u['fname'] = $user->fname;
+                $u['lname'] = $user->lname == NULL ? "" : $user->lname;
+                $u['image'] = $user->image == NULL ? "" : url('/')."/storage/uploads/".$user->image;
+                $u['role'] = $user->role;
+                $u['number'] = $user->customer->number;
+
+                $response = [
+                    'msg' => 'User details',
+                    'status' => 1,
+                    'data' => $u
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'No such user found',
+                    'status' => 0
+                ];
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+        return response()->json($response);
+    }
+
     public function edit_customer_profile(Request $request)
     {
         try
@@ -320,7 +359,7 @@ class AppuserController extends Controller
             $validator = Validator::make($request->all(),[
                 'user_id' => 'required',
                 'fname' => 'required',
-                'lname' => 'required',
+                'lname' => 'nullable',
                 'number' => 'required',
                 'image' => 'nullable',
                 'role' => 'required'
@@ -341,21 +380,20 @@ class AppuserController extends Controller
                 {
                     $user->fname = $request->fname;
                     $user->lname = $request->lname;
-                    if($user->image != "user.png" || $user->image != NULL)
+                    
+                    if($request->hasFile('image'))
                     {
-                        if($request->hasFile('image'))
+                        if($user->image != NULL)
                         {
                             Storage::delete(getenv('IMG_UPLOAD').$user->image);
                             $user->image = ImageUpload::imageupload($request,'image');
                         }
-                    }
-                    else
-                    {
-                        if($request->hasFile('image'))
+                        else
                         {
                             $user->image = ImageUpload::imageupload($request,'image');
                         }
                     }
+
                     $user->save();
 
                     $profile = Customer::where(['user_id' => $user->user_id])->first();
@@ -404,7 +442,7 @@ class AppuserController extends Controller
             $validator = Validator::make($request->all(),[
                 'user_id' => 'required',
                 'fname' => 'required',
-                'lname' => 'required',
+                'lname' => 'nullable',
                 'number' => 'required',
                 'image' => 'nullable',
                 'role' => 'required'
@@ -425,7 +463,7 @@ class AppuserController extends Controller
                 {
                     $hotel->fname = $request->fname;
                     $hotel->lname = $request->lname;
-                    if($hotel->image != "user.png" || $hotel->image != NULL)
+                    if($hotel->image != NULL)
                     {
                         if($request->hasFile('image'))
                         {

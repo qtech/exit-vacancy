@@ -39,10 +39,7 @@ class HotelImagesController extends Controller
                     {
                         foreach(json_decode($update->image) as $image)
                         {
-                            $tmp = [
-                                'image' => url("/")."/storage/uploads/".$image
-                            ];
-
+                            $tmp =  url("/")."/storage/uploads/".$image;
                             array_push($images,$tmp);
                         }
                     }
@@ -107,6 +104,10 @@ class HotelImagesController extends Controller
                         {
                             Storage::delete(getenv('IMG_UPLOAD').$image);
                         }
+                        $update->image = ImageUpload::multipleimageupload($request,'images');
+                    }
+                    else
+                    {
                         $update->image = ImageUpload::multipleimageupload($request,'images');
                     }
                 }

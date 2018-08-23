@@ -29,6 +29,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // CHANGE NUMBER
     Route::post('/numberchange', 'API\AppuserController@change_number');
 
+    // GET USER PROFILE DETAILS
+    Route::post('/userprofiledetails', 'API\AppuserController@get_user_details');
+
     // EDIT CUSTOMER PROFILE
     Route::post('/user/editprofile', 'API\AppuserController@edit_customer_profile');
 

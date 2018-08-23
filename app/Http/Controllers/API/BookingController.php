@@ -337,7 +337,29 @@ class BookingController extends Controller
                     foreach($recent_booking as $recent)
                     {
                         $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
-                    
+                        
+                        $hotelimage = [];
+
+                        if($hotel->image != NULL)
+                        {
+                            foreach(json_decode($hotel->image) as $k)
+                            {
+                                $s = url('/')."/storage/uploads/".$k;
+                                array_push($hotelimage,$s);
+                            }
+                        }
+
+                        $roomimage = [];
+
+                        if($recent->roomimage != NULL)
+                        {
+                            foreach(json_decode($recent->roomimage) as $b)
+                            {
+                                $d = url('/')."/storage/uploads/".$b;
+                                array_push($roomimage,$d);
+                            }
+                        }
+
                         $tmp = [
                             'ref_id' => $recent->ref_id,
                             'payment_status' => $recent->payment_status,
@@ -347,7 +369,7 @@ class BookingController extends Controller
                             'amenities' => $hotel->amenities,
                             'stars' => $hotel->stars,
                             'ratings' => $hotel->ratings,
-                            'image' => $hotel->image,
+                            'image' => $hotelimage,
                             'number' => $hotel->number,
                             'city' => $hotel->city,
                             'state' => $hotel->state,
@@ -357,7 +379,7 @@ class BookingController extends Controller
                                 [
                                     'roomtype' => $recent->roomtype,
                                     'roomprice' => $recent->roomprice,
-                                    'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
+                                    'roomimage' => $roomimage,
                                     'roomamenity' => $recent->roomamenity
                                 ]   
                             ]
@@ -418,13 +440,35 @@ class BookingController extends Controller
                     {
                         $hotel = Hoteldata::where(['hotel_data_id' => $recent->hotel_id])->first();
 
+                        $hotelimage = [];
+
+                        if($hotel->image != NULL)
+                        {
+                            foreach(json_decode($hotel->image) as $k)
+                            {
+                                $s = url('/')."/storage/uploads/".$k;
+                                array_push($hotelimage,$s);
+                            }
+                        }
+
+                        $roomimage = [];
+
+                        if($recent->roomimage != NULL)
+                        {
+                            foreach(json_decode($recent->roomimage) as $b)
+                            {
+                                $d = url('/')."/storage/uploads/".$b;
+                                array_push($roomimage,$d);
+                            }
+                        }
+
                         $tmp = [
                             'hotel_id' => $hotel->hotel_data_id,
                             'hotel_name' => $hotel->hotel_name,
                             'amenities' => $hotel->amenities,
                             'stars' => $hotel->stars,
                             'ratings' => $hotel->ratings,
-                            'image' => $hotel->image,
+                            'image' => $hotelimage,
                             'number' => $hotel->number,
                             'city' => $hotel->city,
                             'state' => $hotel->state,
@@ -434,7 +478,7 @@ class BookingController extends Controller
                                 [
                                     'roomtype' => $recent->roomtype,
                                     'roomprice' => $recent->roomprice,
-                                    'roomimage' => ($recent->roomimage != NULL) ? url("/")."/".$recent->roomimage : "",
+                                    'roomimage' => $roomimage,
                                     'roomamenity' => $recent->roomamenity
                                 ]   
                             ]

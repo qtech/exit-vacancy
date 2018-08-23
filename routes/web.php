@@ -210,7 +210,7 @@ Route::middleware(['auth','Hotelowner'])->prefix('Hotelowner')->group(function()
         Route::get('/view', 'Hotel\HotelprofileController@view_hotel_profile')->name('viewhotelprofile');
         Route::post('/update', 'Hotel\HotelprofileController@update')->name('updatehotelprofile');
         Route::get('/showimages/{id}', 'Hotel\HotelprofileController@hotel_images')->name('hotelimages');
-        Route::post('/hotelbookingchart', 'API\AppuserController@hotelbooking_chart')->name('h.bookingchart');
+        Route::post('/chart', 'Hotel\HotelbookingController@hotel_booking_chart')->name('h.bookingchart');
     });
 
     Route::prefix('bookings')->group(function(){

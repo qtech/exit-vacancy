@@ -207,8 +207,8 @@
                 }
             };
             ajx.open("POST", "{{route('h.bookingchart')}}", true);
-            // ajx.setRequestHeader("Content-type", "application/json");
-            ajx.send(JSON.stringify(param));
+            ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
+            ajx.send(param);
         }
     </script>
 @endsection

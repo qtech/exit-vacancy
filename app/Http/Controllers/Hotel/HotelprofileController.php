@@ -51,7 +51,7 @@ class HotelprofileController extends Controller
                 {
                     if($hotelowner->image != NULL)
                     {
-                        //Storage::delete(getenv('IMG_UPLOAD').$hotelowner->image);
+                        Storage::delete(getenv('IMG_UPLOAD').$hotelowner->image);
                         $hotelowner->image = ImageUpload::imageupload($request,'image');
                         $hotelowner->save();
                     }
