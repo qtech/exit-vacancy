@@ -136,7 +136,7 @@
                                         </tr>
                                         <tr> 
                                              <td style="word-wrap:break-word;font-size:0px;padding:30px 30px 16px;" align="center">
-                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:18px;line-height:22px;text-align:center;">Welcome to {{ config('app.name') }}</div>
+                                                 <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:18px;line-height:22px;text-align:center;">{{ config('app.name') }} Email Verification</div>
                                              </td>
                                          </tr>
                                          <tr> 

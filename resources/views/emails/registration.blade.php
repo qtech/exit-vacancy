@@ -146,7 +146,7 @@
                                         </tr>
                                         <tr>
                                             <td style="word-wrap:break-word;font-size:0px;padding:0px 30px 25px;" align="left">
-                                                <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">Thank you for registering on ExitVacancy. Hope, you enjoy using our application.</div>
+                                                <div style="cursor:auto;color:#000000;font-family:Proxima Nova, Arial, Arial, Helvetica, sans-serif;font-size:15px;line-height:22px;text-align:left;">Thank you for registering with ExitVacancy. Hope, you will enjoy using our application.</div>
                                             </td>
                                         </tr>
                                         <tr>
