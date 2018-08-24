@@ -42,11 +42,14 @@ class BookingController extends Controller
                 {
                     $decline = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'ref_id' => $request->reference_id, 'status' => 0])->first();
                     
-                    $hotel = User::where(['user_id' => $decline->hotel_owner_id])->first();
-                    $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
-                    $decline->status = 3;
-                    $decline->status_time = date('d-m-y H:i:s');
-                    $decline->save();
+                    if($decline)
+                    {
+                        $hotel = User::where(['user_id' => $decline->hotel_owner_id])->first();
+                        $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
+                        $decline->status = 3;
+                        $decline->status_time = date('d-m-y H:i:s');
+                        $decline->save();
+                    }
                 }
                 else
                 {
@@ -88,17 +91,29 @@ class BookingController extends Controller
                     }
 
                     $accept = Bookings::where(['user_id' => $request->user_id,'hotel_owner_id' => $request->hotel_id,'status' => 0, 'ref_id' => $request->reference_id])->first();
-                    $accept->status = 1;
-                    $accept->status_time = date('d-m-y H:i:s');
-                    $accept->save();
+
+                    if($accept)
+                    {
+                        $accept->status = 1;
+                        $accept->status_time = date('d-m-y H:i:s');
+                        $accept->save();
+                    }
 
                     $count_user_booking = User::where(['user_id' => $request->user_id])->first();
-                    $count_user_booking->bookings = $count_user_booking->bookings + 1;
-                    $count_user_booking->save();
+
+                    if($count_user_booking)
+                    {
+                        $count_user_booking->bookings = $count_user_booking->bookings + 1;
+                        $count_user_booking->save();
+                    }
 
                     $count_hotel_booking = User::where(['user_id' => $request->hotel_id])->first();
-                    $count_hotel_booking->bookings = $count_hotel_booking->bookings + 1;
-                    $count_hotel_booking->save();
+
+                    if($count_hotel_booking)
+                    {
+                        $count_hotel_booking->bookings = $count_hotel_booking->bookings + 1;
+                        $count_hotel_booking->save();
+                    }
 
                     $collect = [
                         'ref_id' => $request->reference_id,
@@ -123,13 +138,16 @@ class BookingController extends Controller
 
                     $decline = Bookings::where(['user_id' => $request->user_id, 'status' => 0, 'ref_id' => $request->reference_id])->get();
                     
-                    foreach($decline as $value)
+                    if(count($decline) > 0)
                     {
-                        $hotel = User::where(['user_id' => $value->hotel_owner_id])->first();
-                        $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
-                        $value->status = 3;
-                        $value->status_time = date('d-m-y H:i:s');
-                        $value->save();
+                        foreach($decline as $value)
+                        {
+                            $hotel = User::where(['user_id' => $value->hotel_owner_id])->first();
+                            $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
+                            $value->status = 3;
+                            $value->status_time = date('d-m-y H:i:s');
+                            $value->save();
+                        }
                     }
                 }                
 
@@ -181,9 +199,13 @@ class BookingController extends Controller
                 else
                 {
                     $decline = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'status' => 0, 'ref_id' => $request->reference_id])->first();
-                    $decline->status = 2;
-                    $decline->status_time = date('d-m-y H:i:s');
-                    $decline->save();
+
+                    if($decline)
+                    {
+                        $decline->status = 2;
+                        $decline->status_time = date('d-m-y H:i:s');
+                        $decline->save();
+                    }
 
                     $response = [
                         'msg' => 'Request declined',

@@ -41,7 +41,7 @@ class AppuserController extends Controller
             {
                 $check_email = User::where(['email' => $request->email])->first();
 
-                if(count($check_email) > 0)
+                if($check_email)
                 {
                     $response = [
                         'msg' => 'This email id already used for registration.',
@@ -78,7 +78,7 @@ class AppuserController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -117,7 +117,7 @@ class AppuserController extends Controller
             {
                 $check_email = User::where(['email' => $request->email])->first();
 
-                if(count($check_email) > 0)
+                if($check_email)
                 {
                     $response = [
                         'msg' => 'This Email id is already registered.',
@@ -163,7 +163,7 @@ class AppuserController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -183,11 +183,11 @@ class AppuserController extends Controller
                 {
                     $checkemail = User::where(['email' => $request->email])->first();
 
-                    if(count($checkemail) > 0)
+                    if($checkemail)
                     {
                         $response = [
                             'msg' => 'This Email ID already registered. Please try some other email.',
-                            'status' => 1
+                            'status' => 0
                         ]; 
                     }
                     else
@@ -242,12 +242,12 @@ class AppuserController extends Controller
                     {
                         $checknumber = Customer::where(['number' => $request->number])->first();
 
-                        if(count($checknumber) > 0)
+                        if($checknumber)
                         {
                             $response = [
-                                'msg' => 'This Number is already registered. Please try some other number.',
-                                'status' => 1
-                            ]; 
+                                'msg' => 'This Number is already registered by other user. Please try some other number.',
+                                'status' => 0
+                            ];
                         }
                         else
                         {
@@ -258,18 +258,18 @@ class AppuserController extends Controller
                             $response = [
                                 'msg' => 'Mobile number updated successfully',
                                 'status' => 1
-                            ];   
+                            ]; 
                         }
                     }
                     else
                     {
-                        $checkphone = Hoteldata::where(['number' => $request->number])->first();
+                        $checkphone = Hoteldata::where(['user_id' => $request->user_id,'number' => $request->number])->first();
 
-                        if(count($checkphone) > 0)
+                        if($checkphone)
                         {
                             $response = [
-                                'msg' => 'This Number is already registered. Please try some other number.',
-                                'status' => 1
+                                'msg' => 'This Number is already registered by other user. Please try some other number.',
+                                'status' => 0
                             ]; 
                         }
                         else
@@ -281,7 +281,7 @@ class AppuserController extends Controller
                             $response = [
                                 'msg' => 'Mobile number updated successfully',
                                 'status' => 1
-                            ];   
+                            ];  
                         }
                     }
                 }
@@ -343,10 +343,49 @@ class AppuserController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
+        return response()->json($response);
+    }
+
+    public function get_hoteluser_details(Request $request)
+    {
+        try
+        {
+            $hotel = User::with('hotel')->find($request->user_id);
+
+            if($hotel)
+            {
+                $u['fname'] = $hotel->fname;
+                $u['lname'] = $hotel->lname == NULL ? "" : $hotel->lname;
+                $u['image'] = $hotel->image == NULL ? "" : url('/')."/storage/uploads/".$hotel->image;
+                $u['role'] = $hotel->role;
+                $u['number'] = $hotel->hotel->number;
+
+                $response = [
+                    'msg' => 'Hotel User details',
+                    'status' => 1,
+                    'data' => $u
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'No such hoteluser found',
+                    'status' => 0
+                ];
+            }   
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
         return response()->json($response);
     }
 
@@ -374,14 +413,14 @@ class AppuserController extends Controller
             {
                 $user = User::where(['user_id' => $request->user_id,'role' => $request->role])->first();
 
-                if(count($user) > 0)
+                if($user)
                 {
                     $user->fname = $request->fname;
                     $user->lname = $request->lname;
                     
                     if($request->hasFile('image'))
                     {
-                        if($user->image != NULL)
+                        if(!empty($user->image))
                         {
                             Storage::delete(getenv('IMG_UPLOAD').$user->image);
                             $user->image = ImageUpload::imageupload($request,'image');
@@ -392,13 +431,14 @@ class AppuserController extends Controller
                         }
                     }
 
-                    $user->save();
-
                     $profile = Customer::where(['user_id' => $user->user_id])->first();
-                    if(count($profile) > 0)
+                    if($profile)
                     {
                         $profile->number = $request->number;
                         $profile->save();
+
+                        $user->is_mobile_verify = 0;
+                        $user->save();
 
                         $response = [
                             'msg' => 'User profile successfully updated',
@@ -425,7 +465,7 @@ class AppuserController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -461,7 +501,7 @@ class AppuserController extends Controller
                 {
                     $hotel->fname = $request->fname;
                     $hotel->lname = $request->lname;
-                    if($hotel->image != NULL)
+                    if(!empty($hotel->image))
                     {
                         if($request->hasFile('image'))
                         {
@@ -476,13 +516,15 @@ class AppuserController extends Controller
                             $hotel->image = ImageUpload::imageupload($request,'image');
                         }
                     }
-                    $hotel->save();
 
                     $profile = Hoteldata::where(['user_id' => $hotel->user_id])->first();
                     if($profile)
                     {
                         $profile->number = $request->number;
                         $profile->save();
+
+                        $hotel->is_mobile_verify == 0;
+                        $hotel->save();
 
                         $response = [
                             'msg' => 'Hotel profile successfully updated',
@@ -509,7 +551,7 @@ class AppuserController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -529,21 +571,31 @@ class AppuserController extends Controller
 
                 $hotel = Hoteldata::where(['hotel_data_id' => $userbookings->hotel_id])->first();
 
-                $tmp = [
-                    'hotel_name' => $hotel->hotel_name,
-                    'roomtype' => $userbookings->roomtype,
-                    'status' => $userbookings->status,
-                    'roomprice' => $userbookings->roomprice,
-                    'is_visited' => $userbookings->is_visited
-                ];
-
-                array_push($data, $tmp);
-
-                $response = [
-                    'msg' => 'User bookings list',
-                    'status' => 1,
-                    'data' => $data
-                ];
+                if($hotel)
+                {
+                    $tmp = [
+                        'hotel_name' => $hotel->hotel_name,
+                        'roomtype' => $userbookings->roomtype,
+                        'status' => $userbookings->status,
+                        'roomprice' => $userbookings->roomprice,
+                        'is_visited' => $userbookings->is_visited
+                    ];
+    
+                    array_push($data, $tmp);
+    
+                    $response = [
+                        'msg' => 'User bookings list',
+                        'status' => 1,
+                        'data' => $data
+                    ];
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'No hotel found found',
+                        'status' => 0
+                    ];
+                }   
             }
             else
             {
@@ -556,7 +608,7 @@ class AppuserController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }

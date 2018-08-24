@@ -28,8 +28,6 @@ class nearbyhotelController extends Controller
                 'direction' => 'required',
                 'stars' => 'required',
                 'roomtype' => 'required',
-                'ratings' => 'nullable',
-                'price' => 'nullable',
                 'amenities' => 'nullable'
             ]);
 
@@ -44,7 +42,7 @@ class nearbyhotelController extends Controller
             {
                 $check_booking = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'is_visited' => 0])->first();
 
-                if(count($check_booking) > 0)
+                if($check_booking)
                 {
                     $response = [
                         'msg' => 'You have already booking in a hotel',
@@ -56,124 +54,20 @@ class nearbyhotelController extends Controller
                     $roomtype = $request->roomtype;
                     $stars = $request->stars;
 
-                    if($request->ratings != NULL)
-                    {
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `ratings` >= $request->ratings AND `stars` IN ($stars) HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
-                    }
-
-                    if($request->price != NULL)
-                    {
-                        // ($request->price == 1) ? (list($price1, $price2) = [0,50]) : (list($price1,$price2) = [50,100]);
-
-                        if($request->price == 1)
-                        {
-                            $price1 = 0;
-                            $price2 = 50;
-                        }
-                        else
-                        {
-                            $price1 = 50;
-                            $price2 = 100;
-                        }
-
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `stars` IN (".$stars.") AND `price` BETWEEN $price1 AND $price2 HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
-                    }
-
                     if($request->amenities != NULL)
                     {
                         $amenity = explode(",",$request->amenities);
                         $count = count($amenity);
-                        $price = "";
+                        $ame_nity = "";
                         for($i=0;$i<$count;$i++)
                         {   
-                            $price .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+                            $ame_nity .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
                         }
-                        $price = rtrim($price,"OR ");
+                        $ame_nity = rtrim($ame_nity,"OR ");
                         
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `stars` IN (".$stars.") AND ".$price." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `stars` IN (".$stars.") AND ".$ame_nity." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
                     }
-
-                    if($request->ratings != NULL && $request->price != NULL)
-                    {
-                        if($request->price == 1)
-                        {
-                            $price1 = 0;
-                            $price2 = 50;
-                        }
-                        else
-                        {
-                            $price1 = 50;
-                            $price2 = 100;
-                        }
-
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
-                    }
-
-                    if($request->price != NULL && $request->amenities != NULL)
-                    {
-                        if($request->price == 1)
-                        {
-                            $price1 = 0;
-                            $price2 = 50;
-                        }
-                        else
-                        {
-                            $price1 = 50;
-                            $price2 = 100;
-                        }
-
-                        $amenity = explode(",",$request->amenities);
-                        $count = count($amenity);
-                        $amenities = "";
-                        for($i=0;$i<$count;$i++)
-                        {   
-                            $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
-                        }
-                        $amenities = rtrim($amenities,"OR ");
-
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
-                    }
-
-                    if($request->amenities != NULL && $request->ratings != NULL)
-                    {
-                        $amenity = explode(",",$request->amenities);
-                        $count = count($amenity);
-                        $amenities = "";
-                        for($i=0;$i<$count;$i++)
-                        {   
-                            $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
-                        }
-                        $amenities = rtrim($amenities,"OR ");
-
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
-                    }
-
-                    if($request->amenities != NULL && $request->ratings != NULL && $request->price != NULL)
-                    {
-                        if($request->price == 1)
-                        {
-                            $price1 = 0;
-                            $price2 = 50;
-                        }
-                        else
-                        {
-                            $price1 = 50;
-                            $price2 = 100;
-                        }
-
-                        $amenity = explode(",",$request->amenities);
-                        $count = count($amenity);
-                        $amenities = "";
-                        for($i=0;$i<$count;$i++)
-                        {   
-                            $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
-                        }
-                        $amenities = rtrim($amenities,"OR ");
-
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
-                    }
-                    
-                    if($request->amenities == NULL && $request->ratings == NULL && $request->price == NULL)
+                    else
                     {
                         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE $roomtype AND `stars` IN ($stars) HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
                     }
@@ -204,12 +98,45 @@ class nearbyhotelController extends Controller
                                         $long2 = $value->longitude;
         
                                         $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
-        
+                                        
+                                        $hotelimage = [];
+
+                                        if(!empty($value->image))
+                                        {
+                                            foreach(json_decode($value->image) as $k)
+                                            {
+                                                $s = url('/')."/storage/uploads/".$k;
+                                                array_push($hotelimage,$s);
+                                            }
+                                        }
+
+                                        $kingroom = [];
+
+                                        if(!empty($value->king_room_image))
+                                        {
+                                            foreach(json_decode($value->king_room_image) as $d)
+                                            {
+                                                $p = url('/')."/storage/uploads/".$d;
+                                                array_push($kingroom,$p);
+                                            }
+                                        }
+
+                                        $queenroom = [];
+
+                                        if(!empty($value->queen_room_image))
+                                        {
+                                            foreach(json_decode($value->queen_room_image) as $i)
+                                            {
+                                                $z = url('/')."/storage/uploads/".$i;
+                                                array_push($queenroom,$z);
+                                            }
+                                        }
+
                                         $temp = [
                                             'hotel_id' => $value->hotel_data_id,
                                             'user_id' => $value->user_id, 
                                             'hotel_name' => $value->hotel_name,
-                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'image' => $hotelimage,
                                             'price' => $value->price,
                                             'ratings' => $value->ratings,
                                             'country' => $value->country,
@@ -217,7 +144,6 @@ class nearbyhotelController extends Controller
                                             'city' => $value->city,
                                             'address' => $value->address,
                                             'state' => $value->state,
-                                            'url' => $value->url,
                                             'latitude' => $value->latitude,
                                             'longitude' => $value->longitude,
                                             'distance' => $value->distance,
@@ -228,13 +154,13 @@ class nearbyhotelController extends Controller
                                             [
                                                 'room_type' => "King Room",
                                                 'room_available' => $value->king_room,
-                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_image' => $kingroom,
                                                 'room_price' => $value->king_room_price,
                                             ],
                                             [
                                                 'room_type' => "2 Queen Room",
                                                 'room_available' => $value->queen_room,
-                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_image' => $queenroom,
                                                 'room_price' => $value->queen_room_price,
                                             ]
                                         ];
@@ -253,12 +179,45 @@ class nearbyhotelController extends Controller
                                         $long2 = $value->longitude;
         
                                         $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
-        
+                                        
+                                        $hotelimage = [];
+
+                                        if(!empty($value->image))
+                                        {
+                                            foreach(json_decode($value->image) as $k)
+                                            {
+                                                $s = url('/')."/storage/uploads/".$k;
+                                                array_push($hotelimage,$s);
+                                            }
+                                        }
+
+                                        $kingroom = [];
+
+                                        if(!empty($value->king_room_image))
+                                        {
+                                            foreach(json_decode($value->king_room_image) as $d)
+                                            {
+                                                $p = url('/')."/storage/uploads/".$d;
+                                                array_push($kingroom,$p);
+                                            }
+                                        }
+
+                                        $queenroom = [];
+
+                                        if(!empty($value->queen_room_image))
+                                        {
+                                            foreach(json_decode($value->queen_room_image) as $i)
+                                            {
+                                                $z = url('/')."/storage/uploads/".$i;
+                                                array_push($queenroom,$z);
+                                            }
+                                        }
+
                                         $temp = [
                                             'hotel_id' => $value->hotel_data_id,
                                             'user_id' => $value->user_id, 
                                             'hotel_name' => $value->hotel_name,
-                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'image' => $hotelimage,
                                             'price' => $value->price,
                                             'ratings' => $value->ratings,
                                             'country' => $value->country,
@@ -266,7 +225,6 @@ class nearbyhotelController extends Controller
                                             'city' => $value->city,
                                             'address' => $value->address,
                                             'state' => $value->state,
-                                            'url' => $value->url,
                                             'latitude' => $value->latitude,
                                             'longitude' => $value->longitude,
                                             'distance' => $value->distance,
@@ -277,13 +235,13 @@ class nearbyhotelController extends Controller
                                             [
                                                 'room_type' => "King Room",
                                                 'room_available' => $value->king_room,
-                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_image' => $kingroom,
                                                 'room_price' => $value->king_room_price,
                                             ],
                                             [
                                                 'room_type' => "2 Queen Room",
                                                 'room_available' => $value->queen_room,
-                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_image' => $queenroom,
                                                 'room_price' => $value->queen_room_price,
                                             ]
                                         ];
@@ -328,14 +286,12 @@ class nearbyhotelController extends Controller
                                     {
                                         $store->roomtype = "King Room";
                                         $store->roomprice = $rooms->king_room_price;
-                                        $store->roomimage = $rooms->king_room_image;
                                         $store->roomamenity = $rooms->king_room_amenity;
                                     }
                                     else
                                     {
                                         $store->roomtype = "2 Queen Room";
                                         $store->roomprice = $rooms->queen_room_price;
-                                        $store->roomimage = $rooms->queen_room_image;
                                         $store->roomamenity = $rooms->queen_room_amenity;
                                     }
                                     $store->save();
@@ -405,12 +361,45 @@ class nearbyhotelController extends Controller
                                         $long2 = $value->longitude;
         
                                         $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
-        
+                                        
+                                        $hotelimage = [];
+
+                                        if(!empty($value->image))
+                                        {
+                                            foreach(json_decode($value->image) as $k)
+                                            {
+                                                $s = url('/')."/storage/uploads/".$k;
+                                                array_push($hotelimage,$s);
+                                            }
+                                        }
+
+                                        $kingroom = [];
+
+                                        if(!empty($value->king_room_image))
+                                        {
+                                            foreach(json_decode($value->king_room_image) as $d)
+                                            {
+                                                $p = url('/')."/storage/uploads/".$d;
+                                                array_push($kingroom,$p);
+                                            }
+                                        }
+
+                                        $queenroom = [];
+
+                                        if(!empty($value->queen_room_image))
+                                        {
+                                            foreach(json_decode($value->queen_room_image) as $i)
+                                            {
+                                                $z = url('/')."/storage/uploads/".$i;
+                                                array_push($queenroom,$z);
+                                            }
+                                        }
+
                                         $data = [
                                             'hotel_id' => $value->hotel_data_id,
                                             'user_id' => $value->user_id,
                                             'hotel_name' => $value->hotel_name,
-                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'image' => $hotelimage,
                                             'price' => $value->price,
                                             'ratings' => $value->ratings,
                                             'country' => $value->country,
@@ -418,7 +407,6 @@ class nearbyhotelController extends Controller
                                             'city' => $value->city,
                                             'address' => $value->address,
                                             'state' => $value->state,
-                                            'url' => $value->url,
                                             'latitude' => $value->latitude,
                                             'longitude' => $value->longitude,
                                             'distance' => $value->distance,
@@ -430,13 +418,13 @@ class nearbyhotelController extends Controller
                                             [
                                                 'room_type' => "King",
                                                 'room_available' => $value->king_room,
-                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_image' => $kingroom,
                                                 'room_price' => $value->king_room_price,
                                             ],
                                             [
                                                 'room_type' => "2 Queen",
                                                 'room_available' => $value->queen_room,
-                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_image' =>$queenroom,
                                                 'room_price' => $value->queen_room_price,
                                             ]
                                         ];
@@ -470,12 +458,45 @@ class nearbyhotelController extends Controller
                                         $long2 = $value->longitude;
         
                                         $time = Googlemaps::getDistanceandTime($lat1,$long1,$lat2,$long2);
-        
+                                        
+                                        $hotelimage = [];
+
+                                        if(!empty($value->image))
+                                        {
+                                            foreach(json_decode($value->image) as $k)
+                                            {
+                                                $s = url('/')."/storage/uploads/".$k;
+                                                array_push($hotelimage,$s);
+                                            }
+                                        }
+
+                                        $kingroom = [];
+
+                                        if(!empty($value->king_room_image))
+                                        {
+                                            foreach(json_decode($value->king_room_image) as $d)
+                                            {
+                                                $p = url('/')."/storage/uploads/".$d;
+                                                array_push($kingroom,$p);
+                                            }
+                                        }
+
+                                        $queenroom = [];
+
+                                        if(!empty($value->queen_room_image))
+                                        {
+                                            foreach(json_decode($value->queen_room_image) as $i)
+                                            {
+                                                $z = url('/')."/storage/uploads/".$i;
+                                                array_push($queenroom,$z);
+                                            }
+                                        }
+
                                         $data = [
                                             'hotel_id' => $value->hotel_data_id,
                                             'user_id' => $value->user_id,
                                             'hotel_name' => $value->hotel_name,
-                                            'image' => ($value->image != NULL) ? $value->image : "",
+                                            'image' => $hotelimage,
                                             'price' => $value->price,
                                             'ratings' => $value->ratings,
                                             'country' => $value->country,
@@ -483,7 +504,6 @@ class nearbyhotelController extends Controller
                                             'city' => $value->city,
                                             'address' => $value->address,
                                             'state' => $value->state,
-                                            'url' => $value->url,
                                             'latitude' => $value->latitude,
                                             'longitude' => $value->longitude,
                                             'distance' => $value->distance,
@@ -495,13 +515,13 @@ class nearbyhotelController extends Controller
                                             [
                                                 'room_type' => "King",
                                                 'room_available' => $value->king_room,
-                                                'room_image' => ($value->king_room_image != NULL) ? url("/")."/".$value->king_room_image : "",
+                                                'room_image' => $kingroom,
                                                 'room_price' => $value->king_room_price,
                                             ],
                                             [
                                                 'room_type' => "2 Queen",
                                                 'room_available' => $value->queen_room,
-                                                'room_image' => ($value->queen_room_image != NULL) ? url("/")."/".$value->queen_room_image : "",
+                                                'room_image' => $queenroom,
                                                 'room_price' => $value->queen_room_price,
                                             ]
                                         ];
@@ -568,14 +588,12 @@ class nearbyhotelController extends Controller
                                         {
                                             $store->roomtype = "King Room";
                                             $store->roomprice = $rooms->king_room_price;
-                                            $store->roomimage = $rooms->king_room_image;
                                             $store->roomamenity = $rooms->king_room_amenity;
                                         }
                                         else
                                         {
                                             $store->roomtype = "2 Queen Room";
                                             $store->roomprice = $rooms->queen_room_price;
-                                            $store->roomimage = $rooms->queen_room_image;
                                             $store->roomamenity = $rooms->queen_room_amenity;
                                         }
                                         $store->save(); 
@@ -609,14 +627,12 @@ class nearbyhotelController extends Controller
                                         {
                                             $store->roomtype = "King Room";
                                             $store->roomprice = $rooms->king_room_price;
-                                            $store->roomimage = $rooms->king_room_image;
                                             $store->roomamenity = $rooms->king_room_amenity;
                                         }
                                         else
                                         {
                                             $store->roomtype = "2 Queen Room";
                                             $store->roomprice = $rooms->queen_room_price;
-                                            $store->roomimage = $rooms->queen_room_image;
                                             $store->roomamenity = $rooms->queen_room_amenity;
                                         }
                                         $store->save(); 
@@ -650,14 +666,12 @@ class nearbyhotelController extends Controller
                                         {
                                             $store->roomtype = "King Room";
                                             $store->roomprice = $rooms->king_room_price;
-                                            $store->roomimage = $rooms->king_room_image;
                                             $store->roomamenity = $rooms->king_room_amenity;
                                         }
                                         else
                                         {
                                             $store->roomtype = "2 Queen Room";
                                             $store->roomprice = $rooms->queen_room_price;
-                                            $store->roomimage = $rooms->queen_room_image;
                                             $store->roomamenity = $rooms->queen_room_amenity;
                                         }
                                         $store->save(); 
@@ -691,14 +705,12 @@ class nearbyhotelController extends Controller
                                         {
                                             $store->roomtype = "King Room";
                                             $store->roomprice = $rooms->king_room_price;
-                                            $store->roomimage = $rooms->king_room_image;
                                             $store->roomamenity = $rooms->king_room_amenity;
                                         }
                                         else
                                         {
                                             $store->roomtype = "2 Queen Room";
                                             $store->roomprice = $rooms->queen_room_price;
-                                            $store->roomimage = $rooms->queen_room_image;
                                             $store->roomamenity = $rooms->queen_room_amenity;
                                         }
                                         $store->save(); 
@@ -727,80 +739,186 @@ class nearbyhotelController extends Controller
         return response()->json($response);
     }
 
-    public function search_hotels(Request $request)
-    {
-        try
-        {
-            $hotel = $request->string;
-            $search = Hoteldata::where('hotel_name','LIKE','%'.$hotel.'%')->get();
-            if(count($search) > 0)
-            {
-                if(count($search) == 1)
-                {
-                    $data = [
-                        'hotel_id' => $search->hotel_data_id,
-                        'hotel_name' => $search->hotel_name,
-                        'image' => ($search->image != NULL) ? $search->image : "",
-                        'stars' => $search->stars,
-                        'country' => $search->country,
-                        'address' => $search->address,
-                        'state' => $search->state,
-                        'url' => $search->url,
-                        'latitude' => $search->latitude,
-                        'longitude' => $search->longitude
-                    ];
+    // public function search_hotels(Request $request)
+    // {
+    //     try
+    //     {
+    //         $hotel = $request->string;
+    //         $search = Hoteldata::where('hotel_name','LIKE','%'.$hotel.'%')->get();
+    //         if(count($search) > 0)
+    //         {
+    //             if(count($search) == 1)
+    //             {
+    //                 $data = [
+    //                     'hotel_id' => $search->hotel_data_id,
+    //                     'hotel_name' => $search->hotel_name,
+    //                     'image' => ($search->image != NULL) ? $search->image : "",
+    //                     'stars' => $search->stars,
+    //                     'country' => $search->country,
+    //                     'address' => $search->address,
+    //                     'state' => $search->state,
+    //                     'url' => $search->url,
+    //                     'latitude' => $search->latitude,
+    //                     'longitude' => $search->longitude
+    //                 ];
 
-                    $response = [
-                        'msg' => count($search)." hotel availalbe",
-                        'status' => 1,
-                        'data' => $search
-                    ];
-                }
-                else
-                {   
-                    $data = [];
+    //                 $response = [
+    //                     'msg' => count($search)." hotel availalbe",
+    //                     'status' => 1,
+    //                     'data' => $search
+    //                 ];
+    //             }
+    //             else
+    //             {   
+    //                 $data = [];
 
-                    foreach($search as $value)
-                    {
-                        $tmp = [
-                            'hotel_id' => $value->hotel_data_id,
-                            'hotel_name' => $value->hotel_name,
-                            'image' => ($search->image != NULL) ? $search->image : "",
-                            'stars' => $value->stars,
-                            'country' => $value->country,
-                            'address' => $value->address,
-                            'state' => $value->state,
-                            'url' => $value->url,
-                            'latitude' => $value->latitude,
-                            'longitude' => $value->longitude
-                        ];
+    //                 foreach($search as $value)
+    //                 {
+    //                     $tmp = [
+    //                         'hotel_id' => $value->hotel_data_id,
+    //                         'hotel_name' => $value->hotel_name,
+    //                         'image' => ($search->image != NULL) ? $search->image : "",
+    //                         'stars' => $value->stars,
+    //                         'country' => $value->country,
+    //                         'address' => $value->address,
+    //                         'state' => $value->state,
+    //                         'url' => $value->url,
+    //                         'latitude' => $value->latitude,
+    //                         'longitude' => $value->longitude
+    //                     ];
 
-                        array_push($data, $tmp);
-                    }
+    //                     array_push($data, $tmp);
+    //                 }
 
-                    $response = [
-                        'msg' => count($search)." hotels available",
-                        'status' => 1,
-                        'data' => $data
-                    ];
-                }
-            }
-            else
-            {
-                $response = [
-                    'msg' => 'Sorry! No hotel with such name found',
-                    'status' => 0
-                ];
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'msg' => $e->getMessage(),
-                'status' => 0
-            ];
-        }
+    //                 $response = [
+    //                     'msg' => count($search)." hotels available",
+    //                     'status' => 1,
+    //                     'data' => $data
+    //                 ];
+    //             }
+    //         }
+    //         else
+    //         {
+    //             $response = [
+    //                 'msg' => 'Sorry! No hotel with such name found',
+    //                 'status' => 0
+    //             ];
+    //         }
+    //     }
+    //     catch(\Exception $e)
+    //     {
+    //         $response = [
+    //             'msg' => $e->getMessage(),
+    //             'status' => 0
+    //         ];
+    //     }
 
-        return response()->json($response);
-    }
+    //     return response()->json($response);
+    // }
+
+    // public function extra_code()
+    // {
+    //     if($request->ratings != NULL)
+    //     {
+    //         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `ratings` >= $request->ratings AND `stars` IN ($stars) HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+    //     }
+
+    //     if($request->price != NULL)
+    //     {
+    //         // ($request->price == 1) ? (list($price1, $price2) = [0,50]) : (list($price1,$price2) = [50,100]);
+
+    //         if($request->price == 1)
+    //         {
+    //             $price1 = 0;
+    //             $price2 = 50;
+    //         }
+    //         else
+    //         {
+    //             $price1 = 50;
+    //             $price2 = 100;
+    //         }
+
+    //         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `stars` IN (".$stars.") AND `price` BETWEEN $price1 AND $price2 HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+    //     }
+
+    //     if($request->ratings != NULL && $request->price != NULL)
+    //     {
+    //         if($request->price == 1)
+    //         {
+    //             $price1 = 0;
+    //             $price2 = 50;
+    //         }
+    //         else
+    //         {
+    //             $price1 = 50;
+    //             $price2 = 100;
+    //         }
+
+    //         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+    //     }
+
+    //     if($request->price != NULL && $request->amenities != NULL)
+    //     {
+    //         if($request->price == 1)
+    //         {
+    //             $price1 = 0;
+    //             $price2 = 50;
+    //         }
+    //         else
+    //         {
+    //             $price1 = 50;
+    //             $price2 = 100;
+    //         }
+
+    //         $amenity = explode(",",$request->amenities);
+    //         $count = count($amenity);
+    //         $amenities = "";
+    //         for($i=0;$i<$count;$i++)
+    //         {   
+    //             $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+    //         }
+    //         $amenities = rtrim($amenities,"OR ");
+
+    //         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+    //     }
+
+    //     if($request->amenities != NULL && $request->ratings != NULL)
+    //     {
+    //         $amenity = explode(",",$request->amenities);
+    //         $count = count($amenity);
+    //         $amenities = "";
+    //         for($i=0;$i<$count;$i++)
+    //         {   
+    //             $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+    //         }
+    //         $amenities = rtrim($amenities,"OR ");
+
+    //         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+    //     }
+
+    //     if($request->amenities != NULL && $request->ratings != NULL && $request->price != NULL)
+    //     {
+    //         if($request->price == 1)
+    //         {
+    //             $price1 = 0;
+    //             $price2 = 50;
+    //         }
+    //         else
+    //         {
+    //             $price1 = 50;
+    //             $price2 = 100;
+    //         }
+
+    //         $amenity = explode(",",$request->amenities);
+    //         $count = count($amenity);
+    //         $amenities = "";
+    //         for($i=0;$i<$count;$i++)
+    //         {   
+    //             $amenities .= 'FIND_IN_SET("'.$amenity[$i].'",`amenities`) OR ';
+    //         }
+    //         $amenities = rtrim($amenities,"OR ");
+
+    //         $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE ".$roomtype." AND ".$amenities." AND `ratings` >= ".$request->ratings." AND `stars` IN (".$stars.") AND `price` BETWEEN ".$price1." AND ".$price2." HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
+    //     }
+    // }
 }

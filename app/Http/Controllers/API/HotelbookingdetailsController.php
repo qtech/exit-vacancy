@@ -34,34 +34,44 @@ class HotelbookingdetailsController extends Controller
 
                 $data = [];
                 
-                foreach($getdetails as $value)
+                if(count($getdetails) > 0)
                 {
-                    $user = User::with('customer')->where(['user_id' => $value->user_id])->first();
-                    
-                    $tmp = [
-                        'user_id' => $value->user_id,
-                        'name' => $user->fname." ".$user->lname,
-                        'email' => $user->email,
-                        'user_image' => url("/")."/storage/uploads/".$user->image,
-                        'number' => $user->customer->number,
-                        'status' => $value->status,
-                        'is_visited' => $value->is_visited,
-                        'reference_id' => $value->ref_id,
-                        'roomtype' => $value->roomtype,
-                        'roomprice' => $value->roomprice,
-                        'roomamenity' => $value->roomamenity,
-                        'arrival_time' => $value->arrival_time,
-                        'time' => $value->created_at->format('d-m-y H:i:s')
+                    foreach($getdetails as $value)
+                    {
+                        $user = User::with('customer')->where(['user_id' => $value->user_id])->first();
+                        
+                        $tmp = [
+                            'user_id' => $value->user_id,
+                            'name' => $user->fname." ".$user->lname,
+                            'email' => $user->email,
+                            'user_image' => url("/")."/storage/uploads/".$user->image,
+                            'number' => $user->customer->number,
+                            'status' => $value->status,
+                            'is_visited' => $value->is_visited,
+                            'reference_id' => $value->ref_id,
+                            'roomtype' => $value->roomtype,
+                            'roomprice' => $value->roomprice,
+                            'roomamenity' => $value->roomamenity,
+                            'arrival_time' => $value->arrival_time,
+                            'time' => $value->created_at->format('d-m-y H:i:s')
+                        ];
+    
+                        array_push($data,$tmp);
+                    }
+    
+                    $response = [
+                        'msg' => 'Users who have sent request for booking a room',
+                        'status' => 1,
+                        'data' => $data
                     ];
-
-                    array_push($data,$tmp);
                 }
-
-                $response = [
-                    'msg' => 'Users who have sent request for booking a room',
-                    'status' => 1,
-                    'data' => $data
-                ];
+                else
+                {
+                    $response = [
+                        'msg' => 'No records found',
+                        'status' => 0
+                    ];
+                }
              }
         }
         catch(\Exception $e)
@@ -239,72 +249,84 @@ class HotelbookingdetailsController extends Controller
             {
                 $gethotel = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
 
-                $image = [];
-
-                if($gethotel->image != NULL)
+                if($gethotel)
                 {
-                    foreach(json_decode($gethotel->image) as $r)
+                    $image = [];
+
+                    if($gethotel->image != NULL)
                     {
-                        $i = url('/')."/storage/uploads/".$r;
-                        array_push($image,$i);
+                        foreach(json_decode($gethotel->image) as $r)
+                        {
+                            $i = url('/')."/storage/uploads/".$r;
+                            array_push($image,$i);
+                        }
                     }
-                }
-
-                $data = [
-                    'hotel_name' => $gethotel->hotel_name,
-                    'stars' => $gethotel->stars,
-                    'ratings' => $gethotel->ratings,
-                    'amenities' => $gethotel->amenities,
-                    'hotel_image' => $image,
-                    'number' => $gethotel->number,
-                    'base_price' => $gethotel->price,
-                    'city' => $gethotel->city,
-                    'state' => $gethotel->state
-                ];
-
-                if($request->roomtype == 1)
-                {
-                    $roomimage = [];
-
-                    if($gethotel->king_room_image != NULL)
+    
+                    $data = [
+                        'hotel_name' => $gethotel->hotel_name,
+                        'stars' => $gethotel->stars,
+                        'ratings' => $gethotel->ratings,
+                        'amenities' => $gethotel->amenities,
+                        'hotel_image' => $image,
+                        'number' => $gethotel->number,
+                        'base_price' => $gethotel->price,
+                        'city' => $gethotel->city,
+                        'state' => $gethotel->state,
+                        'latitude' => $gethotel->latitude,
+                        'longitude' => $gethotel->longitude
+                    ];
+    
+                    if($request->roomtype == 1)
                     {
-                        foreach(json_decode($gethotel->king_room_image) as $j)
+                        $roomimage = [];
+    
+                        if($gethotel->king_room_image != NULL)
+                        {
+                            foreach(json_decode($gethotel->king_room_image) as $j)
+                            {
+                                $k = url('/')."/storage/uploads/".$j;
+                                array_push($roomimage,$k);
+                            }
+                        }
+    
+                        $data['room'] = [
+                            'room_type' => "King Size Room",
+                            'room_price' => $gethotel->king_room_price,
+                            'room_image' => $roomimage,
+                            'room_amenity' => $gethotel->king_room_amenity
+                        ];
+                    }
+                    else
+                    {
+                        $roomimage = [];
+    
+                        foreach(json_decode($gethotel->queen_room_image) as $j)
                         {
                             $k = url('/')."/storage/uploads/".$j;
                             array_push($roomimage,$k);
                         }
+    
+                        $data['room'] = [
+                            'room_type' => "2 Queens Room",
+                            'room_price' => $gethotel->queen_room_price,
+                            'room_image' => $roomimage,
+                            'room_amenity' => $gethotel->queen_room_amenity
+                        ];
                     }
-
-                    $data['room'] = [
-                        'room_type' => "King Size Room",
-                        'room_price' => $gethotel->king_room_price,
-                        'room_image' => $roomimage,
-                        'room_amenity' => $gethotel->king_room_amenity
+    
+                    $response = [
+                        'msg' => 'Hotel details',
+                        'status' => 1,
+                        'data' => $data
                     ];
                 }
                 else
                 {
-                    $roomimage = [];
-
-                    foreach(json_decode($gethotel->queen_room_image) as $j)
-                    {
-                        $k = url('/')."/storage/uploads/".$j;
-                        array_push($roomimage,$k);
-                    }
-
-                    $data['room'] = [
-                        'room_type' => "2 Queens Room",
-                        'room_price' => $gethotel->queen_room_price,
-                        'room_image' => $roomimage,
-                        'room_amenity' => $gethotel->queen_room_amenity
+                    $response = [
+                        'msg' => 'No data found',
+                        'status' => 0
                     ];
                 }
-
-                $response = [
-                    'msg' => 'Hotel details',
-                    'status' => 1,
-                    'data' => $data
-                ];
             }
         }
         catch(\Exception $e)

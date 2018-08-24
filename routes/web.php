@@ -27,7 +27,14 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/', 'DashboardController@view')->name('dashboard');
        
         // CHARTS_DATA
-        Route::get('/registrationdata', 'API\DashboardController@chart_all_data')->name('dashboard.chartData');
+        Route::get('/userregistrationchart', 'API\DashboardController@user_registration_chart')->name('user.r.chart');
+        Route::post('/userchartwithdates', 'API\DashboardController@u_r_data_with_dates')->name('user.r.dates');
+        Route::get('/hotelregistrationchart', 'API\DashboardController@hotel_registration_chart')->name('hotel.r.chart');
+        Route::post('/hotelchartwithdates', 'API\DashboardController@h_r_data_with_dates')->name('hotel.r.dates');
+        Route::get('/completedbookingschart', 'API\DashboardController@completed_bookings')->name('complete.booking.chart');
+        Route::post('/completedchartwithdates', 'API\DashboardController@cb_data_with_dates')->name('cb.dates');
+        Route::get('/pendingbookingschart', 'API\DashboardController@pending_bookings')->name('pending.booking.chart');
+        Route::post('/pendingchartwithdates', 'API\DashboardController@pb_data_with_dates')->name('pb.dates');
         Route::get('/bookingdata','API\DashboardController@bookings_data')->name('dashboard.bookingData');
         Route::post('/rdatawithdates', 'API\DashboardController@r_data_with_dates')->name('r.datawithdates');
         Route::post('/bdatawithdates', 'API\DashboardController@b_data_with_dates')->name('b.datawithdates');

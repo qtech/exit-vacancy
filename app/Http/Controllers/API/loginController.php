@@ -172,7 +172,7 @@ class loginController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -219,7 +219,7 @@ class loginController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }

@@ -17,7 +17,7 @@ class RoomsController extends Controller
             $kingroom = [];
             $queenroom = [];
 
-            if($room->king_room_image != NULL)
+            if(!empty($room->king_room_image))
             {
                 foreach(json_decode($room->king_room_image) as $k)
                 {
@@ -26,7 +26,7 @@ class RoomsController extends Controller
                 }
             }
 
-            if($room->queen_room_image != NULL)
+            if(!empty($room->queen_room_image))
             {
                 foreach(json_decode($room->queen_room_image) as $q)
                 {
@@ -73,17 +73,53 @@ class RoomsController extends Controller
     {
         try
         {
-            $room = Hoteldata::where(['user_id' => $request->hotel_id])->first();
+            $validator = Validator::make($request->all(),[
+                'room_available' => 'required',
+                'images' => 'required',
+                'room_price' => 'required',
+                'room_amenity' => 'required',
+                'hotel_id' => 'required'
+            ]);
+    
+            if($validator->fails())
+            {
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $room = Hoteldata::where(['user_id' => $request->hotel_id])->first();
 
-            $room->king_room = $request->room_available;
-            $room->king_room_price = $request->room_price;
-            $room->king_room_amenity = $request->room_amenity;
-            $room->save();
-
-            $response = [
-                'msg' => 'Room details successfully updated',
-                'status' => 1
-            ];
+                if($room)
+                {
+                    $room->king_room = $request->room_available;
+                    $room->king_room_price = $request->room_price;
+                    if($request->hasFile('images'))
+                    {
+                        if(!empty($room->king_room_image))
+                        {
+                            foreach(json_decode($room->king_room_image) as $image)
+                            {
+                                Storage::delete(getenv('IMG_UPLOAD').$image);
+                            }
+                            $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                        }
+                        else
+                        {
+                            $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                        }
+                    }
+                    $room->king_room_amenity = $request->room_amenity;
+                    $room->save();
+        
+                    $response = [
+                        'msg' => 'Room details successfully updated',
+                        'status' => 1
+                    ];
+                }   
+            }
         }
         catch(\Exception $e)
         {
@@ -100,17 +136,53 @@ class RoomsController extends Controller
     {
         try
         {
-            $room = Hoteldata::where(['user_id' => $request->hotel_id])->first();
+            $validator = Validator::make($request->all(),[
+                'room_available' => 'required',
+                'images' => 'required',
+                'room_price' => 'required',
+                'room_amenity' => 'required',
+                'hotel_id' => 'required'
+            ]);
+    
+            if($validator->fails())
+            {
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $room = Hoteldata::where(['user_id' => $request->hotel_id])->first();
 
-            $room->queen_room = $request->room_available;
-            $room->queen_room_price = $request->room_price;
-            $room->queen_room_amenity = $request->room_amenity;
-            $room->save();
-
-            $response = [
-                'msg' => 'Room details successfully updated',
-                'status' => 1
-            ];
+                if($room)
+                {
+                    $room->queen_room = $request->room_available;
+                    $room->queen_room_price = $request->room_price;
+                    if($request->hasFile('images'))
+                    {
+                        if(!empty($room->queen_room_image))
+                        {
+                            foreach(json_decode($room->queen_room_image) as $image)
+                            {
+                                Storage::delete(getenv('IMG_UPLOAD').$image);
+                            }
+                            $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                        }
+                        else
+                        {
+                            $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                        }
+                    }
+                    $room->queen_room_amenity = $request->room_amenity;
+                    $room->save();
+        
+                    $response = [
+                        'msg' => 'Room details successfully updated',
+                        'status' => 1
+                    ];
+                }   
+            }
         }
         catch(\Exception $e)
         {

@@ -32,6 +32,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // GET USER PROFILE DETAILS
     Route::post('/userprofiledetails', 'API\AppuserController@get_user_details');
 
+    // GET HOTEL USER PROFILE DETAILS
+    Route::post('/hoteluserprofile', 'API\AppuserController@get_hoteluser_details');
+
     // EDIT CUSTOMER PROFILE
     Route::post('/user/editprofile', 'API\AppuserController@edit_customer_profile');
 
@@ -59,6 +62,9 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // MOBILE VERIFICATION
     Route::post('/sendotp', 'API\verificationController@mobileverify');
     Route::post('/checkotp', 'API\verificationController@verifyotp');
+
+    // RESEND MOBILE VERIFICATION
+    Route::post('/resendotp', 'API\verificationController@resend_mobileverify');
 
     // RATE AND REVIEWS
     Route::post('/storeratings', 'API\RatereviewController@store_ratings');

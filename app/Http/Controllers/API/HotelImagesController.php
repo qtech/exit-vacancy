@@ -42,26 +42,26 @@ class HotelImagesController extends Controller
                             $tmp =  url("/")."/storage/uploads/".$image;
                             array_push($images,$tmp);
                         }
+
+                        $response = [
+                            'msg' => 'Hotel Images',
+                            'status' => 1,
+                            'images' => $images
+                        ];
                     }
                     else
                     {
                         $response = [
                             'msg' => 'No images available for this hotel',
-                            'status' => 1
+                            'status' => 0
                         ];
                     }
-
-                    $response = [
-                        'msg' => 'Hotel Images',
-                        'status' => 1,
-                        'images' => $images
-                    ];
                 }
                 else
                 {
                     $response = [
                         'msg' => 'No records found!',
-                        'status' => 1
+                        'status' => 0
                     ];
                 }
             }
@@ -96,28 +96,37 @@ class HotelImagesController extends Controller
             {
                 $update = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
 
-                if($request->hasFile('images'))
+                if($update)
                 {
-                    if($update->image != NULL)
+                    if($request->hasFile('images'))
                     {
-                        foreach(json_decode($update->image) as $image)
+                        if($update->image != NULL)
                         {
-                            Storage::delete(getenv('IMG_UPLOAD').$image);
+                            foreach(json_decode($update->image) as $image)
+                            {
+                                Storage::delete(getenv('IMG_UPLOAD').$image);
+                            }
+                            $update->image = ImageUpload::multipleimageupload($request,'images');
                         }
-                        $update->image = ImageUpload::multipleimageupload($request,'images');
+                        else
+                        {
+                            $update->image = ImageUpload::multipleimageupload($request,'images');
+                        }
                     }
-                    else
-                    {
-                        $update->image = ImageUpload::multipleimageupload($request,'images');
-                    }
+                    $update->save();
+
+                    $response = [
+                        'msg' => 'Hotel Images updated',
+                        'status' => 1
+                    ];
                 }
-
-                $update->save();
-
-                $response = [
-                    'msg' => 'Hotel Images updated',
-                    'status' => 1
-                ];
+                else
+                {
+                    $response = [
+                        'msg' => 'No data found',
+                        'status' => 0
+                    ];
+                }
             }
         }   
         catch(\Exception $e)

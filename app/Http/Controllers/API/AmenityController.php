@@ -17,26 +17,36 @@ class AmenityController extends Controller
             $amenities = Amenities::where(['status' => 1])->get();
             $data = [];
 
-            foreach($amenities as $value)
-            {   
-                $tmp = [
-                    'amenity_id' => $value->amenity_id,
-                    'amenity_name' => $value->amenity_name
+            if(count($amenities) > 0)
+            {
+                foreach($amenities as $value)
+                {   
+                    $tmp = [
+                        'amenity_id' => $value->amenity_id,
+                        'amenity_name' => $value->amenity_name
+                    ];
+    
+                    array_push($data, $tmp);
+                }
+    
+                $response = [
+                    'msg' => "List of Amenities",
+                    'status' => 1,
+                    'data' => $data
                 ];
-
-                array_push($data, $tmp);
             }
-
-            $response = [
-                'msg' => "List of Amenities",
-                'status' => 1,
-                'data' => $data
-            ];
+            else
+            {
+                $response = [
+                    'msg' => "No data found",
+                    'status' => 0
+                ];
+            }
         }
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -49,18 +59,28 @@ class AmenityController extends Controller
         {
             $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_owner_id])->first();
 
-            $amenities = explode(",",$amenity->amenities);
+            if($amenity)
+            {
+                $amenities = explode(",",$amenity->amenities);
 
-            $response = [
-                'msg' => 'Hotel amenities',
-                'status' => 1,
-                'amenities' => $amenities
-            ];
+                $response = [
+                    'msg' => 'Hotel amenities',
+                    'status' => 1,
+                    'amenities' => $amenities
+                ];
+            }
+            else
+            {
+                $response = [
+                    'msg' => 'No data found',
+                    'status' => 0
+                ];
+            }
         }
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -87,7 +107,7 @@ class AmenityController extends Controller
             {
                 $response = [
                     'msg' => 'Please add atleast some one amenity',
-                    'status' => 1
+                    'status' => 0
                 ];
             }
             
@@ -95,7 +115,7 @@ class AmenityController extends Controller
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
@@ -112,26 +132,37 @@ class AmenityController extends Controller
             $amenities = RoomAmenity::where(['status' => 1])->get();
             $data = [];
 
-            foreach($amenities as $value)
-            {   
-                $tmp = [
-                    'room_amenity_id' => $value->room_amenity_id,
-                    'room_amenity_name' => $value->name
+            if(count($amenities) > 0)
+            {
+                foreach($amenities as $value)
+                {   
+                    $tmp = [
+                        'room_amenity_id' => $value->room_amenity_id,
+                        'room_amenity_name' => $value->name
+                    ];
+    
+                    array_push($data, $tmp);
+                }
+    
+                $response = [
+                    'msg' => "List of Room Amenities",
+                    'status' => 1,
+                    'data' => $data
                 ];
-
-                array_push($data, $tmp);
             }
-
-            $response = [
-                'msg' => "List of Room Amenities",
-                'status' => 1,
-                'data' => $data
-            ];
+            else
+            {
+                $response = [
+                    'msg' => "No data found",
+                    'status' => 0
+                ];
+            }
+            
         }
         catch(\Exception $e)
         {
             $response = [
-                'msg' => $e->getMessage()." ".$e->getLine(),
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
                 'status' => 0
             ];
         }
