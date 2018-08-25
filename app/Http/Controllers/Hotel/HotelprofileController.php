@@ -63,7 +63,6 @@ class HotelprofileController extends Controller
 
                 $update = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
                 $update->number = $request->number;
-                $update->price = $request->price;
                 $update->stars = $request->hotelclass;
 
                 if($request->hasFile('images'))
