@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Hoteldata;
+use Validator;
 
 class RoomsController extends Controller
 {
@@ -90,7 +91,7 @@ class RoomsController extends Controller
             }
             else
             {
-                $room = Hoteldata::where(['user_id' => $request->hotel_id])->first();
+                $room = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
 
                 if($room)
                 {
@@ -119,6 +120,13 @@ class RoomsController extends Controller
                         'status' => 1
                     ];
                 }   
+                else
+                {
+                    $response = [
+                        'msg' => 'No data found',
+                        'status' => 0
+                    ];
+                }
             }
         }
         catch(\Exception $e)
@@ -153,7 +161,7 @@ class RoomsController extends Controller
             }
             else
             {
-                $room = Hoteldata::where(['user_id' => $request->hotel_id])->first();
+                $room = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
 
                 if($room)
                 {
@@ -182,6 +190,13 @@ class RoomsController extends Controller
                         'status' => 1
                     ];
                 }   
+                else
+                {
+                    $response = [
+                        'msg' => 'No data found',
+                        'status' => 0
+                    ];
+                }
             }
         }
         catch(\Exception $e)

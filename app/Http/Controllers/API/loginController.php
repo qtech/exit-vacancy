@@ -37,18 +37,18 @@ class loginController extends Controller
                 {
                     if($check_login->role == $request->type)
                     {
-                        if($check_login->is_email_verify == 1)
+                        if(Hash::check($request->password,$check_login->password))
                         {
-                            if($check_login->role == 2)
+                            $check_login->fcm_id = $request->fcm_id;
+                            $check_login->last_login = date('d-m-y H:i:s');
+                            $check_login->save();
+
+                            if($check_login->is_email_verify == 1)
                             {
                                 if($check_login->is_mobile_verify == 1)
                                 {
-                                    if(Hash::check($request->password,$check_login->password))
+                                    if($request->type == 2 && $check_login->role == 2)
                                     {
-                                        $check_login->fcm_id = $request->fcm_id;
-                                        $check_login->last_login = date('d-m-y H:i:s');
-                                        $check_login->save();
-    
                                         $customer = Customer::where(['user_id' => $check_login->user_id])->first();
             
                                         $data = [
@@ -67,34 +67,8 @@ class loginController extends Controller
                                             'data' => $data
                                         ];
                                     }
-                                    else
+                                    if($request->type == 3 && $check_login->role == 3)
                                     {
-                                        $response = [
-                                            'msg' => 'Invalid Password.',
-                                            'status' => 0,
-                                        ];
-                                    }
-                                }
-                                else
-                                {
-                                    $response = [
-                                        'msg' => 'Please verify your Mobile Number',
-                                        'status' => 3,
-                                        'user_id' => $check_login->user_id
-                                    ];
-                                }
-
-                            }
-                            else
-                            {
-                                if($check_login->is_mobile_verify == 1)
-                                {
-                                    if(Hash::check($request->password,$check_login->password))
-                                    {
-                                        $check_login->fcm_id = $request->fcm_id;
-                                        $check_login->last_login = date('d-m-y H:i:s');
-                                        $check_login->save();
-
                                         $hotel = Hoteldata::where(['user_id' => $check_login->user_id])->first();
                 
                                         $data = [
@@ -103,11 +77,12 @@ class loginController extends Controller
                                             'fname' => $check_login->fname,
                                             'lname' => $check_login->lname,
                                             'bank_status' => $check_login->bank_status,
+                                            'king_room_status' => $hotel->king_room_status,
+                                            'queen_room_status' => $hotel->queen_room_status,
                                             'hotel_name' => $hotel->hotel_name,
                                             'hotel_stars' => $hotel->stars,
                                             'hotel_ratings' => $hotel->ratings,
                                             'hotel_user_image' => ($hotel->image != NULL) ? url("/")."/storage/uploads/".$hotel->image : "",
-                                            'hotel_base_price' => $hotel->price,
                                             'role' => $check_login->role,
                                             'number' => $hotel->number,
                                             'building' => $hotel->building,
@@ -125,13 +100,6 @@ class loginController extends Controller
                                             'data' => $data
                                         ];
                                     }
-                                    else
-                                    {
-                                        $response = [
-                                            'msg' => 'Invalid Password.',
-                                            'status' => 0,
-                                        ];
-                                    }
                                 }
                                 else
                                 {
@@ -142,20 +110,27 @@ class loginController extends Controller
                                     ];
                                 }
                             }
+                            else
+                            {
+                                $response = [
+                                    'msg' => 'Please verify your Email ID',
+                                    'status' => 2,
+                                    'user_id' => $check_login->user_id
+                                ];
+                            }
                         }
                         else
                         {
                             $response = [
-                                'msg' => 'Please verify your Email',
-                                'status' => 2,
-                                'user_id' => $check_login->user_id
+                                'msg' => 'Invalid Credentials',
+                                'status' => 0
                             ];
                         }
                     }
                     else
                     {
                         $response = [
-                            'msg' => 'Un-Authorized Access!',
+                            'msg' => 'Invalid Email id.',
                             'status' => 0,
                         ];
                     }

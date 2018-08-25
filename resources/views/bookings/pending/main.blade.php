@@ -54,13 +54,10 @@
             </tr>
             </thead>
             <tbody>
-                @php
-                    $i = 1;
-                @endphp
                 @foreach($bookings as $value)
                 <tr>
-                    <td>{{$i++}}</td>
-                    <td>{{$value->user->fname}} {{$value->user->lname}}</td>
+                    <td>{{$loop->index+1}}</td>
+                    <td>{{$value->user->fname}} {{$value->user->lname or ""}}</td>
                     <td>{{$value->hotel->hotel_name}}</td>
                     <td>{{$value->roomtype}}</td>
                     <td>{{$value->roomprice}}</td>

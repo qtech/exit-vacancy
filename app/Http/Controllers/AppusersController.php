@@ -70,7 +70,7 @@ class AppusersController extends Controller
         }
     }
 
-    public function disable($id)
+    public function userdisable($id)
     {
         $disable = User::find($id);
         $disable->user_status = 0;
@@ -78,11 +78,34 @@ class AppusersController extends Controller
         return redirect()->route('appusers')->with('success', 'User disabled successfully');
     }
 
-    public function enable($id)
+    public function userenable($id)
+    {
+        $disable = User::find($id);
+        $disable->user_status = 1;
+        
+        $disable->save();
+        return redirect()->route('appusers')->with('success', 'User enabled successfully');
+    }
+
+    public function hoteldisable($id)
+    {
+        $disable = User::find($id);
+        $disable->user_status = 0;
+        $disable->save();
+        $disable_hotel = Hoteldata::where(['user_id' => $id])->first();
+        $disable_hotel->status = 0;
+        $disable_hotel->save();
+        return redirect()->route('hotelusers')->with('success', 'Hotel disabled successfully');
+    }
+
+    public function hotelenable($id)
     {
         $disable = User::find($id);
         $disable->user_status = 1;
         $disable->save();
-        return redirect()->route('appusers')->with('success', 'User enabled successfully');
+        $disable_hotel = Hoteldata::where(['user_id' => $id])->first();
+        $disable_hotel->status = 1;
+        $disable_hotel->save();
+        return redirect()->route('hotelusers')->with('success', 'Hotel enabled successfully');
     }
 }

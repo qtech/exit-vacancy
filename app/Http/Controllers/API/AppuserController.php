@@ -53,6 +53,7 @@ class AppuserController extends Controller
                     $user = $request->all();
                     $user['password'] = Hash::make($request->password);
                     $user['role'] = 2;
+                    $user['user_status'] = 1;
 
                     $user = User::create($user);
 
@@ -96,6 +97,7 @@ class AppuserController extends Controller
                 'email' => 'required',
                 'password' => 'required',
                 'hotel_name' => 'required',
+                'stars' => 'required',
                 'building' => 'required',
                 'street' => 'required',
                 'landmark' => 'required',
@@ -129,11 +131,14 @@ class AppuserController extends Controller
                     $user = $request->all();
                     $user['password'] = Hash::make($request->password);
                     $user['role'] = 3;
+                    $user['user_status'] = 0;
                     $user = User::create($user);
 
                     $hotel = Hoteldata::orderBy('user_id', 'ASC')->first();
                     $hotel->hotel_name = $request->hotel_name;
+                    $hotel->status = 0;
                     $hotel->user_id = $user->user_id;
+                    $hotel->stars = $request->stars;
                     $hotel->building = $request->building;
                     $hotel->street = $request->street;
                     $hotel->landmark = $request->landmark;
@@ -263,7 +268,7 @@ class AppuserController extends Controller
                     }
                     else
                     {
-                        $checkphone = Hoteldata::where(['user_id' => $request->user_id,'number' => $request->number])->first();
+                        $checkphone = Hoteldata::where(['number' => $request->number])->first();
 
                         if($checkphone)
                         {
@@ -363,6 +368,7 @@ class AppuserController extends Controller
                 $u['image'] = $hotel->image == NULL ? "" : url('/')."/storage/uploads/".$hotel->image;
                 $u['role'] = $hotel->role;
                 $u['number'] = $hotel->hotel->number;
+                $u['stars'] = $hotel->hotel->stars;
 
                 $response = [
                     'msg' => 'Hotel User details',
@@ -482,6 +488,7 @@ class AppuserController extends Controller
                 'fname' => 'required',
                 'lname' => 'nullable',
                 'number' => 'required',
+                'stars' => 'required',
                 'image' => 'nullable',
                 'role' => 'required'
             ]);
@@ -520,11 +527,21 @@ class AppuserController extends Controller
                     $profile = Hoteldata::where(['user_id' => $hotel->user_id])->first();
                     if($profile)
                     {
-                        $profile->number = $request->number;
-                        $profile->save();
-
-                        $hotel->is_mobile_verify == 0;
-                        $hotel->save();
+                        $profile->stars = $request->stars;
+                        if($profile->number != $request->number)
+                        {
+                            $profile->number = $request->number;
+                            $profile->save();
+    
+                            $hotel->is_mobile_verify == 0;
+                            $hotel->save();
+                        }
+                        else
+                        {
+                            $profile->number = $request->number;
+                            $profile->save();
+                        }
+                        
 
                         $response = [
                             'msg' => 'Hotel profile successfully updated',

@@ -119,7 +119,6 @@ class BookingController extends Controller
                         'ref_id' => $request->reference_id,
                         'hotel_data_id' => $hotel->hotel_data_id,
                         'hotel_owner_id' => $request->hotel_id,
-                        'price' => $accept->roomprice,
                         'hotel_name' => $hotel->hotel_name,
                         'roomtype' => $request->roomtype
                     ];

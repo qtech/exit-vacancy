@@ -131,7 +131,7 @@
 </div>
 <div class="row">
     <div class="col-sm-3">
-        <a class="a_tag" href="#">
+        <a class="a_tag" href="{{route('cancelled.bookings')}}">
             <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
                 <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
                     <div class="col-sm-4">
@@ -160,7 +160,7 @@
         </a>
     </div>
     <div class="col-sm-3">
-        <a class="a_tag" href="#">
+        <a class="a_tag" href="{{route('transaction')}}">
             <section class="widget widget-simple-sm-fill" style="background:#00857B !important;">
                 <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
                     <div class="col-sm-4">

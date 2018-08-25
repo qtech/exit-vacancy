@@ -98,8 +98,8 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/userexport5', 'ExcelController@appusers_registerthismonth')->name('e.userregister');
         Route::get('/{id?}', 'AppusersController@view_allusers')->name('appusers');
         Route::get('/userbookings/{id}', 'AppusersController@user_bookings')->name('userbookings');
-        Route::get('/disableuser/{id}', 'AppusersController@disable')->name('disableuser');
-        Route::get('/enableuser/{id}', 'AppusersController@enable')->name('enableuser');
+        Route::get('/disableuser/{id}', 'AppusersController@userdisable')->name('disableuser');
+        Route::get('/enableuser/{id}', 'AppusersController@userenable')->name('enableuser');
     });
 
     // HOTEL OWNER
@@ -108,6 +108,8 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::get('/hoteluserexport', 'ExcelController@gethotelusers')->name('e.hotelusers');
         Route::get('/', 'HotelusersController@view')->name('hotelusers');
         Route::get('/details/{id}', 'HotelusersController@hotel_user_details')->name('hoteldetails');
+        Route::get('/disableuser/{id}', 'AppusersController@hoteldisable')->name('disablehotel');
+        Route::get('/enableuser/{id}', 'AppusersController@hotelenable')->name('enablehotel');
     });
 
     // HOTEL AMENITIES
