@@ -127,7 +127,10 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 	Route::post('/getcard', 'API\PaymentDetailsController@getCard_details');
 	Route::post('/storeupdatepaymentdetails', 'API\PaymentDetailsController@store_update_paymentdetails');
 	Route::post('/getpaymentdetails', 'API\PaymentDetailsController@get_paymentdetails');
-	Route::post('/splitpayment', 'API\PaymentDetailsController@split_payment_live');
+    Route::post('/splitpayment', 'API\PaymentDetailsController@split_payment_live');
+    
+    // STORE IMAGES
+    Route::post('/storeimages', 'API\CommonImageController@storeImage');
 
 });
 

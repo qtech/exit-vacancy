@@ -45,7 +45,7 @@ class BookingController extends Controller
                     if($decline)
                     {
                         $hotel = User::where(['user_id' => $decline->hotel_owner_id])->first();
-                        $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
+                        $result = Notifications::otherhotelacceptNotification($hotel->fcm_id, $hotel->device);
                         $decline->status = 3;
                         $decline->status_time = date('d-m-y H:i:s');
                         $decline->save();
@@ -124,7 +124,7 @@ class BookingController extends Controller
                     ];
 
                     $user = User::where(['user_id' => $request->user_id])->first();
-                    $result = Notifications::hotelacceptNotification($user->fcm_id, $collect);
+                    $result = Notifications::hotelacceptNotification($user->fcm_id, $user->device, $collect);
 
                     $data = [
                         'fname' => $user->fname,
@@ -142,7 +142,7 @@ class BookingController extends Controller
                         foreach($decline as $value)
                         {
                             $hotel = User::where(['user_id' => $value->hotel_owner_id])->first();
-                            $result = Notifications::otherhotelacceptNotification($hotel->fcm_id);
+                            $result = Notifications::otherhotelacceptNotification($hotel->fcm_id, $hotel->device);
                             $value->status = 3;
                             $value->status_time = date('d-m-y H:i:s');
                             $value->save();
@@ -251,7 +251,7 @@ class BookingController extends Controller
                 }
                 
                 $user = User::where(['user_id' => $request->user_id])->first();
-                $result = Notifications::hotelnoresponseNotification($user->fcm_id);
+                $result = Notifications::hotelnoresponseNotification($user->fcm_id, $user->device);
 
                 $response = [
                     'msg' => 'Sorry! No response from any hotels',

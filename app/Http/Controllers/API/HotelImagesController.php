@@ -98,21 +98,19 @@ class HotelImagesController extends Controller
 
                 if($update)
                 {
-                    if($request->hasFile('images'))
+                    if($update->image != NULL)
                     {
-                        if($update->image != NULL)
+                        foreach(json_decode($update->image) as $image)
                         {
-                            foreach(json_decode($update->image) as $image)
-                            {
-                                Storage::delete(getenv('IMG_UPLOAD').$image);
-                            }
-                            $update->image = ImageUpload::multipleimageupload($request,'images');
+                            Storage::delete(getenv('IMG_UPLOAD').$image);
                         }
-                        else
-                        {
-                            $update->image = ImageUpload::multipleimageupload($request,'images');
-                        }
+                        $update->image = json_encode($request->images);
                     }
+                    else
+                    {
+                        $update->image = json_encode($request->images);
+                    }
+
                     $update->save();
 
                     $response = [

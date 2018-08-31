@@ -424,18 +424,17 @@ class AppuserController extends Controller
                     $user->fname = $request->fname;
                     $user->lname = $request->lname;
                     
-                    if($request->hasFile('image'))
+                    if($user->image != NULL)
                     {
-                        if(!empty($user->image))
-                        {
-                            Storage::delete(getenv('IMG_UPLOAD').$user->image);
-                            $user->image = ImageUpload::imageupload($request,'image');
-                        }
-                        else
-                        {
-                            $user->image = ImageUpload::imageupload($request,'image');
-                        }
+                        Storage::delete(getenv('IMG_UPLOAD').$user->image);
+                        $user->image = $request->image;
                     }
+                    else
+                    {
+                        $user->image = $request->image;
+                    }
+
+                    $user->save();
 
                     $profile = Customer::where(['user_id' => $user->user_id])->first();
                     if($profile)
@@ -508,21 +507,17 @@ class AppuserController extends Controller
                 {
                     $hotel->fname = $request->fname;
                     $hotel->lname = $request->lname;
-                    if(!empty($hotel->image))
+                    if($hotel->image != NULL)
                     {
-                        if($request->hasFile('image'))
-                        {
-                            Storage::delete(getenv('IMG_UPLOAD').$hotel->image);
-                            $hotel->image = ImageUpload::imageupload($request,'image');
-                        }
+                        Storage::delete(getenv('IMG_UPLOAD').$hotel->image);
+                        $hotel->image = $request->image;
                     }
                     else
                     {
-                        if($request->hasFile('image'))
-                        {
-                            $hotel->image = ImageUpload::imageupload($request,'image');
-                        }
+                        $hotel->image = $request->image;
                     }
+
+                    $hotel->save();
 
                     $profile = Hoteldata::where(['user_id' => $hotel->user_id])->first();
                     if($profile)

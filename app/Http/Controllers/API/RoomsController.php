@@ -5,7 +5,10 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Hoteldata;
+use App\ImageUpload;
 use Validator;
+use Storage;
+
 
 class RoomsController extends Controller
 {
@@ -76,7 +79,7 @@ class RoomsController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'room_available' => 'required',
-                'images' => 'required',
+                'images' => 'nullable',
                 'room_price' => 'required',
                 'room_amenity' => 'required',
                 'hotel_id' => 'required'
@@ -97,22 +100,29 @@ class RoomsController extends Controller
                 {
                     $room->king_room = $request->room_available;
                     $room->king_room_price = $request->room_price;
-                    if($request->hasFile('images'))
+                    
+                    if($room->king_room_image != NULL)
                     {
-                        if(!empty($room->king_room_image))
+                        foreach(json_decode($room->king_room_image) as $image)
                         {
-                            foreach(json_decode($room->king_room_image) as $image)
-                            {
-                                Storage::delete(getenv('IMG_UPLOAD').$image);
-                            }
-                            $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                            Storage::delete(url('/')."/public/uploads/".$image);
                         }
-                        else
+                        if(!empty($request->images))
                         {
-                            $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                            $room->king_room_image = json_encode($request->images);
+                        }
+                        
+                    }
+                    else
+                    {
+                        if(!empty($request->images))
+                        {
+                            $room->king_room_image = json_encode($request->images);
                         }
                     }
+                    
                     $room->king_room_amenity = $request->room_amenity;
+                    $room->king_room_status = 1;
                     $room->save();
         
                     $response = [
@@ -146,7 +156,7 @@ class RoomsController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'room_available' => 'required',
-                'images' => 'required',
+                'images' => 'nullable',
                 'room_price' => 'required',
                 'room_amenity' => 'required',
                 'hotel_id' => 'required'
@@ -167,22 +177,28 @@ class RoomsController extends Controller
                 {
                     $room->queen_room = $request->room_available;
                     $room->queen_room_price = $request->room_price;
-                    if($request->hasFile('images'))
+                    
+                    if(!empty($room->queen_room_image))
                     {
-                        if(!empty($room->queen_room_image))
+                        foreach(json_decode($room->queen_room_image) as $image)
                         {
-                            foreach(json_decode($room->queen_room_image) as $image)
-                            {
-                                Storage::delete(getenv('IMG_UPLOAD').$image);
-                            }
-                            $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                            Storage::delete(getenv('IMG_UPLOAD').$image);
                         }
-                        else
+                        if(!empty($request->images))
                         {
-                            $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                            $room->queen_room_image = json_encode($request->images);
                         }
                     }
+                    else
+                    {
+                        if(!empty($request->images))
+                        {
+                            $room->queen_room_image = json_encode($request->images);
+                        }
+                    }
+
                     $room->queen_room_amenity = $request->room_amenity;
+                    $room->queen_room_status = 1;
                     $room->save();
         
                     $response = [

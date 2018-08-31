@@ -56,7 +56,7 @@ class nearbyhotelController extends Controller
                     if($check_booking)
                     {
                         $response = [
-                            'msg' => 'You already have pending bookings.',
+                            'msg' => 'You already have a pending booking.',
                             'status' => 0
                         ];
                     }
@@ -279,7 +279,7 @@ class nearbyhotelController extends Controller
                                     if($value['user_id'] != 0)
                                     {
                                         $notify = User::where(['user_id' => $value['user_id']])->first();
-                                        $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                        $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                         $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
                                         $store = new Bookings;
@@ -577,7 +577,7 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
-                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
                                             $store = new Bookings;
@@ -616,7 +616,7 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
-                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
                                             $store = new Bookings;
@@ -655,7 +655,7 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
-                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
                                             $store = new Bookings;
@@ -694,7 +694,7 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
-                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $collect);
+                                            $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
                                             $store = new Bookings;

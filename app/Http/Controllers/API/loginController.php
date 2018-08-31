@@ -40,6 +40,7 @@ class loginController extends Controller
                         if(Hash::check($request->password,$check_login->password))
                         {
                             $check_login->fcm_id = $request->fcm_id;
+                            $check_login->device = $request->device;
                             $check_login->last_login = date('d-m-y H:i:s');
                             $check_login->save();
 
