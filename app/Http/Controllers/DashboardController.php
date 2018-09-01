@@ -28,6 +28,12 @@ class DashboardController extends Controller
             'pendingbookings' => Bookings::where(['status' => 1, 'is_visited' => 0])->count(),
             't_p_bookings' => Bookings::where(['status' => 1, 'is_visited' => 0])->whereDate('created_at',today()->format('d'))->count(),
             'm_p_bookings' => Bookings::where(['status' => 1, 'is_visited' => 0])->whereMonth('created_at',today()->format('m'))->count(),
+            'cancelledbookings' => Bookings::where(['status' => 2])->count(),
+            't_can_bookings' => Bookings::where(['status' => 2])->whereDate('created_at',today()->format('d'))->count(),
+            'm_can_bookings' => Bookings::where(['status' => 2])->whereMonth('created_at',today()->format('m'))->count(),
+            'transactions' => Bookings::where(['payment_status' => 1])->count(),
+            't_t_bookings' => Bookings::where(['payment_status' => 1])->whereDate('created_at',today()->format('d'))->count(),
+            'm_t_bookings' => Bookings::where(['payment_status' => 1])->whereMonth('created_at',today()->format('m'))->count()
         ];
         
         return view('dashboard.main')->with($data);

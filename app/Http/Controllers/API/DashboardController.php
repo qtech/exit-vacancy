@@ -28,7 +28,7 @@ class DashboardController extends Controller
                 array_push($dates,date("Y-m-d", $i));  
             }
 
-            $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('role'))->where('role','=',2)->groupBy('date')->get();
+            $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where('role','=',2)->groupBy('date')->get();
             
             $user = [];
             $dateLabel = [];
@@ -86,15 +86,16 @@ class DashboardController extends Controller
             for ($i=$date_from; $i<=$date_to; $i+=86400) {  
                 array_push($dates,date("Y-m-d", $i));  
             }
-
-            $hotels = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'),DB::raw('role'))->where('role','=',3)->groupBy('date')->get();
+            
+            $hotels = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where('role','=',3)->groupBy('date')->get();
             
             $hotel = [];
             $dateLabel = [];
             
-            foreach($dates as $k => $value)
+            
+            foreach($hotels as $u)
             {
-                foreach($hotels as $u)
+                foreach($dates as $k => $value)
                 {
                     if($u->date == $value)
                     {

@@ -136,19 +136,19 @@
                 <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
                     <div class="col-sm-4">
                         <div class="d_boxes">
-                            {{$t_users}}
+                            {{$t_can_bookings}}
                             <p>Today</p>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="d_boxes">
-                            {{$m_users}}
+                            {{$m_can_bookings}}
                             <p>Month</p>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="d_boxes">
-                            {{$users}}
+                            {{$cancelledbookings}}
                             <p>Total</p>
                         </div>
                     </div>
@@ -165,25 +165,25 @@
                 <div class="row" style="padding-top: 5px; padding-left: 6px; padding-right: 6px;">
                     <div class="col-sm-4">
                         <div class="d_boxes">
-                            {{$t_users}}
+                            {{$t_t_bookings}}
                             <p>Today</p>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="d_boxes">
-                            {{$m_users}}
+                            {{$m_t_bookings}}
                             <p>Month</p>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="d_boxes">
-                            {{$users}}
+                            {{$transactions}}
                             <p>Total</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-wallet"></i> Earnings</div>
+                    <div class="widget-simple-sm-fill-caption"><i class="font-icon font-icon-wallet"></i> Transactions</div>
                 </div>
             </section>
         </a>
@@ -273,7 +273,7 @@
 <section class="card box-typical">
     <div class="card-block">
         <h5 class="m-t-lg pull-left"><strong>Transactions</strong></h5>
-        <form method="POST" id="b_Form">
+        <form method="POST" id="t_Form">
             <div class="col-3 pull-right">
                 <div class="form-group">
                     <strong>To:</strong><input class="flatpickr form-control" id="t_date2" name="t_date2" type="text" placeholder="Select Date">
@@ -309,6 +309,7 @@
                     h_r_withdates();
                     cb_withdates();
                     pb_withdates();
+                    t_withdates()
                 }
             });
             NProgress.done();
@@ -735,7 +736,7 @@
                         }],
                     }
                     //Start Chart plotting.
-                    var ctx = $('#myChart3');
+                    var ctx = $('#myChart5');
                     var myLineChart = new Chart(ctx, {
                         type:'line',
                         data:data
@@ -744,6 +745,62 @@
             }
             ajx.open('GET','{{route('t.chart')}}',true);
             ajx.send();
+        }
+
+        function t_withdates(){
+            var date1 = document.getElementById("t_date1").value;
+            var date2 = document.getElementById("t_date2").value;
+            if(date1 != '' && date2 != '')
+            {
+                var form = document.getElementById("t_Form");
+                var formData = new FormData(form);
+                formData.append('_token','{{csrf_token()}}');
+
+                var ajx = new XMLHttpRequest();
+                ajx.onreadystatechange = function () {
+                    if (ajx.readyState == 4 && ajx.status == 200) {
+                            var res = JSON.parse(ajx.responseText);                                        
+                            var data = {
+                                labels: res.dateLabel,
+                                datasets:[{
+                                    label:'Transactions',
+                                    fill: false, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "#00857B",
+                                    borderColor: "#00857B", // The main line color
+                                    borderCapStyle: 'square',
+                                    borderDash: [], // try [5, 15] for instance
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "black",
+                                    pointBackgroundColor: "white",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "red",
+                                    pointHoverBorderColor: "brown",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
+                                    data:res.transactions,
+                                    spanGaps: true,
+                                }],
+                            }
+
+                            $('#myChart5').remove();
+                            $('#chart5wrapper').append('<canvas id="myChart5" width="400" height="100"></canvas>');
+                            //Start Chart plotting.
+                            var ctx = $('#myChart5');
+                            var myLineChart = new Chart(ctx, {
+                                type:'line',
+                                data:data
+                            });
+                    }
+                };
+                ajx.open("POST", "{{route('wd.transactions')}}", true);
+                // ajx.setRequestHeader("Content-type", "application/json");
+                ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
+                ajx.send(formData);
+            }
         }
     </script>
 @endsection
