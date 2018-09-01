@@ -55,42 +55,31 @@ class TransactionController extends Controller
     {
         try
         {
-            $present = Carbon::now();
-            $past = Carbon::now()->subMonth()->toDateString();
+            // $present = Carbon::now();
+            // $past = Carbon::now()->subMonth()->toDateString();
 
-            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
+            // $date_from = strtotime($past); // Convert date to a UNIX timestamp  
   
-            // Specify the end date. This date can be any English textual format  
-            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
+            // // Specify the end date. This date can be any English textual format  
+            // $date_to = strtotime($present); // Convert date to a UNIX timestamp  
             
-            $dates = [];
+            // $dates = [];
 
-            // Loop from the start date to end date and output all dates inbetween  
-            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
-                array_push($dates,date("Y-m-d", $i));  
-            }
+            // // Loop from the start date to end date and output all dates inbetween  
+            // for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+            //     array_push($dates,date("Y-m-d", $i));  
+            // }
 
             $transactions = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['payment_status' => 1])->groupBy('date')->get();
             
             $dateLabel = [];
             $transaction = [];
 
-            foreach($dates as $k => $value)
+            foreach($transactions as $t)
             {
-                foreach($transactions as $t)
-                {
-                    if($t->date == $value)
-                    {
-                        array_push($transaction,$t->count);
-                        array_push($dateLabel,$t->date);
-                    }
-                    else
-                    {
-                        array_push($transaction,0);
-                        array_push($dateLabel,$value);
-                    }
-                }                                   
-            }
+                array_push($transaction,$t->count);
+                array_push($dateLabel,$t->date);
+            }                                   
 
             $response = [
                 'msg' => 'Transactions Day-wise',
@@ -148,39 +137,28 @@ class TransactionController extends Controller
             $present = Carbon::now();
             $past = Carbon::now()->subDays(6)->toDateString();
 
-            $date_from = strtotime($past); // Convert date to a UNIX timestamp  
+            // $date_from = strtotime($past); // Convert date to a UNIX timestamp  
   
-            // Specify the end date. This date can be any English textual format  
-            $date_to = strtotime($present); // Convert date to a UNIX timestamp  
+            // // Specify the end date. This date can be any English textual format  
+            // $date_to = strtotime($present); // Convert date to a UNIX timestamp  
             
-            $dates = [];  
+            // $dates = [];  
 
-            // Loop from the start date to end date and output all dates inbetween  
-            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
-                array_push($dates,date("Y-m-d", $i));  
-            }
+            // // Loop from the start date to end date and output all dates inbetween  
+            // for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+            //     array_push($dates,date("Y-m-d", $i));  
+            // }
 
             $transactions = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['payment_status' => 1])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
             $dateLabel = [];
             $transaction = [];
 
-            foreach($dates as $k => $value)
+            foreach($transactions as $t)
             {
-                foreach($transactions as $t)
-                {
-                    if($t->date == $value)
-                    {
-                        array_push($transaction,$t->count);
-                        array_push($dateLabel,$t->date);
-                    }
-                    else
-                    {
-                        array_push($transaction,0);
-                        array_push($dateLabel,$value);
-                    }
-                }                                   
-            }
+                array_push($transaction,$t->count);
+                array_push($dateLabel,$t->date);
+            }                                   
 
             $response = [
                 'msg' => 'Weekly Transactions',
@@ -203,41 +181,30 @@ class TransactionController extends Controller
     {
         try
         {
-            $first_day = Carbon::now()->startOfMonth();
-            $last_day = Carbon::now()->endOfMonth();
+            // $first_day = Carbon::now()->startOfMonth();
+            // $last_day = Carbon::now()->endOfMonth();
 
-            $date_from = strtotime($first_day); // Convert date to a UNIX timestamp  
+            // $date_from = strtotime($first_day); // Convert date to a UNIX timestamp  
   
-            // Specify the end date. This date can be any English textual format  
-            $date_to = strtotime($last_day); // Convert date to a UNIX timestamp  
+            // // Specify the end date. This date can be any English textual format  
+            // $date_to = strtotime($last_day); // Convert date to a UNIX timestamp  
             
-            $dates = [];
+            // $dates = [];
 
-            // Loop from the start date to end date and output all dates inbetween  
-            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
-                array_push($dates,date("Y-m-d", $i));  
-            }
+            // // Loop from the start date to end date and output all dates inbetween  
+            // for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+            //     array_push($dates,date("Y-m-d", $i));  
+            // }
 
             $transactions = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['payment_status' => 1])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
             $dateLabel = [];
             $transaction = [];
-
-            foreach($dates as $k => $value)
-            {
-                foreach($transactions as $t)
-                {
-                    if($t->date == $value)
-                    {
-                        array_push($transaction,$t->count);
-                        array_push($dateLabel,$t->date);
-                    }
-                    else
-                    {
-                        array_push($transaction,0);
-                        array_push($dateLabel,$value);
-                    }
-                }                                   
+            
+            foreach($transactions as $t)
+            {    
+                array_push($transaction,$t->count);
+                array_push($dateLabel,$t->date);                                
             }
 
             $response = [
@@ -261,39 +228,28 @@ class TransactionController extends Controller
     {
         try
         {
-            $date_from = strtotime($request->t_date1); // Convert date to a UNIX timestamp  
+            // $date_from = strtotime($request->t_date1); // Convert date to a UNIX timestamp  
   
-            // Specify the end date. This date can be any English textual format  
-            $date_to = strtotime($request->t_date2); // Convert date to a UNIX timestamp  
+            // // Specify the end date. This date can be any English textual format  
+            // $date_to = strtotime($request->t_date2); // Convert date to a UNIX timestamp  
             
-            $dates = [];
+            // $dates = [];
 
-            // Loop from the start date to end date and output all dates inbetween  
-            for ($i=$date_from; $i<=$date_to; $i+=86400) {  
-                array_push($dates,date("Y-m-d", $i));  
-            }
+            // // Loop from the start date to end date and output all dates inbetween  
+            // for ($i=$date_from; $i<=$date_to; $i+=86400) {  
+            //     array_push($dates,date("Y-m-d", $i));  
+            // }
 
             $transactions = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['payment_status' => 1])->whereBetween('created_at',[$request->t_date1,$request->t_date2])->groupBy('date')->get();
             
             $dateLabel = [];
             $transaction = [];
 
-            foreach($dates as $k => $value)
+            foreach($transactions as $t)
             {
-                foreach($transactions as $t)
-                {
-                    if($t->date == $value)
-                    {
-                        array_push($transaction,$t->count);
-                        array_push($dateLabel,$t->date);
-                    }
-                    else
-                    {
-                        array_push($transaction,0);
-                        array_push($dateLabel,$value);
-                    }
-                }                                   
-            }
+                array_push($transaction,$t->count);
+                array_push($dateLabel,$t->date);
+            }                                   
 
             $response = [
                 'msg' => 'Transactions on selected dates',

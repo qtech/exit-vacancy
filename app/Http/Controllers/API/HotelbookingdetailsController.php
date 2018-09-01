@@ -334,11 +334,14 @@ class HotelbookingdetailsController extends Controller
                     else
                     {
                         $roomimage = [];
-    
-                        foreach(json_decode($gethotel->queen_room_image) as $j)
+                        
+                        if($gethotel->queen_room_image != NULL)
                         {
-                            $k = url('/')."/storage/uploads/".$j;
-                            array_push($roomimage,$k);
+                            foreach(json_decode($gethotel->queen_room_image) as $j)
+                            {
+                                $k = url('/')."/storage/uploads/".$j;
+                                array_push($roomimage,$k);
+                            }
                         }
     
                         $data['room'] = [

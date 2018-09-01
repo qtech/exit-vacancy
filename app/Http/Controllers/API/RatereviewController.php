@@ -93,7 +93,7 @@ class RatereviewController extends Controller
                             'hotel' => $tmp->hotel->hotel_name,
                             'ratings' => $tmp->ratings,
                             'review' => $tmp->review_comment,
-                            'hotel_image' => ($tmp->hotel->image != NULL) ? url('/')."/".$tmp->hotel->image : "",
+                            'user_image' => ($tmp->user->image != NULL) ? url('/')."/storage/uploads/".$tmp->user->image : "",
                         ];
 
                         array_push($data,$collect);

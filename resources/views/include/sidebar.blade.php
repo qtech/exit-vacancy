@@ -31,7 +31,7 @@
             <li class="red {{Request::is('admin/hotelowners/*') || Request::is('admin/hotelowners') ? 'opened' : ''}}">
 				<a href="{{route('hotelusers')}}">
 	                <i class="fa fa-building"></i>
-	                <span class="lbl">Hotel Owners</span>
+	                <span class="lbl">Hotels</span>
 	            </a>
             </li>
 			
@@ -42,7 +42,7 @@
 	            </span>
 	            <ul>
 	                <li><a href="{{route('mails')}}"><span class="lbl">Mails to Users</span></a></li>
-	                <li><a href="{{route('h.mails')}}"><span class="lbl">Mails to Hotel Owners</span></a></li>
+	                <li><a href="{{route('h.mails')}}"><span class="lbl">Mails to Hotels</span></a></li>
 	            </ul>
 			</li>
             
@@ -53,7 +53,7 @@
 	            </span>
 	            <ul>
 	                <li><a href="{{route('sms')}}"><span class="lbl">SMS to Users</span></a></li>
-	                <li><a href="{{route('h.sms')}}"><span class="lbl">SMS to Hotel Owners</span></a></li>
+	                <li><a href="{{route('h.sms')}}"><span class="lbl">SMS to Hotels</span></a></li>
 	            </ul>
 			</li>
 			

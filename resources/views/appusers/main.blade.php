@@ -5,7 +5,7 @@
     <div class="col-sm-12">
         <section class="card box-typical">
             <div class="card-block">
-                <h5 class="m-t-lg pull-left"><strong>User Registrations</strong></h5>
+                <h5 class="m-t-lg pull-left"><strong>Registrations</strong></h5>
                 <form method="POST" id="u_r_Form">
                     <div class="col-3 pull-right">
                         <div class="form-group">
@@ -148,6 +148,27 @@
                             pointHitRadius: 10,
                             data:res.users,
                             spanGaps: true,
+                        },{
+                            label:'Hotels', 
+                            fill: false, 
+                            tension: 0.4,                           
+                            backgroundColor: "rgb(167, 105, 0)",
+                            borderColor: "rgb(167, 105, 0)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "white",
+                            pointBackgroundColor: "black",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "yellow",
+                            pointHoverBorderColor: "green",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.hotels,
+                            spanGaps: false,                          
                         }],
                     }
                     //Start Chart plotting.
@@ -198,6 +219,27 @@
                                     pointHitRadius: 10,
                                     data:res.users,
                                     spanGaps: false,
+                                },{
+                                    label:'Hotels', 
+                                    fill: false, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "#00857B",
+                                    borderColor: "#00857B", // The main line color
+                                    borderCapStyle: 'square',
+                                    borderDash: [], // try [5, 15] for instance
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "black",
+                                    pointBackgroundColor: "white",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "red",
+                                    pointHoverBorderColor: "brown",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
+                                    data:res.hotels,
+                                    spanGaps: false,                          
                                 }],
                             }
                             $('#myChart1').remove();

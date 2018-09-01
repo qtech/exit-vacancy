@@ -5,16 +5,16 @@
     <div class="col-sm-12">
         <section class="card box-typical">
             <div class="card-block">
-                <h5 class="m-t-lg pull-left"><strong>Hotel Registrations</strong></h5>
-                <form method="POST" id="h_r_Form">
+                <h5 class="m-t-lg pull-left"><strong>Registrations</strong></h5>
+                <form method="POST" id="u_r_Form">
                     <div class="col-3 pull-right">
                         <div class="form-group">
-                            <strong>To:</strong><input class="flatpickr form-control" id="h_r_date2" name="h_r_date2" type="text" placeholder="Date">
+                            <strong>To:</strong><input class="flatpickr form-control" id="u_r_date2" name="u_r_date2" type="text" placeholder="Date">
                         </div>
                     </div>
                     <div class="col-3 pull-right">
                         <div class="form-group">
-                            <strong>From:</strong><input class="flatpickr form-control" id="h_r_date1" name="h_r_date1" type="text" placeholder="Date">
+                            <strong>From:</strong><input class="flatpickr form-control" id="u_r_date1" name="u_r_date1" type="text" placeholder="Date">
                         </div>
                     </div>
                 </form>
@@ -29,7 +29,7 @@
     <div class="card-block">
         <div class="row">
             <div class="col-sm-12">
-                <h5 class="m-t-lg pull-left"><strong>Hotel Owners</strong></h5>
+                <h5 class="m-t-lg pull-left"><strong>Hotels</strong></h5>
                 <a href="{{route('e.hotelusers')}}" class="btn btn-custom pull-right">Export</a>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <tr>
                     <td>{{$loop->index+1}}</td>
                     <td>
-                        <a style="border-bottom:none !important; color:#00857b;" href="{{route('hoteldetails',['id' => $value->user_id])}}">{{$value->fname}}</a>
+                        <a style="border-bottom:none !important; color:#00857b;" href="{{route('hoteldetails',['id' => $value->user_id])}}">{{$value->hotel->hotel_name}}</a>
                     </td>
                     <td>{{$value->email}}</td>
                     <td>+{{$value->hotel->number}}</td>
@@ -107,6 +107,27 @@
                     var data = {
                         labels: res.dateLabel,
                         datasets:[{
+                            label:'Users',
+                            fill: false,   
+                            tension: 0.4,                         
+                            backgroundColor: "rgb(167, 105, 0)",
+                            borderColor: "rgb(167, 105, 0)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "white",
+                            pointBackgroundColor: "black",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "yellow",
+                            pointHoverBorderColor: "green",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.users,
+                            spanGaps: true,
+                        },{
                             label:'Hotels',
                             fill: false,   
                             tension: 0.4,                         
@@ -137,16 +158,16 @@
                     })
                 }
             }
-            ajx.open('GET','{{route('hotel.r.chart')}}',true);
+            ajx.open('GET','{{route('user.r.chart')}}',true);
             ajx.send();
         }
 
         function r_withdates(){
-            var date1 = document.getElementById("h_r_date1").value;
-            var date2 = document.getElementById("h_r_date2").value;
+            var date1 = document.getElementById("u_r_date1").value;
+            var date2 = document.getElementById("u_r_date2").value;
             if(date1 != '' && date2 != '')
             {
-                var form = document.getElementById("h_r_Form");
+                var form = document.getElementById("u_r_Form");
                 var formData = new FormData(form);
                 formData.append('_token','{{csrf_token()}}');
 
@@ -157,7 +178,7 @@
                             var data = {
                                 labels: res.dateLabel,
                                 datasets:[{
-                                    label:'Hotels', 
+                                    label:'Users', 
                                     fill: false, 
                                     tension: 0.4,                           
                                     backgroundColor: "rgb(167, 105, 0)",
@@ -175,6 +196,27 @@
                                     pointHoverBorderWidth: 2,
                                     pointRadius: 4,
                                     pointHitRadius: 10,
+                                    data:res.users,
+                                    spanGaps: false,
+                                },{
+                                    label:'Hotels', 
+                                    fill: false, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "#00857B",
+                                    borderColor: "#00857B", // The main line color
+                                    borderCapStyle: 'square',
+                                    borderDash: [], // try [5, 15] for instance
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "black",
+                                    pointBackgroundColor: "white",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "red",
+                                    pointHoverBorderColor: "brown",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
                                     data:res.hotels,
                                     spanGaps: false,
                                 }],
@@ -189,7 +231,7 @@
                             });
                     }
                 };
-                ajx.open("POST", '{{route('hotel.r.dates')}}', true);
+                ajx.open("POST", '{{route('user.r.dates')}}', true);
                 // ajx.setRequestHeader("Content-type", "application/json");
                 ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
                 ajx.send(formData);

@@ -17,7 +17,7 @@
 
 <section class="card">
     <div class="card-block">
-            <h3>Hotel Owners</h3>
+            <h3>Hotels</h3>
         <br>
         <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
@@ -38,7 +38,7 @@
                     <td>
                         <input type="checkbox" class="checkbox" name="sms[]" value="{{$value->user_id}}">
                     </td>
-                    <td>{{$value->fname}} {{$value->lname}}</td>
+                    <td>{{$value->hotel->hotel_name}}</td>
                     <td>{{$value->email}}</td>
                     <td>+{{$value->hotel->number}}</td>
                     <td>
