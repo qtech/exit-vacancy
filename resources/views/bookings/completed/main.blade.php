@@ -115,7 +115,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: true,                            
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -159,7 +159,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: true,                            
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -203,7 +203,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: true,                            
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -247,7 +247,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Bookings',
-                            fill: false,                            
+                            fill: true,                            
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
@@ -299,7 +299,7 @@
                             labels: res.dateLabel,
                             datasets:[{
                                 label:'Bookings',
-                                fill: false,                            
+                                fill: true,                            
                                 backgroundColor: "#00857B",
                                 borderColor: "#00857B", // The main line color
                                 borderCapStyle: 'square',

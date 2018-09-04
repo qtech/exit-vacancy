@@ -35,6 +35,8 @@ Route::middleware(['auth','Admin'])->prefix('admin')->group(function(){
         Route::post('/completedchartwithdates', 'API\DashboardController@cb_data_with_dates')->name('cb.dates');
         Route::get('/pendingbookingschart', 'API\DashboardController@pending_bookings')->name('pending.booking.chart');
         Route::post('/pendingchartwithdates', 'API\DashboardController@pb_data_with_dates')->name('pb.dates');
+        Route::get('/cancelledbookingschart', 'API\DashboardController@cancelled_bookings')->name('cancel.booking.chart');
+        Route::post('/cancelchartwithdates', 'API\DashboardController@can_data_with_dates')->name('can.dates');
         Route::get('/bookingdata','API\DashboardController@bookings_data')->name('dashboard.bookingData');
         Route::post('/rdatawithdates', 'API\DashboardController@r_data_with_dates')->name('r.datawithdates');
         Route::post('/bdatawithdates', 'API\DashboardController@b_data_with_dates')->name('b.datawithdates');

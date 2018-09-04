@@ -192,7 +192,7 @@
 
 <section class="card box-typical">
     <div class="card-block">
-        <h5 class="m-t-lg pull-left"><strong>Registrations</strong></h5>
+        <h5 class="m-t-lg pull-left"><strong>User Registrations</strong></h5>
         <form method="POST" id="u_r_Form">
             <div class="col-3 pull-right">
                 <div class="form-group">
@@ -210,9 +210,31 @@
         </div>
     </div>
 </section>
+
 <section class="card box-typical">
     <div class="card-block">
-        <h5 class="m-t-lg pull-left"><strong>Bookings</strong></h5>
+        <h5 class="m-t-lg pull-left"><strong>Hotel Registrations</strong></h5>
+        <form method="POST" id="h_r_Form">
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>To:</strong><input class="flatpickr form-control" id="h_r_date2" name="h_r_date2" type="text" placeholder="Select Date">
+                </div>
+            </div>
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>From:</strong><input class="flatpickr form-control" id="h_r_date1" name="h_r_date1" type="text" placeholder="Select Date">
+                </div>
+            </div>
+        </form>
+        <div id="chart2wrapper">
+            <canvas id="myChart2" width="400" height="100"></canvas>
+        </div>
+    </div>
+</section>
+
+<section class="card box-typical">
+    <div class="card-block">
+        <h5 class="m-t-lg pull-left"><strong>Completed Bookings</strong></h5>
         <form method="POST" id="c_b_Form">
             <div class="col-3 pull-right">
                 <div class="form-group">
@@ -230,6 +252,49 @@
         </div>
     </div>
 </section>
+
+<section class="card box-typical">
+    <div class="card-block">
+        <h5 class="m-t-lg pull-left"><strong>Pending Bookings</strong></h5>
+        <form method="POST" id="p_b_Form">
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>To:</strong><input class="flatpickr form-control" id="p_b_date2" name="p_b_date2" type="text" placeholder="Select Date">
+                </div>
+            </div>
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>From:</strong><input class="flatpickr form-control" id="p_b_date1" name="p_b_date1" type="text" placeholder="Select Date">
+                </div>
+            </div>
+        </form>
+        <div id="chart4wrapper">
+            <canvas id="myChart4" width="400" height="100"></canvas>
+        </div>
+    </div>
+</section>
+
+<section class="card box-typical">
+    <div class="card-block">
+        <h5 class="m-t-lg pull-left"><strong>Cancelled Bookings</strong></h5>
+        <form method="POST" id="can_b_Form">
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>To:</strong><input class="flatpickr form-control" id="can_b_date2" name="can_b_date2" type="text" placeholder="Select Date">
+                </div>
+            </div>
+            <div class="col-3 pull-right">
+                <div class="form-group">
+                    <strong>From:</strong><input class="flatpickr form-control" id="can_b_date1" name="can_b_date1" type="text" placeholder="Select Date">
+                </div>
+            </div>
+        </form>
+        <div id="chart5wrapper">
+            <canvas id="myChart5" width="400" height="100"></canvas>
+        </div>
+    </div>
+</section>
+
 <section class="card box-typical">
     <div class="card-block">
         <h5 class="m-t-lg pull-left"><strong>Transactions</strong></h5>
@@ -245,11 +310,12 @@
                 </div>
             </div>
         </form>
-        <div id="chart5wrapper">
-            <canvas id="myChart5" width="400" height="100"></canvas>
+        <div id="chart6wrapper">
+            <canvas id="myChart6" width="400" height="100"></canvas>
         </div>
     </div>
 </section>
+
 @endsection
 @section('scripts')
     <script>
@@ -258,20 +324,26 @@
             Chart.defaults.global.defaultFontColor = 'grey';
             Chart.defaults.global.defaultFontStyle = 'bold';
             Chart.defaults.global.defaultFontSize = 14;
-            registration();
-            bookings();
+            user_registration();
+            hotel_registration();
+            completed_bookings();
+            pending_bookings();
+            cancelled_bookings();
             transactions();
             $('.flatpickr').flatpickr({
                 onChange: function() {
-                    r_withdates();
-                    b_withdates();
+                    u_r_withdates();
+                    h_r_withdates();
+                    c_b_withdates();
+                    p_b_withdates();
+                    can_b_withdates();
                     t_withdates()
                 }
             });
             NProgress.done();
         });
 
-        function registration(){
+        function user_registration(){
             var ajx = new XMLHttpRequest();
             ajx.onreadystatechange = function() {
                 if(ajx.readyState == 4 && ajx.status == 200){
@@ -280,28 +352,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                                 label:'Users',
-                                fill: false, 
-                                tension: 0.4,                           
-                                backgroundColor: "#00857B",
-                                borderColor: "#00857B", // The main line color
-                                borderCapStyle: 'square',
-                                borderDash: [], // try [5, 15] for instance
-                                borderDashOffset: 0.0,
-                                borderJoinStyle: 'miter',
-                                pointBorderColor: "black",
-                                pointBackgroundColor: "white",
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointHoverBackgroundColor: "red",
-                                pointHoverBorderColor: "brown",
-                                pointHoverBorderWidth: 2,
-                                pointRadius: 4,
-                                pointHitRadius: 10,
-                                data:res.users,
-                                spanGaps: true,
-                            },{
-                                label:'Hotels', 
-                                fill: false, 
+                                fill: true, 
                                 tension: 0.4,                           
                                 backgroundColor: "rgb(167, 105, 0)",
                                 borderColor: "rgb(167, 105, 0)",
@@ -318,39 +369,15 @@
                                 pointHoverBorderWidth: 2,
                                 pointRadius: 4,
                                 pointHitRadius: 10,
-                                data:res.hotels,
-                                spanGaps: false,                          
-                            }],
+                                data:res.users,
+                                spanGaps: true,
+                            }]
                     }
                     //Start Chart plotting.
                     var ctx = $('#myChart1');
                     var myLineChart = new Chart(ctx, {
-                        type:'bar',
-                        data:data,
-                        options: {
-                            responsive: true,
-                            title: {
-                            display: true
-                            },
-                            tooltips: {
-                            mode: 'nearest',
-                            intersect: true
-                            },
-                            scales: {
-                            xAxes: [{}, {
-                                id: 'x-axis-2',
-                                type: 'linear',
-                                position: 'bottom',
-                                display: false,
-                            }],
-                            yAxes: [{
-                                ticks: {
-                                min: 0,
-                                max: 50
-                                }
-                            }]
-                            }
-                        }
+                        type:'line',
+                        data:data
                     })
                 }
             }
@@ -358,7 +385,49 @@
             ajx.send();
         }
 
-        function bookings(){
+        function hotel_registration(){
+            var ajx = new XMLHttpRequest();
+            ajx.onreadystatechange = function() {
+                if(ajx.readyState == 4 && ajx.status == 200){
+                    var res = JSON.parse(ajx.responseText);                                        
+                    var data = {
+                        labels: res.dateLabel,
+                        datasets:[{
+                            label:'Hotels',
+                            fill: true, 
+                            tension: 0.4,                           
+                            backgroundColor: "#00857B",
+                            borderColor: "#00857B", // The main line color
+                            borderCapStyle: 'square',
+                            borderDash: [], // try [5, 15] for instance
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "white",
+                            pointBackgroundColor: "black",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "brown",
+                            pointHoverBorderColor: "black",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.hotels,
+                            spanGaps: true,
+                        }]
+                    }
+                    //Start Chart plotting.
+                    var ctx = $('#myChart2');
+                    var myLineChart = new Chart(ctx, {
+                        type:'line',
+                        data:data
+                    })
+                }
+            }
+            ajx.open('GET','{{route('hotel.r.chart')}}',true);
+            ajx.send();
+        }
+
+        function completed_bookings(){
             var ajx = new XMLHttpRequest();
             ajx.onreadystatechange = function() {
                 if(ajx.readyState == 4 && ajx.status == 200){
@@ -367,28 +436,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                                 label:'Completed',
-                                fill: false, 
-                                tension: 0.4,                           
-                                backgroundColor: "#00857B",
-                                borderColor: "#00857B", // The main line color
-                                borderCapStyle: 'square',
-                                borderDash: [], // try [5, 15] for instance
-                                borderDashOffset: 0.0,
-                                borderJoinStyle: 'miter',
-                                pointBorderColor: "black",
-                                pointBackgroundColor: "white",
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointHoverBackgroundColor: "red",
-                                pointHoverBorderColor: "brown",
-                                pointHoverBorderWidth: 2,
-                                pointRadius: 4,
-                                pointHitRadius: 10,
-                                data:res.completed,
-                                spanGaps: true,
-                            },{
-                                label:'Pending', 
-                                fill: false, 
+                                fill: true, 
                                 tension: 0.4,                           
                                 backgroundColor: "rgb(167, 105, 0)",
                                 borderColor: "rgb(167, 105, 0)",
@@ -405,30 +453,9 @@
                                 pointHoverBorderWidth: 2,
                                 pointRadius: 4,
                                 pointHitRadius: 10,
-                                data:res.pending,
-                                spanGaps: false,                          
-                            },{
-                                label:'Cancelled', 
-                                fill: false, 
-                                tension: 0.4,                           
-                                backgroundColor: "red",
-                                borderColor: "red",
-                                borderCapStyle: 'butt',
-                                borderDash: [],
-                                borderDashOffset: 0.0,
-                                borderJoinStyle: 'miter',
-                                pointBorderColor: "white",
-                                pointBackgroundColor: "black",
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointHoverBackgroundColor: "black",
-                                pointHoverBorderColor: "brown",
-                                pointHoverBorderWidth: 2,
-                                pointRadius: 4,
-                                pointHitRadius: 10,
-                                data:res.cancelled,
-                                spanGaps: false,                          
-                            }],
+                                data:res.completed,
+                                spanGaps: true,
+                            }]
                     }
                     //Start Chart plotting.
                     var ctx = $('#myChart3');
@@ -442,7 +469,91 @@
             ajx.send();
         }
 
-        function r_withdates(){
+        function pending_bookings(){
+            var ajx = new XMLHttpRequest();
+            ajx.onreadystatechange = function() {
+                if(ajx.readyState == 4 && ajx.status == 200){
+                    var res = JSON.parse(ajx.responseText);                                        
+                    var data = {
+                        labels: res.dateLabel,
+                        datasets:[{
+                            label:'Pending',
+                            fill: true, 
+                            tension: 0.4,                           
+                            backgroundColor: "#00857B",
+                            borderColor: "#00857B", // The main line color
+                            borderCapStyle: 'square',
+                            borderDash: [], // try [5, 15] for instance
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "white",
+                            pointBackgroundColor: "black",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "brown",
+                            pointHoverBorderColor: "black",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHitRadius: 10,
+                            data:res.pending,
+                            spanGaps: true,
+                        }]
+                    }
+                    //Start Chart plotting.
+                    var ctx = $('#myChart4');
+                    var myLineChart = new Chart(ctx, {
+                        type:'line',
+                        data:data
+                    })
+                }
+            }
+            ajx.open('GET','{{route('pending.booking.chart')}}',true);
+            ajx.send();
+        }
+
+        function cancelled_bookings(){
+            var ajx = new XMLHttpRequest();
+            ajx.onreadystatechange = function() {
+                if(ajx.readyState == 4 && ajx.status == 200){
+                    var res = JSON.parse(ajx.responseText);                                        
+                    var data = {
+                        labels: res.dateLabel,
+                        datasets:[{
+                                label:'Cancelled',
+                                fill: true, 
+                                tension: 0.4,                           
+                                backgroundColor: "rgb(167, 105, 0)",
+                                borderColor: "rgb(167, 105, 0)",
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "white",
+                                pointBackgroundColor: "black",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "yellow",
+                                pointHoverBorderColor: "green",
+                                pointHoverBorderWidth: 2,
+                                pointRadius: 4,
+                                pointHitRadius: 10,
+                                data:res.cancelled,
+                                spanGaps: true,
+                            }]
+                    }
+                    //Start Chart plotting.
+                    var ctx = $('#myChart5');
+                    var myLineChart = new Chart(ctx, {
+                        type:'line',
+                        data:data
+                    })
+                }
+            }
+            ajx.open('GET','{{route('cancel.booking.chart')}}',true);
+            ajx.send();
+        }
+
+        function u_r_withdates(){
             var date1 = document.getElementById("u_r_date1").value;
             var date2 = document.getElementById("u_r_date2").value;
             if(date1 != '' && date2 != '')
@@ -459,28 +570,7 @@
                                 labels: res.dateLabel,
                                 datasets:[{
                                     label:'Users',
-                                    fill: false, 
-                                    tension: 0.4,                           
-                                    backgroundColor: "#00857B",
-                                    borderColor: "#00857B", // The main line color
-                                    borderCapStyle: 'square',
-                                    borderDash: [], // try [5, 15] for instance
-                                    borderDashOffset: 0.0,
-                                    borderJoinStyle: 'miter',
-                                    pointBorderColor: "black",
-                                    pointBackgroundColor: "white",
-                                    pointBorderWidth: 1,
-                                    pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: "red",
-                                    pointHoverBorderColor: "brown",
-                                    pointHoverBorderWidth: 2,
-                                    pointRadius: 4,
-                                    pointHitRadius: 10,
-                                    data:res.users,
-                                    spanGaps: true,
-                                },{
-                                    label:'Hotels', 
-                                    fill: false, 
+                                    fill: true, 
                                     tension: 0.4,                           
                                     backgroundColor: "rgb(167, 105, 0)",
                                     borderColor: "rgb(167, 105, 0)",
@@ -492,14 +582,14 @@
                                     pointBackgroundColor: "black",
                                     pointBorderWidth: 1,
                                     pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: "yellow",
-                                    pointHoverBorderColor: "green",
+                                    pointHoverBackgroundColor: "brown",
+                                    pointHoverBorderColor: "black",
                                     pointHoverBorderWidth: 2,
                                     pointRadius: 4,
                                     pointHitRadius: 10,
-                                    data:res.hotels,
-                                    spanGaps: false,                          
-                                }],
+                                    data:res.users,
+                                    spanGaps: true,
+                                }]
                             }
                             $('#myChart1').remove();
                             $('#chart1wrapper').append('<canvas id="myChart1" width="400" height="100"></canvas>');
@@ -518,7 +608,62 @@
             }
         }
 
-        function b_withdates(){
+        function h_r_withdates(){
+            var date1 = document.getElementById("h_r_date1").value;
+            var date2 = document.getElementById("h_r_date2").value;
+            if(date1 != '' && date2 != '')
+            {
+                var form = document.getElementById("h_r_Form");
+                var formData = new FormData(form);
+                formData.append('_token','{{csrf_token()}}');
+
+                var ajx = new XMLHttpRequest();
+                ajx.onreadystatechange = function () {
+                    if (ajx.readyState == 4 && ajx.status == 200) {
+                            var res = JSON.parse(ajx.responseText);                                        
+                            var data = {
+                                labels: res.dateLabel,
+                                datasets:[{
+                                    label:'Hotels',
+                                    fill: true, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "#00857B",
+                                    borderColor: "#00857B", // The main line color
+                                    borderCapStyle: 'square',
+                                    borderDash: [], // try [5, 15] for instance
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "white",
+                                    pointBackgroundColor: "black",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "brown",
+                                    pointHoverBorderColor: "black",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
+                                    data:res.hotels,
+                                    spanGaps: true,
+                                }]
+                            }
+                            $('#myChart2').remove();
+                            $('#chart2wrapper').append('<canvas id="myChart2" width="400" height="100"></canvas>');
+                            //Start Chart plotting.
+                            var ctx = $('#myChart2');
+                            var myLineChart = new Chart(ctx, {
+                                type:'line',
+                                data:data
+                            });
+                    }
+                };
+                ajx.open("POST", '{{route('hotel.r.dates')}}', true);
+                // ajx.setRequestHeader("Content-type", "application/json");
+                ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
+                ajx.send(formData);
+            }
+        }
+
+        function c_b_withdates(){
             var date1 = document.getElementById("c_b_date1").value;
             var date2 = document.getElementById("c_b_date2").value;
             if(date1 != '' && date2 != '')
@@ -535,28 +680,7 @@
                                 labels: res.dateLabel,
                                 datasets:[{
                                     label:'Completed',
-                                    fill: false, 
-                                    tension: 0.4,                           
-                                    backgroundColor: "#00857B",
-                                    borderColor: "#00857B", // The main line color
-                                    borderCapStyle: 'square',
-                                    borderDash: [], // try [5, 15] for instance
-                                    borderDashOffset: 0.0,
-                                    borderJoinStyle: 'miter',
-                                    pointBorderColor: "black",
-                                    pointBackgroundColor: "white",
-                                    pointBorderWidth: 1,
-                                    pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: "red",
-                                    pointHoverBorderColor: "brown",
-                                    pointHoverBorderWidth: 2,
-                                    pointRadius: 4,
-                                    pointHitRadius: 10,
-                                    data:res.completed,
-                                    spanGaps: true,
-                                },{
-                                    label:'Pending', 
-                                    fill: false, 
+                                    fill: true, 
                                     tension: 0.4,                           
                                     backgroundColor: "rgb(167, 105, 0)",
                                     borderColor: "rgb(167, 105, 0)",
@@ -568,35 +692,14 @@
                                     pointBackgroundColor: "black",
                                     pointBorderWidth: 1,
                                     pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: "yellow",
-                                    pointHoverBorderColor: "green",
+                                    pointHoverBackgroundColor: "brown",
+                                    pointHoverBorderColor: "black",
                                     pointHoverBorderWidth: 2,
                                     pointRadius: 4,
                                     pointHitRadius: 10,
-                                    data:res.pending,
-                                    spanGaps: false,                          
-                                },{
-                                    label:'Cancelled', 
-                                    fill: false, 
-                                    tension: 0.4,                           
-                                    backgroundColor: "red",
-                                    borderColor: "red",
-                                    borderCapStyle: 'butt',
-                                    borderDash: [],
-                                    borderDashOffset: 0.0,
-                                    borderJoinStyle: 'miter',
-                                    pointBorderColor: "white",
-                                    pointBackgroundColor: "black",
-                                    pointBorderWidth: 1,
-                                    pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: "black",
-                                    pointHoverBorderColor: "brown",
-                                    pointHoverBorderWidth: 2,
-                                    pointRadius: 4,
-                                    pointHitRadius: 10,
-                                    data:res.cancelled,
-                                    spanGaps: false,                          
-                                }],
+                                    data:res.completed,
+                                    spanGaps: true,
+                                }]
                             }
 
                             $('#myChart3').remove();
@@ -616,6 +719,118 @@
             }
         }
 
+        function p_b_withdates(){
+            var date1 = document.getElementById("p_b_date1").value;
+            var date2 = document.getElementById("p_b_date2").value;
+            if(date1 != '' && date2 != '')
+            {
+                var form = document.getElementById("p_b_Form");
+                var formData = new FormData(form);
+                formData.append('_token','{{csrf_token()}}');
+
+                var ajx = new XMLHttpRequest();
+                ajx.onreadystatechange = function () {
+                    if (ajx.readyState == 4 && ajx.status == 200) {
+                            var res = JSON.parse(ajx.responseText);                                        
+                            var data = {
+                                labels: res.dateLabel,
+                                datasets:[{
+                                    label:'Completed',
+                                    fill: true, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "#00857B",
+                                    borderColor: "#00857B", // The main line color
+                                    borderCapStyle: 'square',
+                                    borderDash: [], // try [5, 15] for instance
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "white",
+                                    pointBackgroundColor: "black",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "brown",
+                                    pointHoverBorderColor: "black",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
+                                    data:res.pending,
+                                    spanGaps: true,
+                                }]
+                            }
+
+                            $('#myChart4').remove();
+                            $('#chart4wrapper').append('<canvas id="myChart4" width="400" height="100"></canvas>');
+                            //Start Chart plotting.
+                            var ctx = $('#myChart4');
+                            var myLineChart = new Chart(ctx, {
+                                type:'line',
+                                data:data
+                            });
+                    }
+                };
+                ajx.open("POST", "{{route('pb.dates')}}", true);
+                // ajx.setRequestHeader("Content-type", "application/json");
+                ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
+                ajx.send(formData);
+            }
+        }
+
+        function can_b_withdates(){
+            var date1 = document.getElementById("can_b_date1").value;
+            var date2 = document.getElementById("can_b_date2").value;
+            if(date1 != '' && date2 != '')
+            {
+                var form = document.getElementById("can_b_Form");
+                var formData = new FormData(form);
+                formData.append('_token','{{csrf_token()}}');
+
+                var ajx = new XMLHttpRequest();
+                ajx.onreadystatechange = function () {
+                    if (ajx.readyState == 4 && ajx.status == 200) {
+                            var res = JSON.parse(ajx.responseText);                                        
+                            var data = {
+                                labels: res.dateLabel,
+                                datasets:[{
+                                    label:'Cancelled',
+                                    fill: true, 
+                                    tension: 0.4,                           
+                                    backgroundColor: "rgb(167, 105, 0)",
+                                    borderColor: "rgb(167, 105, 0)",
+                                    borderCapStyle: 'butt',
+                                    borderDash: [],
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "white",
+                                    pointBackgroundColor: "black",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "brown",
+                                    pointHoverBorderColor: "black",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 4,
+                                    pointHitRadius: 10,
+                                    data:res.cancelled,
+                                    spanGaps: true,
+                                }]
+                            }
+
+                            $('#myChart5').remove();
+                            $('#chart5wrapper').append('<canvas id="myChart5" width="400" height="100"></canvas>');
+                            //Start Chart plotting.
+                            var ctx = $('#myChart5');
+                            var myLineChart = new Chart(ctx, {
+                                type:'line',
+                                data:data
+                            });
+                    }
+                };
+                ajx.open("POST", "{{route('can.dates')}}", true);
+                // ajx.setRequestHeader("Content-type", "application/json");
+                ajx.setRequestHeader('X-CSRF-TOKEN',$('meta[name="csrf-token"]').attr('content'));
+                ajx.send(formData);
+            }
+        }
+
         function transactions(){
             var ajx = new XMLHttpRequest();
             ajx.onreadystatechange = function() {
@@ -625,7 +840,7 @@
                         labels: res.dateLabel,
                         datasets:[{
                             label:'Transactions',
-                            fill: false,    
+                            fill: true,    
                             tension: 0.4,                        
                             backgroundColor: "#00857B",
                             borderColor: "#00857B", // The main line color
@@ -633,12 +848,12 @@
                             borderDash: [0,0], // try [5, 15] for instance
                             borderDashOffset: 0.0,
                             borderJoinStyle: 'miter',
-                            pointBorderColor: "black",
-                            pointBackgroundColor: "white",
+                            pointBorderColor: "white",
+                            pointBackgroundColor: "black",
                             pointBorderWidth: 1,
                             pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "red",
-                            pointHoverBorderColor: "brown",
+                            pointHoverBackgroundColor: "brown",
+                            pointHoverBorderColor: "black",
                             pointHoverBorderWidth: 2,
                             pointRadius: 4,
                             pointHitRadius: 10,
@@ -647,7 +862,7 @@
                         }],
                     }
                     //Start Chart plotting.
-                    var ctx = $('#myChart5');
+                    var ctx = $('#myChart6');
                     var myLineChart = new Chart(ctx, {
                         type:'line',
                         data:data
@@ -675,7 +890,7 @@
                                 labels: res.dateLabel,
                                 datasets:[{
                                     label:'Transactions',
-                                    fill: false, 
+                                    fill: true, 
                                     tension: 0.4,                           
                                     backgroundColor: "#00857B",
                                     borderColor: "#00857B", // The main line color
@@ -683,12 +898,12 @@
                                     borderDash: [], // try [5, 15] for instance
                                     borderDashOffset: 0.0,
                                     borderJoinStyle: 'miter',
-                                    pointBorderColor: "black",
-                                    pointBackgroundColor: "white",
+                                    pointBorderColor: "white",
+                                    pointBackgroundColor: "black",
                                     pointBorderWidth: 1,
                                     pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: "red",
-                                    pointHoverBorderColor: "brown",
+                                    pointHoverBackgroundColor: "brown",
+                                    pointHoverBorderColor: "black",
                                     pointHoverBorderWidth: 2,
                                     pointRadius: 4,
                                     pointHitRadius: 10,
@@ -697,10 +912,10 @@
                                 }],
                             }
 
-                            $('#myChart5').remove();
-                            $('#chart5wrapper').append('<canvas id="myChart5" width="400" height="100"></canvas>');
+                            $('#myChart6').remove();
+                            $('#chart6wrapper').append('<canvas id="myChart6" width="400" height="100"></canvas>');
                             //Start Chart plotting.
-                            var ctx = $('#myChart5');
+                            var ctx = $('#myChart6');
                             var myLineChart = new Chart(ctx, {
                                 type:'line',
                                 data:data
