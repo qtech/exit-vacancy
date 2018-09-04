@@ -19,7 +19,7 @@ class Apitoken
         if(!empty($request->header('token')))
         {
             $token = User::find($request->id);
-            if($request->header('token') == $token->remember_token)
+            if($request->header('token') == $token->login_token)
             {
                 return $next($request);
             }
