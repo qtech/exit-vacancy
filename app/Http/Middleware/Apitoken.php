@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\User;
 
 class Apitoken
 {
@@ -17,14 +18,15 @@ class Apitoken
     {
         if(!empty($request->header('token')))
         {
-            if($request->header('token') == '11Z1yzMEte4w6T1Pktpk')
+            $token = User::find($request->id);
+            if($request->header('token') == $token->remember_token)
             {
                 return $next($request);
             }
             else
             {
                 $response = [
-                    'msg' => "Please give Apitoken to access API's",
+                    'msg' => "Session ended! Please Login",
                     'status' => 0
                 ];
 

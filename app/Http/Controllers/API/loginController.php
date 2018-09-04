@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Customer;
 use App\Hoteldata;
+use App\randomPassword;
 use Validator;
 
 class loginController extends Controller
@@ -41,6 +42,7 @@ class loginController extends Controller
                         {
                             $check_login->fcm_id = $request->fcm_id;
                             $check_login->device = $request->device;
+                            $check_login->login_token = randomPassword::randomPassword(11);
                             $check_login->last_login = date('d-m-y H:i:s');
                             $check_login->save();
 
@@ -59,7 +61,8 @@ class loginController extends Controller
                                             'role' => $check_login->role,
                                             'number' => $customer->number,
                                             'user_image' => ($check_login->image != NULL) ? url("/")."/storage/uploads/".$check_login->image : "",
-                                            'is_mobile_verified' => $check_login->is_mobile_verify == 1 ? "Yes" : "No"
+                                            'is_mobile_verified' => $check_login->is_mobile_verify == 1 ? "Yes" : "No",
+                                            'login_token' => $check_login->login_token
                                         ];
             
                                         $response = [
@@ -92,7 +95,8 @@ class loginController extends Controller
                                             'city' => $hotel->city,
                                             'state' => $hotel->state,
                                             'country' => $hotel->country,
-                                            'zipcode' => $hotel->zipcode
+                                            'zipcode' => $hotel->zipcode,
+                                            'login_token' => $check_login->login_token
                                         ];
             
                                         $response = [

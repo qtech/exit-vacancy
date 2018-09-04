@@ -45,29 +45,34 @@ class DashboardController extends Controller
             //     }                                   
             // }
 
-            $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'), DB::raw('role'))->groupBy('date','role')->get();
-            
+            $users = DB::table('users')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'), DB::raw('role'))->where('role','!=','1')->groupBy('date','role')->get();
+
             $user = [];
             $hotel = [];
             $dateLabel = [];
 
             foreach($users as $value)
             {
-                if($value->role == 2)
-                {
-                    array_push($dateLabel,$value->date);
-                    array_push($user,$value->count);
-                    array_push($hotel,0);
-                }
-                if($value->role == 3)
-                {
-                    array_push($dateLabel,$value->date);
-                    array_push($hotel,$value->count);
-                    array_push($user,0);
-                }
+                array_push($dateLabel,$value->date);
+                // if($value->role == 2)
+                // {
+                //     array_push($user,$value->count);
+                //     array_push($hotel,0);
+                // }
+                // if($value->role == 3)
+                // {
+                //     array_push($hotel,$value->count);
+                //     array_push($user,0);
+                // }
             }
 
-            
+            $dates = array_unique($dateLabel);
+
+            foreach($dates as $tmp)
+            {
+                
+            }
+
             $response = [
                 'msg' => 'Registrations Day-wise',
                 'status' => 1,

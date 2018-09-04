@@ -13,15 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+// REGISTRATION
+Route::post('/user/register', 'API\AppuserController@customer_register');
+Route::post('/hotel/register', 'API\AppuserController@hotel_register');
+
+// LOGIN
+Route::post('/login', 'API\loginController@check_login');
 
 Route::middleware('Apitoken')->prefix('v1')->group(function(){
-    
-    // REGISTRATION
-    Route::post('/user/register', 'API\AppuserController@customer_register');
-    Route::post('/hotel/register', 'API\AppuserController@hotel_register');
 
     // CHANGE EMAIL
     Route::post('/emailchange', 'API\AppuserController@change_email');
@@ -41,8 +45,7 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // EDIT HOTEL PROFILE
     Route::post('/hotel/editprofile', 'API\AppuserController@edit_hotel_profile');
 
-    // LOGIN AND LOGOUT
-    Route::post('/login', 'API\loginController@check_login');
+    // LOGOUT
     Route::post('/logout', 'API\loginController@logout');
 
     // NEARBY HOTELS WITH DIRECTIONS AND NOTIFICATIONS

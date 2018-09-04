@@ -325,8 +325,32 @@
                     //Start Chart plotting.
                     var ctx = $('#myChart1');
                     var myLineChart = new Chart(ctx, {
-                        type:'line',
-                        data:data
+                        type:'bar',
+                        data:data,
+                        options: {
+                            responsive: true,
+                            title: {
+                            display: true
+                            },
+                            tooltips: {
+                            mode: 'nearest',
+                            intersect: true
+                            },
+                            scales: {
+                            xAxes: [{}, {
+                                id: 'x-axis-2',
+                                type: 'linear',
+                                position: 'bottom',
+                                display: false,
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                min: 0,
+                                max: 50
+                                }
+                            }]
+                            }
+                        }
                     })
                 }
             }
