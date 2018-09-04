@@ -10,7 +10,7 @@ use App\RoomAmenity;
 
 class AmenityController extends Controller
 {
-    public function getAmenities()
+    public function getAmenities(Request $request)
     {
         try
         {
@@ -125,7 +125,7 @@ class AmenityController extends Controller
 
     // ROOM AMENITY
 
-    public function getRoomAmenities()
+    public function getRoomAmenities(Request $request)
     {
         try
         {

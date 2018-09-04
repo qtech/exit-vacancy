@@ -117,10 +117,10 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     Route::post('/hotelnoresponse', 'API\BookingController@hotel_noresponse');
 
     // COMMON HOTEL AMENITIES
-    Route::get('/amenities', 'API\AmenityController@getAmenities');
+    Route::post('/amenities', 'API\AmenityController@getAmenities');
 
     // COMMON ROOM AMENITIES
-    Route::get('/roomamenities', 'API\AmenityController@getRoomAmenities');
+    Route::post('/roomamenities', 'API\AmenityController@getRoomAmenities');
 
     // ADD CUSTOM HOTEL AMENITIES
     Route::post('/custom_amenities', 'API\AmenityController@update_custom_amenities');
@@ -138,7 +138,6 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     
     // STORE IMAGES
     Route::post('/storeimages', 'API\CommonImageController@storeImage');
-
 });
 
 
