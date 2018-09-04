@@ -44,6 +44,12 @@ Route::prefix('v1')->group(function(){
 
     // RESEND MOBILE VERIFICATION
     Route::post('/resendotp', 'API\verificationController@resend_mobileverify');
+
+    // STORE IMAGES
+    Route::post('/storeimages', 'API\CommonImageController@storeImage');
+    
+    // UPDATE HOTEL IMAGES
+    Route::post('/updatehotelimages', 'API\HotelImagesController@update_hotel_images');
 });
 
 // API's WITH LOGIN TOKEN
@@ -90,7 +96,6 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 
     // HOTEL IMAGES
     Route::post('/gethotelimages', 'API\HotelImagesController@get_hotel_images');
-    Route::post('/updatehotelimages', 'API\HotelImagesController@update_hotel_images');
 
     // VISITING AND VISITED GUEST
     Route::post('/visiting', 'API\HotelbookingdetailsController@visiting_guest');
@@ -136,8 +141,7 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 	Route::post('/getpaymentdetails', 'API\PaymentDetailsController@get_paymentdetails');
     Route::post('/splitpayment', 'API\PaymentDetailsController@split_payment_live');
     
-    // STORE IMAGES
-    Route::post('/storeimages', 'API\CommonImageController@storeImage');
+    
 });
 
 
