@@ -25,13 +25,28 @@ Route::post('/hotel/register', 'API\AppuserController@hotel_register');
 // LOGIN
 Route::post('/login', 'API\loginController@check_login');
 
+// CHANGE EMAIL
+Route::post('/emailchange', 'API\AppuserController@change_email');
+
+// CHANGE NUMBER
+Route::post('/numberchange', 'API\AppuserController@change_number');
+
+// RESET PASSWORD
+Route::post('/resetpass', 'API\resetpassController@resetpass');
+
+// EMAIL VERIFICATION
+Route::post('/sendcode', 'API\verificationController@emailverify');
+Route::post('/checkcode', 'API\verificationController@verifycode');
+
+// MOBILE VERIFICATION
+Route::post('/sendotp', 'API\verificationController@mobileverify');
+Route::post('/checkotp', 'API\verificationController@verifyotp');
+
+// RESEND MOBILE VERIFICATION
+Route::post('/resendotp', 'API\verificationController@resend_mobileverify');
+
+// API's WITH LOGIN TOKEN
 Route::middleware('Apitoken')->prefix('v1')->group(function(){
-
-    // CHANGE EMAIL
-    Route::post('/emailchange', 'API\AppuserController@change_email');
-
-    // CHANGE NUMBER
-    Route::post('/numberchange', 'API\AppuserController@change_number');
 
     // GET USER PROFILE DETAILS
     Route::post('/userprofiledetails', 'API\AppuserController@get_user_details');
@@ -54,20 +69,8 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // SEARCH HOTEL
     Route::post('/searchhotel', 'API\nearbyhotelController@search_hotels');
 
-    // RESET AND CHANGE PASSWORD
-    Route::post('/resetpass', 'API\resetpassController@resetpass');
+    // CHANGE PASSWORD
     Route::post('/changepass', 'API\resetpassController@changepass');
-
-    // EMAIL VERIFICATION
-    Route::post('/sendcode', 'API\verificationController@emailverify');
-    Route::post('/checkcode', 'API\verificationController@verifycode');
-
-    // MOBILE VERIFICATION
-    Route::post('/sendotp', 'API\verificationController@mobileverify');
-    Route::post('/checkotp', 'API\verificationController@verifyotp');
-
-    // RESEND MOBILE VERIFICATION
-    Route::post('/resendotp', 'API\verificationController@resend_mobileverify');
 
     // RATE AND REVIEWS
     Route::post('/storeratings', 'API\RatereviewController@store_ratings');
