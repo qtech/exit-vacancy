@@ -17,33 +17,34 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::prefix('v1')->group(function(){
+    // REGISTRATION
+    Route::post('/user/register', 'API\AppuserController@customer_register');
+    Route::post('/hotel/register', 'API\AppuserController@hotel_register');
 
-// REGISTRATION
-Route::post('/user/register', 'API\AppuserController@customer_register');
-Route::post('/hotel/register', 'API\AppuserController@hotel_register');
+    // LOGIN
+    Route::post('/login', 'API\loginController@check_login');
 
-// LOGIN
-Route::post('/login', 'API\loginController@check_login');
+    // CHANGE EMAIL
+    Route::post('/emailchange', 'API\AppuserController@change_email');
 
-// CHANGE EMAIL
-Route::post('/emailchange', 'API\AppuserController@change_email');
+    // CHANGE NUMBER
+    Route::post('/numberchange', 'API\AppuserController@change_number');
 
-// CHANGE NUMBER
-Route::post('/numberchange', 'API\AppuserController@change_number');
+    // RESET PASSWORD
+    Route::post('/resetpass', 'API\resetpassController@resetpass');
 
-// RESET PASSWORD
-Route::post('/resetpass', 'API\resetpassController@resetpass');
+    // EMAIL VERIFICATION
+    Route::post('/sendcode', 'API\verificationController@emailverify');
+    Route::post('/checkcode', 'API\verificationController@verifycode');
 
-// EMAIL VERIFICATION
-Route::post('/sendcode', 'API\verificationController@emailverify');
-Route::post('/checkcode', 'API\verificationController@verifycode');
+    // MOBILE VERIFICATION
+    Route::post('/sendotp', 'API\verificationController@mobileverify');
+    Route::post('/checkotp', 'API\verificationController@verifyotp');
 
-// MOBILE VERIFICATION
-Route::post('/sendotp', 'API\verificationController@mobileverify');
-Route::post('/checkotp', 'API\verificationController@verifyotp');
-
-// RESEND MOBILE VERIFICATION
-Route::post('/resendotp', 'API\verificationController@resend_mobileverify');
+    // RESEND MOBILE VERIFICATION
+    Route::post('/resendotp', 'API\verificationController@resend_mobileverify');
+});
 
 // API's WITH LOGIN TOKEN
 Route::middleware('Apitoken')->prefix('v1')->group(function(){
