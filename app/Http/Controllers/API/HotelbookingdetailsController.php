@@ -283,6 +283,50 @@ class HotelbookingdetailsController extends Controller
             }
             else
             {
+                $review = Ratereviews::with('user','hotel')->where(['hotel_id' => $request->hotel_id])->get();
+
+                $data = [];
+                $rate = 0;
+                $r5 = 0;
+                $r4 = 0;
+                $r3 = 0;
+                $r2 = 0;
+                $r1 = 0;
+
+                foreach($review as $tmp)
+                {   
+                    if($tmp->ratings == 5)
+                    {
+                        $r5 += $tmp->ratings;
+                    }
+                    if($tmp->ratings == 4)
+                    {
+                        $r4 += $tmp->ratings;
+                    }
+                    if($tmp->ratings == 3)
+                    {
+                        $r3 += $tmp->ratings;
+                    }
+                    if($tmp->ratings == 2)
+                    {
+                        $r2 += $tmp->ratings;
+                    }
+                    if($tmp->ratings == 1)
+                    {
+                        $r1 += $tmp->ratings;
+                    }
+                }
+
+                $count = count($review);
+                if($count > 0)
+                {
+                    $ratings = round(($r5 + $r4 + $r3 + $r2 + $r1)/$count);
+                }
+                else
+                {
+                    $ratings = 0;
+                }
+
                 $gethotel = Hoteldata::where(['hotel_data_id' => $request->hotel_id])->first();
 
                 if($gethotel)
@@ -301,7 +345,7 @@ class HotelbookingdetailsController extends Controller
                     $data = [
                         'hotel_name' => $gethotel->hotel_name,
                         'stars' => $gethotel->stars,
-                        'ratings' => $gethotel->ratings,
+                        'ratings' => $ratings,
                         'amenities' => $gethotel->amenities,
                         'hotel_image' => $image,
                         'number' => $gethotel->number,

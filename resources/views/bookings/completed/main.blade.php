@@ -116,7 +116,7 @@
                         datasets:[{
                             label:'Bookings',
                             fill: true,                            
-                            backgroundColor: "#00857B",
+                            backgroundColor: "#54bcb4",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
                             borderDash: [0,0], // try [5, 15] for instance
@@ -160,7 +160,7 @@
                         datasets:[{
                             label:'Bookings',
                             fill: true,                            
-                            backgroundColor: "#00857B",
+                            backgroundColor: "#54bcb4",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
                             borderDash: [0,0], // try [5, 15] for instance
@@ -204,7 +204,7 @@
                         datasets:[{
                             label:'Bookings',
                             fill: true,                            
-                            backgroundColor: "#00857B",
+                            backgroundColor: "#54bcb4",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
                             borderDash: [0,0], // try [5, 15] for instance
@@ -248,7 +248,7 @@
                         datasets:[{
                             label:'Bookings',
                             fill: true,                            
-                            backgroundColor: "#00857B",
+                            backgroundColor: "#54bcb4",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
                             borderDash: [0,0], // try [5, 15] for instance
@@ -300,7 +300,7 @@
                             datasets:[{
                                 label:'Bookings',
                                 fill: true,                            
-                                backgroundColor: "#00857B",
+                                backgroundColor: "#54bcb4",
                                 borderColor: "#00857B", // The main line color
                                 borderCapStyle: 'square',
                                 borderDash: [0,0], // try [5, 15] for instance

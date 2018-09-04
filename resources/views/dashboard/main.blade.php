@@ -354,7 +354,7 @@
                                 label:'Users',
                                 fill: true, 
                                 tension: 0.4,                           
-                                backgroundColor: "rgb(167, 105, 0)",
+                                backgroundColor: "#c48758",
                                 borderColor: "rgb(167, 105, 0)",
                                 borderCapStyle: 'butt',
                                 borderDash: [],
@@ -396,7 +396,7 @@
                             label:'Hotels',
                             fill: true, 
                             tension: 0.4,                           
-                            backgroundColor: "#00857B",
+                            backgroundColor: "#54bcb4",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
                             borderDash: [], // try [5, 15] for instance
@@ -438,7 +438,7 @@
                                 label:'Completed',
                                 fill: true, 
                                 tension: 0.4,                           
-                                backgroundColor: "rgb(167, 105, 0)",
+                                backgroundColor: "#c48758",
                                 borderColor: "rgb(167, 105, 0)",
                                 borderCapStyle: 'butt',
                                 borderDash: [],
@@ -480,7 +480,7 @@
                             label:'Pending',
                             fill: true, 
                             tension: 0.4,                           
-                            backgroundColor: "#00857B",
+                            backgroundColor: "#54bcb4",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
                             borderDash: [], // try [5, 15] for instance
@@ -522,7 +522,7 @@
                                 label:'Cancelled',
                                 fill: true, 
                                 tension: 0.4,                           
-                                backgroundColor: "rgb(167, 105, 0)",
+                                backgroundColor: "#c48758",
                                 borderColor: "rgb(167, 105, 0)",
                                 borderCapStyle: 'butt',
                                 borderDash: [],
@@ -572,7 +572,7 @@
                                     label:'Users',
                                     fill: true, 
                                     tension: 0.4,                           
-                                    backgroundColor: "rgb(167, 105, 0)",
+                                    backgroundColor: "#c48758",
                                     borderColor: "rgb(167, 105, 0)",
                                     borderCapStyle: 'butt',
                                     borderDash: [],
@@ -627,7 +627,7 @@
                                     label:'Hotels',
                                     fill: true, 
                                     tension: 0.4,                           
-                                    backgroundColor: "#00857B",
+                                    backgroundColor: "#54bcb4",
                                     borderColor: "#00857B", // The main line color
                                     borderCapStyle: 'square',
                                     borderDash: [], // try [5, 15] for instance
@@ -682,7 +682,7 @@
                                     label:'Completed',
                                     fill: true, 
                                     tension: 0.4,                           
-                                    backgroundColor: "rgb(167, 105, 0)",
+                                    backgroundColor: "#c48758",
                                     borderColor: "rgb(167, 105, 0)",
                                     borderCapStyle: 'butt',
                                     borderDash: [],
@@ -738,7 +738,7 @@
                                     label:'Completed',
                                     fill: true, 
                                     tension: 0.4,                           
-                                    backgroundColor: "#00857B",
+                                    backgroundColor: "#54bcb4",
                                     borderColor: "#00857B", // The main line color
                                     borderCapStyle: 'square',
                                     borderDash: [], // try [5, 15] for instance
@@ -794,7 +794,7 @@
                                     label:'Cancelled',
                                     fill: true, 
                                     tension: 0.4,                           
-                                    backgroundColor: "rgb(167, 105, 0)",
+                                    backgroundColor: "#c48758",
                                     borderColor: "rgb(167, 105, 0)",
                                     borderCapStyle: 'butt',
                                     borderDash: [],
@@ -842,7 +842,7 @@
                             label:'Transactions',
                             fill: true,    
                             tension: 0.4,                        
-                            backgroundColor: "#00857B",
+                            backgroundColor: "#54bcb4",
                             borderColor: "#00857B", // The main line color
                             borderCapStyle: 'square',
                             borderDash: [0,0], // try [5, 15] for instance
@@ -892,7 +892,7 @@
                                     label:'Transactions',
                                     fill: true, 
                                     tension: 0.4,                           
-                                    backgroundColor: "#00857B",
+                                    backgroundColor: "#54bcb4",
                                     borderColor: "#00857B", // The main line color
                                     borderCapStyle: 'square',
                                     borderDash: [], // try [5, 15] for instance
