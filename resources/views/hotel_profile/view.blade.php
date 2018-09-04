@@ -98,11 +98,13 @@
                 </header>
                 <br>
                 <div class="row">
-                    @foreach(json_decode($hoteluser->hotel->image) as $image)
-                    <div class="col-sm-3" style="padding-top:15px;">
-                        <img height="115" width="230" style="box-shadow:0px 0px 5px 2px #00857b" src="{{asset('/storage/uploads/'.$image)}}">
-                    </div>
-                    @endforeach
+                    @if(!empty($hoteluser->hotel->image))
+                        @foreach(json_decode($hoteluser->hotel->image) as $image)
+                        <div class="col-sm-3" style="padding-top:15px;">
+                            <img height="115" width="230" style="box-shadow:0px 0px 5px 2px #00857b" src="{{asset('/storage/uploads/'.$image)}}">
+                        </div>
+                        @endforeach
+                    @endif
                 </div>  
             </section>
         </section><!--.proj-page-->

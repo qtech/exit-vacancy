@@ -31,8 +31,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [2,5,3,7,8,1];
 
             foreach($bookings as $b)
             {
@@ -110,8 +110,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [1,3,9];
 
             foreach($bookings as $b)
             {
@@ -158,8 +158,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 1])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [5,1,8,3,2,0];
 
             foreach($bookings as $b)
             {
@@ -249,8 +249,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [6,2,4,1,0,4];
 
             foreach($bookings as $b)
             {
@@ -328,8 +328,8 @@ class ChartbookingsController extends Controller
             
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [2,7,1];
 
             foreach($bookings as $b)
             {
@@ -375,8 +375,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 1, 'is_visited' => 0])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [3,12,3,0,6,4];
 
             foreach($bookings as $b)
             {
@@ -466,8 +466,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [4,8,1,3,2,0];
 
             foreach($bookings as $b)
             {
@@ -545,8 +545,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [1,4,2];
 
             foreach($bookings as $b)
             {
@@ -592,8 +592,8 @@ class ChartbookingsController extends Controller
 
             $bookings = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['status' => 2])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
-            $dateLabel = [];
-            $booking = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $booking = [3,7,1,2,4,7];
 
             foreach($bookings as $b)
             {

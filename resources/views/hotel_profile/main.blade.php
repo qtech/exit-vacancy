@@ -14,7 +14,9 @@
                     </fieldset>
                 </div>
                 <div class="col-lg-5" style="padding-left:100px; padding-top:5px;">
-                    <img height="80" width="80" src="{{asset('/storage/uploads/'.$getdetails['details']->image)}}">
+                    @if($getdetails['details']->image != NULL)
+                        <img height="80" width="80" src="{{asset('/storage/uploads/'.$getdetails['details']->image)}}">
+                    @endif
                 </div>
             </div>
         </div>

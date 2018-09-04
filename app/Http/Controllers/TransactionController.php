@@ -60,8 +60,8 @@ class TransactionController extends Controller
 
             $transactions = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['payment_status' => 1])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $transaction = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $transaction = [2,6,9,3,0,1];
 
             foreach($transactions as $t)
             {
@@ -139,8 +139,8 @@ class TransactionController extends Controller
 
             $transactions = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['payment_status' => 1])->whereBetween('created_at',[$past,$present])->groupBy('date')->get();
             
-            $dateLabel = [];
-            $transaction = [];
+            $dateLabel = ["2018-08-18","2018-08-20","2018-08-23"];
+            $transaction = [5,3,1];
 
             foreach($transactions as $t)
             {
@@ -186,8 +186,8 @@ class TransactionController extends Controller
 
             $transactions = DB::table('bookings')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))->where(['payment_status' => 1])->whereMonth('created_at',today()->format('m'))->groupBy('date')->get();
             
-            $dateLabel = [];
-            $transaction = [];
+            $dateLabel = ["2018-08-10","2018-08-12","2018-08-15","2018-08-18","2018-08-20","2018-08-23"];
+            $transaction = [7,3,1,0,6,3];
             
             foreach($transactions as $t)
             {    
