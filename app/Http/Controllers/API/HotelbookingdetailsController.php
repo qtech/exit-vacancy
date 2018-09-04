@@ -9,6 +9,7 @@ use App\User;
 use App\Hoteldata;
 use App\Customer;
 use App\Bookings;
+use App\Ratereviews;
 
 class HotelbookingdetailsController extends Controller
 {
