@@ -321,7 +321,7 @@ class HotelbookingdetailsController extends Controller
                 $count = count($review);
                 if($count > 0)
                 {
-                    $ratings = round(($r5 + $r4 + $r3 + $r2 + $r1)/$count);
+                    $ratings = (($r5 + $r4 + $r3 + $r2 + $r1)/$count);
                 }
                 else
                 {
