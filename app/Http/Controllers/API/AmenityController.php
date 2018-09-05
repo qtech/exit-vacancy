@@ -99,7 +99,7 @@ class AmenityController extends Controller
                 $amenity->save();
     
                 $response = [
-                    'msg' => 'Your custom amenities successfully added',
+                    'msg' => 'Amenities updated successfully',
                     'status' => 1
                 ];
             }
