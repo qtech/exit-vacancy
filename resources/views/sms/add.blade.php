@@ -56,7 +56,7 @@
                     <td>
                         <input type="checkbox" class="checkbox" name="sms[]" value="{{$value->user_id}}">
                     </td>
-                    <td>{{$value->fname or $value->user->fname}} {{$value->lname or $value->user->lname}}</td>
+                    <td>{{$value->fname or $value->user->fname}}</td>
                     <td>{{$value->email or $value->user->email}}</td>
                     <td>+{{$value->customer->number}}</td>
                     <td>
