@@ -97,6 +97,14 @@ class BookingController extends Controller
                         $accept->status = 1;
                         $accept->status_time = date('d-m-y H:i:s');
                         $accept->save();
+
+                        $delete = Bookings::where(['user_id' => $request->user_id,'status' => 0, 'ref_id' => $request->reference_id])->get();
+
+                        foreach($delete as $value)
+                        {
+                            $del = Bookings::find($value->booking_id);
+                            $del->delete();
+                        }
                     }
 
                     $count_user_booking = User::where(['user_id' => $request->user_id])->first();

@@ -43,7 +43,7 @@ class nearbyhotelController extends Controller
                 $check_payment = Bookings::where(['user_id' => $request->user_id, 'status' => 1, 'payment_status' => 0])->first();
 
                 if($check_payment)
-                {
+                {   
                     $response = [
                         'msg' => 'Pay now for previous bookings',
                         'status' => 0
