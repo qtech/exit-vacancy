@@ -397,7 +397,7 @@ class BookingController extends Controller
                             'hotel_id' => $hotel->hotel_data_id,
                             'hotel_owner_id' => $hotel->user_id,
                             'hotel_name' => $hotel->hotel_name,
-                            'amenities' => $hotel->amenities,
+                            // 'amenities' => $hotel->amenities,
                             'stars' => $hotel->stars,
                             'ratings' => $hotel->ratings,
                             'image' => $hotelimage,
@@ -410,8 +410,8 @@ class BookingController extends Controller
                                 [
                                     'roomtype' => $recent->roomtype,
                                     'roomprice' => $recent->roomprice,
-                                    'roomimage' => $roomimage,
-                                    'roomamenity' => $recent->roomamenity
+                                    // 'roomimage' => $roomimage,
+                                    // 'roomamenity' => $recent->roomamenity
                                 ]   
                             ]
                         ];
@@ -482,22 +482,22 @@ class BookingController extends Controller
                             }
                         }
 
-                        $roomimage = [];
+                        // $roomimage = [];
 
-                        if($recent->roomimage != NULL)
-                        {
-                            foreach(json_decode($recent->roomimage) as $b)
-                            {
-                                $d = url('/')."/storage/uploads/".$b;
-                                array_push($roomimage,$d);
-                            }
-                        }
+                        // if($recent->roomimage != NULL)
+                        // {
+                        //     foreach(json_decode($recent->roomimage) as $b)
+                        //     {
+                        //         $d = url('/')."/storage/uploads/".$b;
+                        //         array_push($roomimage,$d);
+                        //     }
+                        // }
 
                         $tmp = [
                             'hotel_id' => $hotel->hotel_data_id,
                             'hotel_name' => $hotel->hotel_name,
-                            'amenities' => $hotel->amenities,
-                            'stars' => $hotel->stars,
+                            // 'amenities' => $hotel->amenities,
+                            // 'stars' => $hotel->stars,
                             'ratings' => $hotel->ratings,
                             'image' => $hotelimage,
                             'number' => $hotel->number,
@@ -509,8 +509,8 @@ class BookingController extends Controller
                                 [
                                     'roomtype' => $recent->roomtype,
                                     'roomprice' => $recent->roomprice,
-                                    'roomimage' => $roomimage,
-                                    'roomamenity' => $recent->roomamenity
+                                    // 'roomimage' => $roomimage,
+                                    // 'roomamenity' => $recent->roomamenity
                                 ]   
                             ]
                         ];

@@ -88,40 +88,40 @@ class AmenityController extends Controller
         return response()->json($response);
     }
 
-    public function update_custom_amenities(Request $request)
-    {
-        try
-        {
-            if($request->amenities != NULL)
-            {
-                $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_owner_id])->first();
-                $amenity->amenities = $request->amenities;
-                $amenity->save();
+    // public function update_custom_amenities(Request $request)
+    // {
+    //     try
+    //     {
+    //         if($request->amenities != NULL)
+    //         {
+    //             $amenity = Hoteldata::where(['hotel_data_id' => $request->hotel_id, 'user_id' => $request->hotel_owner_id])->first();
+    //             $amenity->amenities = $request->amenities;
+    //             $amenity->save();
     
-                $response = [
-                    'msg' => 'Amenities updated successfully',
-                    'status' => 1
-                ];
-            }
-            else
-            {
-                $response = [
-                    'msg' => 'Please add atleast some one amenity',
-                    'status' => 0
-                ];
-            }
+    //             $response = [
+    //                 'msg' => 'Amenities updated successfully',
+    //                 'status' => 1
+    //             ];
+    //         }
+    //         else
+    //         {
+    //             $response = [
+    //                 'msg' => 'Please add atleast some one amenity',
+    //                 'status' => 0
+    //             ];
+    //         }
             
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
-                'status' => 0
-            ];
-        }
+    //     }
+    //     catch(\Exception $e)
+    //     {
+    //         $response = [
+    //             'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+    //             'status' => 0
+    //         ];
+    //     }
 
-        return response()->json($response);
-    }
+    //     return response()->json($response);
+    // }
 
     // ROOM AMENITY
 

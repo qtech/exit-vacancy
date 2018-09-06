@@ -97,7 +97,6 @@ class AppuserController extends Controller
                 'email' => 'required',
                 'password' => 'required',
                 'hotel_name' => 'required',
-                'stars' => 'required',
                 'building' => 'required',
                 'street' => 'required',
                 'landmark' => 'required',
@@ -138,7 +137,6 @@ class AppuserController extends Controller
                     $hotel->hotel_name = $request->hotel_name;
                     $hotel->status = 0;
                     $hotel->user_id = $user->user_id;
-                    $hotel->stars = $request->stars;
                     $hotel->building = $request->building;
                     $hotel->street = $request->street;
                     $hotel->landmark = $request->landmark;
@@ -190,9 +188,12 @@ class AppuserController extends Controller
 
                     if($checkemail)
                     {
+                        $change->email = $request->email;
+                        $change->save();
+    
                         $response = [
-                            'msg' => 'This Email ID already registered. Please try some other email.',
-                            'status' => 0
+                            'msg' => 'Email ID updated successfully',
+                            'status' => 1
                         ]; 
                     }
                     else
@@ -203,7 +204,7 @@ class AppuserController extends Controller
                         $response = [
                             'msg' => 'Email ID updated successfully',
                             'status' => 1
-                        ];   
+                        ]; 
                     }
                 }
                 else
@@ -368,7 +369,6 @@ class AppuserController extends Controller
                 $u['image'] = $hotel->image == NULL ? "" : url('/')."/storage/uploads/".$hotel->image;
                 $u['role'] = $hotel->role;
                 $u['number'] = $hotel->hotel->number;
-                $u['stars'] = $hotel->hotel->stars;
 
                 $response = [
                     'msg' => 'Hotel User details',
@@ -487,7 +487,6 @@ class AppuserController extends Controller
                 'fname' => 'required',
                 'lname' => 'nullable',
                 'number' => 'required',
-                'stars' => 'required',
                 'image' => 'nullable',
                 'role' => 'required'
             ]);
@@ -522,7 +521,6 @@ class AppuserController extends Controller
                     $profile = Hoteldata::where(['user_id' => $hotel->user_id])->first();
                     if($profile)
                     {
-                        $profile->stars = $request->stars;
                         if($profile->number != $request->number)
                         {
                             $profile->number = $request->number;

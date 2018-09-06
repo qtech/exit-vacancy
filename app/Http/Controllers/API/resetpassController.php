@@ -44,7 +44,7 @@ class resetpassController extends Controller
                 else
                 {
                     $response = [
-                        'msg' => "Invalid Email address",
+                        'msg' => "This Email ID does not exist",
                         'status' => 0
                     ];
                 }
@@ -52,7 +52,7 @@ class resetpassController extends Controller
             else
             {
                 $response = [
-                    'msg' => 'Invalid Email address',
+                    'msg' => 'This Email ID does not exist',
                     'status' => 0
                 ];
             }

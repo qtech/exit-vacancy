@@ -56,7 +56,7 @@ class HotelbookingdetailsController extends Controller
                                 'reference_id' => $value->ref_id,
                                 'roomtype' => $value->roomtype,
                                 'roomprice' => $value->roomprice,
-                                'roomamenity' => $value->roomamenity,
+                                // 'roomamenity' => $value->roomamenity,
                                 'arrival_time' => $value->arrival_time,
                                 'time' => $value->created_at->format('d-m-y H:i:s')
                             ];
@@ -147,7 +147,7 @@ class HotelbookingdetailsController extends Controller
                                 'reference_id' => $value->ref_id,
                                 'roomtype' => $value->roomtype,
                                 'roomprice' => $value->roomprice,
-                                'roomamenity' => $value->roomamenity,
+                                // 'roomamenity' => $value->roomamenity,
                                 'arrival_time' => $value->arrival_time,
                                 'time' => $value->created_at->format('d-m-y H:i:s')
                             ];
@@ -232,7 +232,7 @@ class HotelbookingdetailsController extends Controller
                                 'reference_id' => $value->ref_id,
                                 'roomtype' => $value->roomtype,
                                 'roomprice' => $value->roomprice,
-                                'roomamenity' => $value->roomamenity,
+                                // 'roomamenity' => $value->roomamenity,
                                 'time' => $value->created_at->format('d-m-y H:i:s')
                             ];
         
@@ -345,9 +345,9 @@ class HotelbookingdetailsController extends Controller
     
                     $data = [
                         'hotel_name' => $gethotel->hotel_name,
-                        'stars' => $gethotel->stars,
+                        // 'stars' => $gethotel->stars,
                         'ratings' => $ratings,
-                        'amenities' => $gethotel->amenities,
+                        // 'amenities' => $gethotel->amenities,
                         'hotel_image' => $image,
                         'number' => $gethotel->number,
                         'city' => $gethotel->city,
@@ -358,42 +358,42 @@ class HotelbookingdetailsController extends Controller
     
                     if($request->roomtype == 1)
                     {
-                        $roomimage = [];
+                        // $roomimage = [];
     
-                        if($gethotel->king_room_image != NULL)
-                        {
-                            foreach(json_decode($gethotel->king_room_image) as $j)
-                            {
-                                $k = url('/')."/storage/uploads/".$j;
-                                array_push($roomimage,$k);
-                            }
-                        }
+                        // if($gethotel->king_room_image != NULL)
+                        // {
+                        //     foreach(json_decode($gethotel->king_room_image) as $j)
+                        //     {
+                        //         $k = url('/')."/storage/uploads/".$j;
+                        //         array_push($roomimage,$k);
+                        //     }
+                        // }
     
                         $data['room'] = [
                             'room_type' => "King Size Room",
                             'room_price' => $gethotel->king_room_price,
-                            'room_image' => $roomimage,
-                            'room_amenity' => $gethotel->king_room_amenity
+                            // 'room_image' => $roomimage,
+                            // 'room_amenity' => $gethotel->king_room_amenity
                         ];
                     }
                     else
                     {
-                        $roomimage = [];
+                        // $roomimage = [];
                         
-                        if($gethotel->queen_room_image != NULL)
-                        {
-                            foreach(json_decode($gethotel->queen_room_image) as $j)
-                            {
-                                $k = url('/')."/storage/uploads/".$j;
-                                array_push($roomimage,$k);
-                            }
-                        }
+                        // if($gethotel->queen_room_image != NULL)
+                        // {
+                        //     foreach(json_decode($gethotel->queen_room_image) as $j)
+                        //     {
+                        //         $k = url('/')."/storage/uploads/".$j;
+                        //         array_push($roomimage,$k);
+                        //     }
+                        // }
     
                         $data['room'] = [
                             'room_type' => "2 Queens Room",
                             'room_price' => $gethotel->queen_room_price,
-                            'room_image' => $roomimage,
-                            'room_amenity' => $gethotel->queen_room_amenity
+                            // 'room_image' => $roomimage,
+                            // 'room_amenity' => $gethotel->queen_room_amenity
                         ];
                     }
     

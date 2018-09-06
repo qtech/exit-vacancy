@@ -21,38 +21,38 @@ class RoomsController extends Controller
             $kingroom = [];
             $queenroom = [];
 
-            if(!empty($room->king_room_image))
-            {
-                foreach(json_decode($room->king_room_image) as $k)
-                {
-                    $s = url('/')."/storage/uploads/".$k;
-                    array_push($kingroom,$s);
-                }
-            }
+            // if(!empty($room->king_room_image))
+            // {
+            //     foreach(json_decode($room->king_room_image) as $k)
+            //     {
+            //         $s = url('/')."/storage/uploads/".$k;
+            //         array_push($kingroom,$s);
+            //     }
+            // }
 
-            if(!empty($room->queen_room_image))
-            {
-                foreach(json_decode($room->queen_room_image) as $q)
-                {
-                    $j = url('/')."/storage/uploads/".$q;
-                    array_push($queenroom,$j);
-                }
-            }
+            // if(!empty($room->queen_room_image))
+            // {
+            //     foreach(json_decode($room->queen_room_image) as $q)
+            //     {
+            //         $j = url('/')."/storage/uploads/".$q;
+            //         array_push($queenroom,$j);
+            //     }
+            // }
 
             $data = [
                 [
                     'room_type' => "King Size Room",
                     'room_available' => $room->king_room,
-                    'room_image' => $kingroom,
+                    // 'room_image' => $kingroom,
                     'room_price' => $room->king_room_price,
-                    'room_amenity' => ($room->king_room_amenity != NULL) ? $room->king_room_amenity : ""
+                    // 'room_amenity' => ($room->king_room_amenity != NULL) ? $room->king_room_amenity : ""
                 ],
                 [
                     'room_type' => "Queen Size Room",
                     'room_available' => $room->queen_room,
-                    'room_image' => $queenroom,
+                    // 'room_image' => $queenroom,
                     'room_price' => $room->queen_room_price,
-                    'room_amenity' => ($room->queen_room_amenity != NULL) ? $room->queen_room_amenity : ""
+                    // 'room_amenity' => ($room->queen_room_amenity != NULL) ? $room->queen_room_amenity : ""
                 ]
             ];
 
@@ -79,9 +79,9 @@ class RoomsController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'room_available' => 'required',
-                'images' => 'nullable',
+                // 'images' => 'nullable',
                 'room_price' => 'required',
-                'room_amenity' => 'required',
+                // 'room_amenity' => 'required',
                 'hotel_id' => 'required'
             ]);
     
@@ -101,27 +101,26 @@ class RoomsController extends Controller
                     $room->king_room = $request->room_available;
                     $room->king_room_price = $request->room_price;
                     
-                    if($room->king_room_image != NULL)
-                    {
-                        foreach(json_decode($room->king_room_image) as $image)
-                        {
-                            Storage::delete(url('/')."/public/uploads/".$image);
-                        }
-                        if(!empty($request->images))
-                        {
-                            $room->king_room_image = json_encode($request->images);
-                        }
-                        
-                    }
-                    else
-                    {
-                        if(!empty($request->images))
-                        {
-                            $room->king_room_image = json_encode($request->images);
-                        }
-                    }
+                    // if($room->king_room_image != NULL)
+                    // {
+                    //     foreach(json_decode($room->king_room_image) as $image)
+                    //     {
+                    //         Storage::delete(url('/')."/public/uploads/".$image);
+                    //     }
+                    //     if(!empty($request->images))
+                    //     {
+                    //         $room->king_room_image = json_encode($request->images);
+                    //     }  
+                    // }
+                    // else
+                    // {
+                    //     if(!empty($request->images))
+                    //     {
+                    //         $room->king_room_image = json_encode($request->images);
+                    //     }
+                    // }
                     
-                    $room->king_room_amenity = $request->room_amenity;
+                    // $room->king_room_amenity = $request->room_amenity;
                     $room->king_room_status = 1;
                     $room->save();
         
@@ -156,9 +155,9 @@ class RoomsController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'room_available' => 'required',
-                'images' => 'nullable',
+                // 'images' => 'nullable',
                 'room_price' => 'required',
-                'room_amenity' => 'required',
+                // 'room_amenity' => 'required',
                 'hotel_id' => 'required'
             ]);
     
@@ -178,26 +177,26 @@ class RoomsController extends Controller
                     $room->queen_room = $request->room_available;
                     $room->queen_room_price = $request->room_price;
                     
-                    if(!empty($room->queen_room_image))
-                    {
-                        foreach(json_decode($room->queen_room_image) as $image)
-                        {
-                            Storage::delete(getenv('IMG_UPLOAD').$image);
-                        }
-                        if(!empty($request->images))
-                        {
-                            $room->queen_room_image = json_encode($request->images);
-                        }
-                    }
-                    else
-                    {
-                        if(!empty($request->images))
-                        {
-                            $room->queen_room_image = json_encode($request->images);
-                        }
-                    }
+                    // if(!empty($room->queen_room_image))
+                    // {
+                    //     foreach(json_decode($room->queen_room_image) as $image)
+                    //     {
+                    //         Storage::delete(getenv('IMG_UPLOAD').$image);
+                    //     }
+                    //     if(!empty($request->images))
+                    //     {
+                    //         $room->queen_room_image = json_encode($request->images);
+                    //     }
+                    // }
+                    // else
+                    // {
+                    //     if(!empty($request->images))
+                    //     {
+                    //         $room->queen_room_image = json_encode($request->images);
+                    //     }
+                    // }
 
-                    $room->queen_room_amenity = $request->room_amenity;
+                    // $room->queen_room_amenity = $request->room_amenity;
                     $room->queen_room_status = 1;
                     $room->save();
         

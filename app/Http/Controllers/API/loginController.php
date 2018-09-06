@@ -84,7 +84,7 @@ class loginController extends Controller
                                             'king_room_status' => $hotel->king_room_status,
                                             'queen_room_status' => $hotel->queen_room_status,
                                             'hotel_name' => $hotel->hotel_name,
-                                            'hotel_stars' => $hotel->stars,
+                                            // 'hotel_stars' => $hotel->stars,
                                             'hotel_ratings' => $hotel->ratings,
                                             'hotel_user_image' => ($hotel->image != NULL) ? url("/")."/storage/uploads/".$hotel->image : "",
                                             'role' => $check_login->role,
