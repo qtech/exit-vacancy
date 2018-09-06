@@ -98,7 +98,7 @@ class BookingController extends Controller
                         $accept->status_time = date('d-m-y H:i:s');
                         $accept->save();
 
-                        $delete = Bookings::where(['user_id' => $request->user_id,'status' => 0, 'ref_id' => $request->reference_id])->get();
+                        $delete = Bookings::where(['user_id' => $request->user_id,'hotel_owner_id' => $request->hotel_id,'status' => 0, 'ref_id' => $request->reference_id])->get();
 
                         foreach($delete as $value)
                         {
