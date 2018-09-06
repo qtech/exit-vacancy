@@ -45,7 +45,7 @@ class nearbyhotelController extends Controller
                 if($check_payment)
                 {
                     $response = [
-                        'msg' => 'Pay now for confirm booking',
+                        'msg' => 'Pay now for previous bookings',
                         'status' => 0
                     ];
                 }

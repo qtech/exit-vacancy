@@ -359,4 +359,70 @@ class Notifications extends Model
         curl_close($ch);
         return $result; 
     }
+
+    public static function accountstatusNotification($fcm_id, $device, $msg)
+    {
+        //define('GOOGLE_API_KEY','AIzaSyAkWTvVkFdHXGPfNjsTxFTTxN13gSr0efQ');
+        $key = 'AIzaSyA0JKIDq5Jj8ia_bHE66vlVXRIZv_Rgdi0';
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        
+        if($device != NULL)
+        {
+            if($device == 'android')
+            {
+                $fields = '{
+                    "to": "'.$fcm_id.'",
+                    "data": {
+                        "body":"'.$msg.'",
+                         "notiType":"3"
+                       }
+                }';
+            }
+
+            if($device == 'ios')
+            {
+                $fields = '{
+                    "to": "'.$fcm_id.'",
+                    "data": {
+                        "body":"'.$msg.'",
+                         "notiType":"3"
+                       },
+                    "notification": {
+                        "body":"'.$msg.'",
+                         "notiType":"3"
+                       }
+                }';
+            }
+        }
+        
+        $headers = [
+            'Authorization: key=' . $key,
+            'Content-Type: application/json'
+        ];
+
+        $ch = curl_init();
+        //print_r(json_encode($fields)); exit;
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+ 
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        
+        // Execute post
+        $result = curl_exec($ch);
+
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+
+        // Close connection
+        curl_close($ch);
+        return $result; 
+    }
 }

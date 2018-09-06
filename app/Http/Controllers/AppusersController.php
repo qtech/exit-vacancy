@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Bookings;
 use App\Hoteldata;
+use Mail;
+use App\Mail\disablehotel;
+use App\Mail\enablehotel;
+use Twilio\Rest\Client;
+use App\Notifications;
 
 class AppusersController extends Controller
 {
@@ -82,7 +87,6 @@ class AppusersController extends Controller
     {
         $disable = User::find($id);
         $disable->user_status = 1;
-        
         $disable->save();
         return redirect()->route('appusers')->with('success', 'User enabled successfully');
     }
@@ -95,6 +99,27 @@ class AppusersController extends Controller
         $disable_hotel = Hoteldata::where(['user_id' => $id])->first();
         $disable_hotel->status = 0;
         $disable_hotel->save();
+
+        $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+        $token  = "580e851b75fad321439473c84ccd0145";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages->create('+'.$disable_hotel->number, // to
+            [
+                "body" => "Sorry! ".$disable_hotel->hotel_name.". Your account has been de-activated by the admin. Please contact admin for further help.",
+                "from" => "+16072149834"
+            ]
+        );
+
+        $data = [
+            'hotel_name' => $disable_hotel->hotel_name
+        ];
+
+        \Mail::to($disable->email)->send(new disablehotel($data));
+
+        $msg = "Sorry! ".$disable_hotel->hotel_name.", Your account has been de-activated by the admin. Please contact admin for further help.";
+        $result = Notifications::accountstatusNotification($disable->fcm_id,$disable->device,$msg);
+
         return redirect()->route('hotelusers')->with('success', 'Hotel disabled successfully');
     }
 
@@ -106,6 +131,27 @@ class AppusersController extends Controller
         $disable_hotel = Hoteldata::where(['user_id' => $id])->first();
         $disable_hotel->status = 1;
         $disable_hotel->save();
+
+        $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+        $token  = "580e851b75fad321439473c84ccd0145";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages->create('+'.$disable_hotel->number, // to
+            [
+                "body" => "Congratulations! ".$disable_hotel->hotel_name.". Your account has been activated by the admin. Enjoy using ExitVacancy",
+                "from" => "+16072149834"
+            ]
+        );
+
+        $data = [
+            'hotel_name' => $disable_hotel->hotel_name
+        ];
+
+        \Mail::to($disable->email)->send(new enablehotel($data));
+
+        $msg = "Congratulations! ".$disable_hotel->hotel_name.", Your account has been activated by the admin. Enjoy using ExitVacancy.";
+        $result = Notifications::accountstatusNotification($disable->fcm_id,$disable->device,$msg);
+
         return redirect()->route('hotelusers')->with('success', 'Hotel enabled successfully');
     }
 }

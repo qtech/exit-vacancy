@@ -60,6 +60,7 @@ class loginController extends Controller
                                             'lname' => $check_login->lname,
                                             'role' => $check_login->role,
                                             'number' => $customer->number,
+                                            'card_status' => ($check_login->customer_id != NULL) ? 1 : 0,
                                             'user_image' => ($check_login->image != NULL) ? url("/")."/storage/uploads/".$check_login->image : "",
                                             'is_mobile_verified' => $check_login->is_mobile_verify == 1 ? "Yes" : "No",
                                             'login_token' => $check_login->login_token

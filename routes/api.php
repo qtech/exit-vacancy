@@ -122,14 +122,14 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     Route::post('/hotelnoresponse', 'API\BookingController@hotel_noresponse');
 
     // COMMON HOTEL AMENITIES
-    Route::post('/amenities', 'API\AmenityController@getAmenities');
+    // Route::post('/amenities', 'API\AmenityController@getAmenities');
 
     // COMMON ROOM AMENITIES
-    Route::post('/roomamenities', 'API\AmenityController@getRoomAmenities');
+    // Route::post('/roomamenities', 'API\AmenityController@getRoomAmenities');
 
     // ADD CUSTOM HOTEL AMENITIES
-    Route::post('/custom_amenities', 'API\AmenityController@update_custom_amenities');
-    Route::post('/get_custom_amenities', 'API\AmenityController@get_custom_amenities');
+    // Route::post('/custom_amenities', 'API\AmenityController@update_custom_amenities');
+    // Route::post('/get_custom_amenities', 'API\AmenityController@get_custom_amenities');
     
     // QUERY REQUESTS
     Route::post('/query', 'API\QueryController@storequery');
@@ -140,8 +140,6 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 	Route::post('/storeupdatepaymentdetails', 'API\PaymentDetailsController@store_update_paymentdetails');
 	Route::post('/getpaymentdetails', 'API\PaymentDetailsController@get_paymentdetails');
     Route::post('/splitpayment', 'API\PaymentDetailsController@split_payment_live');
-    
-    
 });
 
 
