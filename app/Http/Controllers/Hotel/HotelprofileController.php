@@ -30,8 +30,8 @@ class HotelprofileController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'number' => 'required',
-                'hotelclass' => 'required',
-                'amenities' => 'required',
+                // 'hotelclass' => 'required',
+                // 'amenities' => 'required',
                 'images' => 'nullable',
                 'image' => 'nullable'
             ]);
@@ -45,7 +45,7 @@ class HotelprofileController extends Controller
             }
             else
             {
-                $amenities = implode(",", $request->amenities);
+                // $amenities = implode(",", $request->amenities);
                 $hotelowner = User::where(['user_id' => Auth()->user()->user_id])->first();
                 if($request->hasFile('image'))
                 {
@@ -63,7 +63,7 @@ class HotelprofileController extends Controller
 
                 $update = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
                 $update->number = $request->number;
-                $update->stars = $request->hotelclass;
+                // $update->stars = $request->hotelclass;
 
                 if($request->hasFile('images'))
                 {
@@ -81,7 +81,7 @@ class HotelprofileController extends Controller
                     }
                 }
 
-                $update->amenities = $amenities;
+                // $update->amenities = $amenities;
                 $update->save();
 
                 $response = [

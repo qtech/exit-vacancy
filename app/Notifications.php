@@ -118,6 +118,11 @@ class Notifications extends Model
                 }';
             }
         }
+        else
+        {
+            $error = "Oops! Something went wrong"; 
+            return $error;
+        }
         
         $headers = [
             'Authorization: key=' . $key,
@@ -196,6 +201,11 @@ class Notifications extends Model
                 }';       
             }
         }
+        else
+        {
+            $error = "Oops! Something went wrong"; 
+            return $error;
+        }
 
         $headers = [
             'Authorization: key=' . $key,
@@ -261,6 +271,11 @@ class Notifications extends Model
                        }
                 }';
             }
+        }
+        else
+        {
+            $error = "Oops! Something went wrong"; 
+            return $error;
         }
         
         $headers = [
@@ -328,6 +343,11 @@ class Notifications extends Model
                 }';
             }
         }
+        else
+        {
+            $error = "Oops! Something went wrong"; 
+            return $error;
+        }
         
         $headers = [
             'Authorization: key=' . $key,
@@ -393,6 +413,11 @@ class Notifications extends Model
                        }
                 }';
             }
+        }
+        else
+        {
+            $error = "Oops! Something went wrong"; 
+            return $error;
         }
         
         $headers = [

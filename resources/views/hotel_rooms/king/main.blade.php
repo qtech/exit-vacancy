@@ -3,11 +3,11 @@
 @section('content')
 <div class="box-typical" style="padding-left:25px;">
     <h4 class="m-t-lg with-border">King Room Details</h4>
-    @php    
+    {{-- @php    
         $split = explode(",", $getdetails['room']->king_room_amenity);
-    @endphp
+    @endphp --}}
     <form id="myform" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
+        {{-- <div class="form-group">
             <div class="col-md-12">
                 <label class="form-label semibold" for="title">Select Amenities</label>
                 <select class="select2" name="amenities[]" id="amenities" multiple="multiple">
@@ -20,8 +20,9 @@
                     @endforeach
                 </select>
             </div>
-        </div>
-        <div class="form-group">
+        </div> --}}
+
+        {{-- <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="title">Room Amenities</label>
@@ -30,7 +31,8 @@
                         @endforeach
                 </fieldset>
             </div>
-        </div>
+        </div> --}}
+
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
@@ -49,7 +51,7 @@
                 </fieldset>
             </div>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold">Upload Images</label>
@@ -57,12 +59,12 @@
                     <small class="text-muted">Select multiple images for room by pressing "Ctrl" button</small>
                 </fieldset>
             </div>
-        </div>
+        </div> --}}
         <br>
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
-                    <a href="{{route('s.showimages',['id' => $getdetails['room']->user_id])}}" class="btn btn-custom pull-left">View Images</a>
+                    {{-- <a href="{{route('s.showimages',['id' => $getdetails['room']->user_id])}}" class="btn btn-custom pull-left">View Images</a> --}}
                     <input onclick="updateroom(); event.preventDefault();" type="submit" class="btn btn-custom pull-right" value="Update">
                 </fieldset>
             </div>

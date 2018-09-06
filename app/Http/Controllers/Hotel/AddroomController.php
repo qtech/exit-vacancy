@@ -47,10 +47,10 @@ class AddroomController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'amenities' => 'required',
+                // 'amenities' => 'required',
                 'price' => 'required',
                 'rooms' => 'required',
-                'images' => 'nullable'
+                // 'images' => 'nullable'
             ]);
 
             if($validator->fails())
@@ -62,25 +62,25 @@ class AddroomController extends Controller
             }
             else
             {
-                $amenities = implode(",", $request->amenities);
+                // $amenities = implode(",", $request->amenities);
 
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $room->king_room_amenity = $amenities;
-                if($request->hasFile('images'))
-                {
-                    if(!empty($room->king_room_image))
-                    {
-                        foreach(json_decode($room->king_room_image) as $image)
-                        {
-                            Storage::delete(getenv('IMG_UPLOAD').$image);
-                        }
-                        $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
-                    }
-                    else
-                    {
-                        $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
-                    }
-                }
+                // $room->king_room_amenity = $amenities;
+                // if($request->hasFile('images'))
+                // {
+                //     if(!empty($room->king_room_image))
+                //     {
+                //         foreach(json_decode($room->king_room_image) as $image)
+                //         {
+                //             Storage::delete(getenv('IMG_UPLOAD').$image);
+                //         }
+                //         $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                //     }
+                //     else
+                //     {
+                //         $room->king_room_image = ImageUpload::multipleimageupload($request,'images');
+                //     }
+                // }
                 
                 $room->king_room_price = $request->price;
                 $room->king_room = $request->rooms;
@@ -121,10 +121,10 @@ class AddroomController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'amenities' => 'required',
+                // 'amenities' => 'required',
                 'price' => 'required',
                 'rooms' => 'required',
-                'images' => 'nullable'
+                // 'images' => 'nullable'
             ]);
 
             if($validator->fails())
@@ -136,27 +136,27 @@ class AddroomController extends Controller
             }
             else
             {
-                $amenities = implode(",", $request->amenities);
+                // $amenities = implode(",", $request->amenities);
                 
                 $room = Hoteldata::where(['user_id' => Auth()->user()->user_id])->first();
-                $room->queen_room_amenity = $amenities;
+                // $room->queen_room_amenity = $amenities;
                 $room->queen_room_price = $request->price;
                 
-                if($request->hasFile('images'))
-                {
-                    if(!empty($room->queen_room_image))
-                    {
-                        foreach(json_decode($room->queen_room_image) as $image)
-                        {
-                            Storage::delete(getenv('IMG_UPLOAD').$image);
-                        }
-                        $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
-                    }
-                    else
-                    {
-                        $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
-                    }
-                }
+                // if($request->hasFile('images'))
+                // {
+                //     if(!empty($room->queen_room_image))
+                //     {
+                //         foreach(json_decode($room->queen_room_image) as $image)
+                //         {
+                //             Storage::delete(getenv('IMG_UPLOAD').$image);
+                //         }
+                //         $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                //     }
+                //     else
+                //     {
+                //         $room->queen_room_image = ImageUpload::multipleimageupload($request,'images');
+                //     }
+                // }
 
                 $room->queen_room = $request->rooms;
                 $room->save();

@@ -68,19 +68,19 @@
 	            </ul>
 			</li>
             
-            <li class="magenta {{Request::is('admin/amenities/*') || Request::is('admin/amenities') ? 'opened' : ''}}">
+            {{-- <li class="magenta {{Request::is('admin/amenities/*') || Request::is('admin/amenities') ? 'opened' : ''}}">
 	            <a href="{{route('amenity')}}">
 	                <i class="fa fa-rss"></i>
 	                <span class="lbl">Hotel Amenities</span>
 	            </a>
-            </li>
+            </li> --}}
 
-            <li class="red {{Request::is('admin/room_amenity/*') || Request::is('admin/room_amenity') ? 'opened' : ''}}">
+            {{-- <li class="red {{Request::is('admin/room_amenity/*') || Request::is('admin/room_amenity') ? 'opened' : ''}}">
 	            <a href="{{route('roomamenity')}}">
 	                <i class="font-icon font-icon-star"></i>
 	                <span class="lbl">Room Amenities</span>
 	            </a>
-            </li>
+            </li> --}}
             
             <li class="light-green {{Request::is('admin/transactions/*') || Request::is('admin/transactions') ? 'opened' : ''}}">
                 <a href="{{route('transaction')}}">

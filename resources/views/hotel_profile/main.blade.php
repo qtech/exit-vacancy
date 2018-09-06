@@ -29,7 +29,7 @@
                 </fieldset>
             </div>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="title">Hotel Class</label>
@@ -37,8 +37,8 @@
                     <small class="text-muted">Update class for your Hotel</small>
                 </fieldset>
             </div>
-        </div>
-        @php    
+        </div> --}}
+        {{-- @php    
             $split = explode(",", $getdetails['details']->hotel->amenities);
         @endphp
         <div class="form-group">
@@ -54,8 +54,8 @@
                     @endforeach
                 </select>
             </div>
-        </div>
-        <div class="form-group">
+        </div> --}}
+        {{-- <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="title">Amenities</label>
@@ -64,7 +64,7 @@
                     @endforeach
                 </fieldset>
             </div>
-        </div>
+        </div> --}}
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
