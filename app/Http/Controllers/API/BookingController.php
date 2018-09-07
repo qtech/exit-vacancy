@@ -118,7 +118,7 @@ class BookingController extends Controller
                         $hotel_percentage = (100 - $commission->commission_percentage);
                         $hotel_payment = ($hotel_percentage / 100) * $amount;
             
-                        $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'ref_id' => $request->ref_id])->first();
+                        $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'ref_id' => $request->ref_id, 'status' => 1])->first();
                         
                         if($booking_payment)
                         {
@@ -134,6 +134,8 @@ class BookingController extends Controller
                                 'msg' => "Oops! Something went wrong",
                                 'status' => 1
                             ];
+
+                            return response()->json($response);
                         }
             
                         $charge = \Stripe\Charge::create([
@@ -174,7 +176,7 @@ class BookingController extends Controller
                         'hotel_owner_id' => $request->hotel_id,
                         'hotel_name' => $hotel->hotel_name,
                         'roomtype' => $request->roomtype,
-                        'price' => $amount
+                        'price' => $request->amount
                     ];
 
                     $user = User::where(['user_id' => $request->user_id])->first();
@@ -185,7 +187,7 @@ class BookingController extends Controller
                         'lname' => $user->lname,
                         'hotel_name' => $hotel->hotel_name,
                         'roomtype' => $request->roomtype == 1 ? "King Size" : "Two-Queens",
-                        'price' => $amount
+                        'price' => $request->amount
                     ];
 
                     \Mail::to($user->email)->send(new booked($data));
