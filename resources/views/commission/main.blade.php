@@ -5,6 +5,27 @@
     <h4 class="m-t-lg with-border">Commission Rate</h4>
     <form id="myform" method="POST">
         <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <fieldset class="form-group">
+                        <label class="form-label semibold" for="rate">Commission Type</label>    
+                            <select class="select2-arrow select2-no-search-arrow">
+                                <option>Amount</option>
+                                <option>Percentage</option>
+                            </select>
+                    </fieldset>
+                </div>
+                <div class="col-lg-3">
+                    <fieldset class="form-group">
+                        <label class="form-label semibold" for="rate">Commission Type</label>    
+                            <select class="select2-arrow select2-no-search-arrow">
+                                <option>Amount</option>
+                                <option>Percentage</option>
+                            </select>
+                    </fieldset>
+                </div>
+            </div>
+            <br>
             <div class="col-lg-12">
                 <fieldset class="form-group">
                     <label class="form-label semibold" for="rate">Commission</label>

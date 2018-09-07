@@ -8,6 +8,8 @@ use Validator;
 use App\User;
 use App\Bookings;
 use App\Hoteldata;
+use App\Payment;
+use App\Commission;
 use App\Notifications;
 use DB;
 use Mail;
@@ -24,7 +26,8 @@ class BookingController extends Controller
                 'user_id' => 'required',
                 'hotel_id' => 'required',
                 'reference_id' => 'required',
-                'roomtype' => 'required'
+                'roomtype' => 'required',
+                'amount' => 'required'
             ]);
 
             if($validator->fails())
@@ -105,6 +108,48 @@ class BookingController extends Controller
                             $del = Bookings::find($value->booking_id);
                             $del->delete();
                         }
+
+                        \Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
+                        $check_user = User::find($request->user_id);
+                        $commission = Commission::find(1);
+                        
+                        $account = Payment::where(['hotel_owner_id' => $request->hotel_id])->first();
+                        $amount = $request->amount * 100;
+                        $hotel_percentage = (100 - $commission->commission_percentage);
+                        $hotel_payment = ($hotel_percentage / 100) * $amount;
+            
+                        $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'ref_id' => $request->ref_id])->first();
+                        
+                        if($booking_payment)
+                        {
+                            $booking_payment->total_amount = $request->amount;
+                            $booking_payment->admin_commission = $commission->commission_percentage;
+                            $booking_payment->hotel_payment = ($hotel_payment/100);
+                            $booking_payment->payment_status = 1;
+                            $booking_payment->save();
+                        }
+                        else
+                        {
+                            $response = [
+                                'msg' => "Oops! Something went wrong",
+                                'status' => 1
+                            ];
+                        }
+            
+                        $charge = \Stripe\Charge::create([
+                          "amount" => $amount,
+                          "currency" => "usd",
+                          "customer" => $check_user->customer_id,
+                          "destination" => [
+                            "amount" => $hotel_payment,
+                            "account" => $account->account_id,
+                          ],
+                        ]);	
+            
+                        $response = [
+                            'msg' => "Payment successful",
+                            'status' => 1
+                        ];
                     }
 
                     $count_user_booking = User::where(['user_id' => $request->user_id])->first();
@@ -128,7 +173,8 @@ class BookingController extends Controller
                         'hotel_data_id' => $hotel->hotel_data_id,
                         'hotel_owner_id' => $request->hotel_id,
                         'hotel_name' => $hotel->hotel_name,
-                        'roomtype' => $request->roomtype
+                        'roomtype' => $request->roomtype,
+                        'price' => $amount
                     ];
 
                     $user = User::where(['user_id' => $request->user_id])->first();
@@ -138,7 +184,8 @@ class BookingController extends Controller
                         'fname' => $user->fname,
                         'lname' => $user->lname,
                         'hotel_name' => $hotel->hotel_name,
-                        'roomtype' => $request->roomtype == 1 ? "King Size" : "Two-Queens"
+                        'roomtype' => $request->roomtype == 1 ? "King Size" : "Two-Queens",
+                        'price' => $amount
                     ];
 
                     \Mail::to($user->email)->send(new booked($data));

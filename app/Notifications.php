@@ -168,7 +168,7 @@ class Notifications extends Model
                 $fields = '{
                     "to": "'.$fcm_id.'",
                     "data": {
-                        "body":"'.$collect['hotel_name'].' accepted your booking",
+                        "body":"'.$collect['hotel_name'].' accepted your booking. You have successfully payed $'.$collect['price'].' for this booking.",
                         "hotel_id":"'.$collect['hotel_data_id'].'",
                         "hotel_owner_id":"'.$collect['hotel_owner_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
@@ -183,7 +183,7 @@ class Notifications extends Model
                 $fields = '{
                     "to": "'.$fcm_id.'",
                     "data": {
-                        "body":"'.$collect['hotel_name'].' accepted your booking",
+                        "body":"'.$collect['hotel_name'].' accepted your booking. You have successfully payed $'.$collect['price'].' for this booking.",
                         "hotel_id":"'.$collect['hotel_data_id'].'",
                         "hotel_owner_id":"'.$collect['hotel_owner_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
@@ -191,12 +191,12 @@ class Notifications extends Model
                          "notiType":"2"
                        },
                     "notification": {
-                        "body":"'.$collect['hotel_name'].' accepted your booking",
+                        "body":"'.$collect['hotel_name'].' accepted your booking. You have successfully payed $'.$collect['price'].' for this booking.",
                         "hotel_id":"'.$collect['hotel_data_id'].'",
                         "hotel_owner_id":"'.$collect['hotel_owner_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
                         "ref_id":"'.$collect['ref_id'].'",
-                         "notiType":"1"
+                         "notiType":"2"
                        }
                 }';       
             }

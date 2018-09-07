@@ -32,7 +32,8 @@
 	{{-- TAGS INPUT --}}
 	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/tags_editor.min.css')}}">
 
-	{{-- SELECT 2 --}}
+    {{-- SELECT 2 --}}
+    <link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/bootstrap-select/bootstrap-select.min.css')}}">
 	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/select2.min.css')}}">
 
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/font-awesome/font-awesome.min.css')}}">
@@ -75,7 +76,8 @@
 	{{-- WIDGETS --}}
 	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/pages/widgets.min.css')}}">
 
-	{{-- SELECT 2 --}}
+    {{-- SELECT 2 --}}
+    <script src="{{asset('/n-asset/js/lib/bootstrap-select/bootstrap-select.min.js')}}"></script>
 	<script src="{{asset('/n-asset/js/lib/select2/select2.full.min.js')}}"></script>
 
 	{{-- DATATABLE --}}
