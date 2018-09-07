@@ -118,7 +118,7 @@ class BookingController extends Controller
                         $hotel_percentage = (100 - $commission->commission_percentage);
                         $hotel_payment = ($hotel_percentage / 100) * $amount;
             
-                        $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'ref_id' => $request->ref_id, 'status' => 1])->first();
+                        $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_id, 'ref_id' => $request->reference_id])->first();
                         
                         if($booking_payment)
                         {
