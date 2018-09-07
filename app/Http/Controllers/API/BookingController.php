@@ -173,8 +173,7 @@ class BookingController extends Controller
                         'hotel_data_id' => $hotel->hotel_data_id,
                         'hotel_owner_id' => $request->hotel_id,
                         'hotel_name' => $hotel->hotel_name,
-                        'roomtype' => $request->roomtype,
-                        'price' => $amount
+                        'roomtype' => $request->roomtype
                     ];
 
                     $user = User::where(['user_id' => $request->user_id])->first();

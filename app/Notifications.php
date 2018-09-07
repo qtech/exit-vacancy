@@ -85,6 +85,7 @@ class Notifications extends Model
                         "user_number":"'.$collect['number'].'",
                         "reference_id":"'.$collect['reference_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
+                        "amount":"'.$collect['amount'].'",
                          "notiType":"1"
                        }
                 }';
@@ -103,6 +104,7 @@ class Notifications extends Model
                         "user_number":"'.$collect['number'].'",
                         "reference_id":"'.$collect['reference_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
+                        "amount":"'.$collect['amount'].'",
                          "notiType":"1"
                        },
                     "notification": {
@@ -113,6 +115,7 @@ class Notifications extends Model
                         "user_number":"'.$collect['number'].'",
                         "reference_id":"'.$collect['reference_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
+                        "amount":"'.$collect['amount'].'",
                          "notiType":"0"
                        }
                 }';

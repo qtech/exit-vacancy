@@ -270,7 +270,7 @@ class nearbyhotelController extends Controller
                                     'email' => $user->email,
                                     'number' => $customer->number,
                                     'reference_id' => $ref->booking_ref_id,
-                                    'roomtype' => ($request->roomtype == 'king_room > 0') ? 1 : 2,
+                                    'roomtype' => ($request->roomtype == 'king_room > 0') ? 1 : 2
                                 ];
                                 
                                 foreach($data as $value)
@@ -278,6 +278,10 @@ class nearbyhotelController extends Controller
                                     if($value['user_id'] != 0)
                                     {
                                         $notify = User::where(['user_id' => $value['user_id']])->first();
+                                        $a = [
+                                            'amount' => ($request->roomtype == 'king_room > 0') ? $notify->king_room_price : $notify->queen_room_price
+                                        ];
+                                        array_push($collect,$a);
                                         $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                         $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
@@ -560,11 +564,6 @@ class nearbyhotelController extends Controller
                                     'name' => $user->fname." ".$user->lname,
                                     'email' => $user->email,
                                     'number' => $customer->number,
-                                    'building' => $customer->building,
-                                    'street' => $customer->street,
-                                    'landmark' => $customer->landmark,
-                                    'city' => $customer->city,
-                                    'state' => $customer->state,
                                     'reference_id' => $ref->booking_ref_id,
                                     'roomtype' => ($request->roomtype == 'king_room > 0') ? 1 : 2
                                 ];
@@ -576,6 +575,10 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
+                                            $a = [
+                                                'amount' => ($request->roomtype == 'king_room > 0') ? $notify->king_room_price : $notify->queen_room_price
+                                            ];
+                                            array_push($collect,$a);
                                             $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
@@ -615,6 +618,10 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
+                                            $a = [
+                                                'amount' => ($request->roomtype == 'king_room > 0') ? $notify->king_room_price : $notify->queen_room_price
+                                            ];
+                                            array_push($collect,$a);
                                             $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
@@ -654,6 +661,10 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
+                                            $a = [
+                                                'amount' => ($request->roomtype == 'king_room > 0') ? $notify->king_room_price : $notify->queen_room_price
+                                            ];
+                                            array_push($collect,$a);
                                             $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
@@ -693,6 +704,10 @@ class nearbyhotelController extends Controller
                                         if($value['user_id'] != 0)
                                         {       
                                             $notify = User::where(['user_id' => $value['user_id']])->first();
+                                            $a = [
+                                                'amount' => ($request->roomtype == 'king_room > 0') ? $notify->king_room_price : $notify->queen_room_price
+                                            ];
+                                            array_push($collect,$a);
                                             $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
