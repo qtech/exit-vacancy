@@ -579,6 +579,7 @@ class nearbyhotelController extends Controller
                                                 'amount' => ($request->roomtype == 'king_room > 0') ? $notify->king_room_price : $notify->queen_room_price
                                             ];
                                             array_push($collect,$a);
+                                            return $collect;
                                             $result = Notifications::nearbyhotelNotification($notify->fcm_id, $notify->device, $collect);
                                             $rooms = Hoteldata::where(['hotel_data_id' => $value['hotel_id']])->first();
     
