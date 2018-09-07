@@ -27,7 +27,7 @@ class Apitoken
             {
                 $response = [
                     'msg' => "Session ended! Please Login",
-                    'status' => 0
+                    'status' => 4
                 ];
 
                 return response()->json($response);
