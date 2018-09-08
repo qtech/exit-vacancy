@@ -81,7 +81,7 @@ class HotelbookingdetailsController extends Controller
                 else
                 {
                     $response = [
-                        'msg' => 'Your account is not activated yet.',
+                        'msg' => 'Account In-Active. You will be notified once admin activates account.',
                         'status' => 0
                     ];
                 }
@@ -165,7 +165,7 @@ class HotelbookingdetailsController extends Controller
                 else
                 {
                     $response = [
-                        'msg' => 'Your account is not activated yet.',
+                        'msg' => 'Account In-Active. You will be notified once admin activates account.',
                         'status' => 0
                     ];
                 }
@@ -249,7 +249,7 @@ class HotelbookingdetailsController extends Controller
                 else
                 {
                     $response = [
-                        'msg' => 'Your account is not activated yet.',
+                        'msg' => 'Account In-Active. You will be notified once admin activates account.',
                         'status' => 0
                     ];
                 }

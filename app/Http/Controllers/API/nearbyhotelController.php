@@ -64,7 +64,36 @@ class nearbyhotelController extends Controller
                     {
                         $roomtype = $request->roomtype;
                         // $stars = $request->stars;
-    
+                        if($request->distance == 0)
+                        {
+                            $d1 = 0;
+                            $d2 = 10;
+                        }
+                        elseif($request->distance == 1)
+                        {
+                            $d1 = 10;
+                            $d2 = 20;
+                        }
+                        elseif($request->distance == 2)
+                        {
+                            $d1 = 20;
+                            $d2 = 30;
+                        }
+                        elseif($request->distance == 3)
+                        {
+                            $d1 = 30;
+                            $d2 = 40;
+                        }
+                        elseif($request->distance == 4)
+                        {
+                            $d1 = 40;
+                            $d2 = 50;
+                        }
+                        else
+                        {
+                            $d1 = 0;
+                            $d2 = 50;
+                        }
                         // if($request->amenities != NULL)
                         // {
                         //     $amenity = explode(",",$request->amenities);
@@ -79,8 +108,7 @@ class nearbyhotelController extends Controller
                         //     $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE `status` = 1 AND ".$roomtype." AND `stars` IN (".$stars.") AND ".$ame_nity." HAVING `distance` <= ".$request->distance." ORDER BY `distance` ASC") );
                         // }
                         
-                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE `status` = 1 AND $roomtype HAVING `distance`<= ".$request->distance." ORDER BY `distance` ASC") );
-                        
+                        $nearby = DB::select( DB::raw("SELECT * ,((((acos(sin((".$request->latitude."*pi()/180)) * sin((`latitude`*pi()/180))+cos((".$request->latitude."*pi()/180)) * cos((`latitude`*pi()/180)) * cos(((".$request->longitude."- `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `hotel_data` WHERE `status` = 1 AND $roomtype HAVING `distance` BETWEEN $d1 AND $d2 ORDER BY `distance` ASC"));
                         
                         if(count($nearby) == 0)
                         {
