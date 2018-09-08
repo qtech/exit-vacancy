@@ -116,7 +116,7 @@ class Notifications extends Model
                         "reference_id":"'.$collect['reference_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
                         "amount":"'.$collect['amount'].'",
-                         "notiType":"0"
+                         "categoryIdentifier":"user_request"
                        }
                 }';
             }
