@@ -107,8 +107,9 @@ class Notifications extends Model
                         "amount":"'.$collect['amount'].'",
                          "notiType":"1"
                        },
-                    "notification": {
+                    "aps": {
                         "body":"User looking for hotel",
+                        "sound":"default",
                         "user_id":"'.$collect['user_id'].'",
                         "user_name":"'.$collect['name'].'",
                         "user_email":"'.$collect['email'].'",
@@ -117,7 +118,7 @@ class Notifications extends Model
                         "roomtype":"'.$collect['roomtype'].'",
                         "amount":"'.$collect['amount'].'",
                          "categoryIdentifier":"user_request"
-                       }
+                    }
                 }';
             }
         }
