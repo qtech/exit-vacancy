@@ -104,6 +104,10 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
     // HOTEL DETAILS FOR USER (User side)
     Route::post('/hoteldetails', 'API\HotelbookingdetailsController@hotel_details_for_user');
 
+    // HOTEL AVAILABILITY STATUS
+    Route::post('/getavailability', 'API\HotelbookingdetailsController@show_hotel_availability');
+    Route::post('/updateavailability', 'API\HotelbookingdetailsController@update_hotel_availability');
+
     // USER ARRIVED HOTEL
     Route::post('/uservisited', 'API\BookingController@hotel_is_visited');
 
@@ -139,7 +143,7 @@ Route::middleware('Apitoken')->prefix('v1')->group(function(){
 	Route::post('/getcard', 'API\PaymentDetailsController@getCard_details');
 	Route::post('/storeupdatepaymentdetails', 'API\PaymentDetailsController@store_update_paymentdetails');
 	Route::post('/getpaymentdetails', 'API\PaymentDetailsController@get_paymentdetails');
-    Route::post('/splitpayment', 'API\PaymentDetailsController@split_payment_live');
+    // Route::post('/splitpayment', 'API\PaymentDetailsController@split_payment_live');
 });
 
 

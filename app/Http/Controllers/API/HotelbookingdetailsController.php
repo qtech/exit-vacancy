@@ -422,4 +422,103 @@ class HotelbookingdetailsController extends Controller
 
         return response()->json($response);
     }
+
+    public function show_hotel_availability(Request $request)
+    {
+        try
+        {
+            $validator = Validator::make($request->all(),[
+                'hotel_id' => 'required',
+                'hotel_user_id' => 'required'
+            ]);
+
+            if($validator->fails())
+            {
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $available = Hoteldata::where(['user_id' => $request->hotel_user_id, 'hotel_data_id' => $request->hotel_id])->first();
+
+                if($available)
+                {
+                    $response = [
+                        'msg' => 'Hotel Availablity Status',
+                        'status' => 1,
+                        'availability' => $available->availability
+                    ];
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'No such hotel available',
+                        'status' => 0
+                    ];
+                }
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+    public function update_hotel_availability(Request $request)
+    {
+        try
+        {
+            $validator = Validator::make($request->all(),[
+                'hotel_id' => 'required',
+                'hotel_user_id' => 'required'
+            ]);
+
+            if($validator->fails())
+            {
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $available = Hoteldata::where(['user_id' => $request->hotel_user_id, 'hotel_data_id' => $request->hotel_id])->first();
+
+                if($available)
+                {
+                    $available->availability = $available->availability == 0 ? 1 : 0;
+                    $available->save();
+
+                    $response = [
+                        'msg' => 'Hotel Availablity Status updated',
+                        'status' => 1,
+                        'availability' => $available->availability
+                    ];
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'No such hotel available',
+                        'status' => 0
+                    ];
+                }
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = [
+                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+                'status' => 0
+            ];
+        }
+
+        return response()->json($response);
+    }
 }
