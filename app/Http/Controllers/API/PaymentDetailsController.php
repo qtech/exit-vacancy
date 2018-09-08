@@ -78,41 +78,81 @@ class PaymentDetailsController extends Controller
 				$details->lname = $request->lname;
 				$details->save();
 
-				$bank = \Stripe\Token::create([
-				    "bank_account" => [
-					    "country" => "US",
-					    "currency" => "usd",
-					    "account_holder_name" => $request->account_name, 
-					    "account_holder_type" => $request->account_type, 
-					    "routing_number" => $request->routing_number,
-					    "account_number" => $request->account_number
-					 ]
-				]);
+				if($details->save())
+                {
+                    $bank = \Stripe\Token::create([
+                        "bank_account" => [
+                            "country" => "US",
+                            "currency" => "usd",
+                            "account_holder_name" => $details->account_name, 
+                            "account_holder_type" => $details->account_type, 
+                            "routing_number" => $details->routing_number,
+                            "account_number" => $details->account_number
+                         ]
+                    ]);
 
-				$acc  = \Stripe\Account::create(array(
-				  "country" => "US",
-				  "email" => $request->email,
-				  "type" => "custom"
-				));
-				
-				$account = \Stripe\Account::retrieve($acc->id);
-				$account->legal_entity->dob->day = $request->day;
-		        $account->legal_entity->dob->month = $request->month;
-		        $account->legal_entity->dob->year = $request->year;
-		        $account->legal_entity->first_name = $request->fname;
-		        $account->legal_entity->last_name = $request->lname;
-		        $account->legal_entity->type = $request->account_type;
-		        $account->external_account = $bank->id;
-		        $account->save();
+                    $acc  = \Stripe\Account::create(array(
+                        "country" => "US",
+                        "email" => $details->email,
+                        "type" => "custom"
+                    ));
 
-				$details->bank_id = $bank->id;
-				$details->account_id = $account->id;
-				$details->save();
+                    if($acc->id)
+                    {
+                        $account = \Stripe\Account::retrieve($acc->id);
+                        $account->legal_entity->dob->day = $request->day;
+                        $account->legal_entity->dob->month = $request->month;
+                        $account->legal_entity->dob->year = $request->year;
+                        $account->legal_entity->first_name = $request->fname;
+                        $account->legal_entity->last_name = $request->lname;
+                        $account->legal_entity->type = $request->account_type;
+                        $account->external_account = $bank->id;
+                        $account->save();
 
-				$response = [
-					'msg' => "Your details have been updated successfully",
-					'status' => 1
-				];
+                        if($bank->id)
+                        {
+                            $details->bank_id = $bank->id;
+                            $details->account_id = $account->id;
+                            $details->save();
+            
+                            $status = User::where(['user_id' => $request->hotel_owner_id])->first();
+                            $status->bank_status = 1;
+                            $status->save();
+            
+                            $response = [
+                                'msg' => "Your details have been updated successfully",
+                                'status' => 1
+                            ];
+                        }
+                        else
+                        {
+                            $response = [
+                                'msg' => 'Something went wrong. Please fill up the correct bank details again.',
+                                'status' => 0
+                            ];
+    
+                            return response()->json($response);
+                        }
+                    }
+                    else
+                    {
+                        $response = [
+                            'msg' => 'Something went wrong. Please fill up the correct details again.',
+                            'status' => 0
+                        ];
+
+                        return response()->json($response);
+                    }
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'Something went wrong. Please fill up the correct details again.',
+                        'status' => 0
+                    ];
+
+                    return response()->json($response);
+                }
 			}
 			else
 			{
@@ -130,45 +170,81 @@ class PaymentDetailsController extends Controller
 				$details->lname = $request->lname;
 				$details->save();
 
-				$bank = \Stripe\Token::create([
-				    "bank_account" => [
-					    "country" => "US",
-					    "currency" => "usd",
-					    "account_holder_name" => $details->account_name, 
-					    "account_holder_type" => $details->account_type, 
-					    "routing_number" => $details->routing_number,
-					    "account_number" => $details->account_number
-					 ]
-				]);
+                if($details->save())
+                {
+                    $bank = \Stripe\Token::create([
+                        "bank_account" => [
+                            "country" => "US",
+                            "currency" => "usd",
+                            "account_holder_name" => $details->account_name, 
+                            "account_holder_type" => $details->account_type, 
+                            "routing_number" => $details->routing_number,
+                            "account_number" => $details->account_number
+                         ]
+                    ]);
 
-				$acc  = \Stripe\Account::create(array(
-				  "country" => "US",
-				  "email" => $details->email,
-				  "type" => "custom"
-				));
-				
-				$account = \Stripe\Account::retrieve($acc->id);
-				$account->legal_entity->dob->day = $request->day;
-		        $account->legal_entity->dob->month = $request->month;
-		        $account->legal_entity->dob->year = $request->year;
-		        $account->legal_entity->first_name = $request->fname;
-		        $account->legal_entity->last_name = $request->lname;
-		        $account->legal_entity->type = $request->account_type;
-		        $account->external_account = $bank->id;
-		        $account->save();
+                    $acc  = \Stripe\Account::create(array(
+                        "country" => "US",
+                        "email" => $details->email,
+                        "type" => "custom"
+                    ));
 
-				$details->bank_id = $bank->id;
-				$details->account_id = $account->id;
-				$details->save();
+                    if($acc->id)
+                    {
+                        $account = \Stripe\Account::retrieve($acc->id);
+                        $account->legal_entity->dob->day = $request->day;
+                        $account->legal_entity->dob->month = $request->month;
+                        $account->legal_entity->dob->year = $request->year;
+                        $account->legal_entity->first_name = $request->fname;
+                        $account->legal_entity->last_name = $request->lname;
+                        $account->legal_entity->type = $request->account_type;
+                        $account->external_account = $bank->id;
+                        $account->save();
 
-				$status = User::where(['user_id' => $request->hotel_owner_id])->first();
-				$status->bank_status = 1;
-				$status->save();
+                        if($bank->id)
+                        {
+                            $details->bank_id = $bank->id;
+                            $details->account_id = $account->id;
+                            $details->save();
+            
+                            $status = User::where(['user_id' => $request->hotel_owner_id])->first();
+                            $status->bank_status = 1;
+                            $status->save();
+            
+                            $response = [
+                                'msg' => "Your details have been stored successfully",
+                                'status' => 1
+                            ];
+                        }
+                        else
+                        {
+                            $response = [
+                                'msg' => 'Something went wrong. Please fill up the correct bank details again.',
+                                'status' => 0
+                            ];
+    
+                            return response()->json($response);
+                        }
+                    }
+                    else
+                    {
+                        $response = [
+                            'msg' => 'Something went wrong. Please fill up the correct details again.',
+                            'status' => 0
+                        ];
 
-				$response = [
-					'msg' => "Your details have been stored successfully",
-					'status' => 1
-				];
+                        return response()->json($response);
+                    }
+                }
+                else
+                {
+                    $response = [
+                        'msg' => 'Something went wrong. Please fill up the correct details again.',
+                        'status' => 0
+                    ];
+
+                    return response()->json($response);
+                }
 			}
 		}
 		catch(\Exception $e)
@@ -277,60 +353,60 @@ class PaymentDetailsController extends Controller
 		return response()->json($response);
 	}
 
-	public function split_payment_live(Request $request)
-	{
-		try
-    	{	
-    		\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
-            $check_user = User::find($request->user_id);
-            $commission = Commission::find(1);
+	// public function split_payment_live(Request $request)
+	// {
+	// 	try
+    // 	{	
+    // 		\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
+    //         $check_user = User::find($request->user_id);
+    //         $commission = Commission::find(1);
     		
-			$account = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
-            $amount = $request->amount * 100;
-            $hotel_percentage = (100 - $commission->commission_percentage);
-            $hotel_payment = ($hotel_percentage / 100) * $amount;
+	// 		$account = Payment::where(['hotel_owner_id' => $request->hotel_owner_id])->first();
+    //         $amount = $request->amount * 100;
+    //         $hotel_percentage = (100 - $commission->commission_percentage);
+    //         $hotel_payment = ($hotel_percentage / 100) * $amount;
 
-            $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_owner_id, 'ref_id' => $request->ref_id])->first();
+    //         $booking_payment = Bookings::where(['user_id' => $request->user_id, 'hotel_owner_id' => $request->hotel_owner_id, 'ref_id' => $request->ref_id])->first();
             
-            if($booking_payment)
-            {
-                $booking_payment->total_amount = $request->amount;
-                $booking_payment->admin_commission = $commission->commission_percentage;
-                $booking_payment->hotel_payment = ($hotel_payment/100);
-                $booking_payment->payment_status = 1;
-                $booking_payment->save();
-            }
-            else
-            {
-                $response = [
-                    'msg' => "Oops! Something went wrong",
-                    'status' => 1
-                ];
-            }
+    //         if($booking_payment)
+    //         {
+    //             $booking_payment->total_amount = $request->amount;
+    //             $booking_payment->admin_commission = $commission->commission_percentage;
+    //             $booking_payment->hotel_payment = ($hotel_payment/100);
+    //             $booking_payment->payment_status = 1;
+    //             $booking_payment->save();
+    //         }
+    //         else
+    //         {
+    //             $response = [
+    //                 'msg' => "Oops! Something went wrong",
+    //                 'status' => 1
+    //             ];
+    //         }
 
-			$charge = \Stripe\Charge::create([
-			  "amount" => $amount,
-			  "currency" => "usd",
-			  "customer" => $check_user->customer_id,
-			  "destination" => [
-			    "amount" => $hotel_payment,
-			    "account" => $account->account_id,
-			  ],
-            ]);	
+	// 		$charge = \Stripe\Charge::create([
+	// 		  "amount" => $amount,
+	// 		  "currency" => "usd",
+	// 		  "customer" => $check_user->customer_id,
+	// 		  "destination" => [
+	// 		    "amount" => $hotel_payment,
+	// 		    "account" => $account->account_id,
+	// 		  ],
+    //         ]);	
 
-            $response = [
-                'msg' => "Payment successful",
-                'status' => 1
-            ];
-    	}
-    	catch(\Exception $e)
-    	{
-			$response = [
-				'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
-				'status' => 0
-			];	
-    	}
+    //         $response = [
+    //             'msg' => "Payment successful",
+    //             'status' => 1
+    //         ];
+    // 	}
+    // 	catch(\Exception $e)
+    // 	{
+	// 		$response = [
+	// 			'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+	// 			'status' => 0
+	// 		];	
+    // 	}
 
-    	return response()->json($response);
-	}
+    // 	return response()->json($response);
+	// }
 }
