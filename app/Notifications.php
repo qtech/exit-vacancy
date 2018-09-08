@@ -107,6 +107,14 @@ class Notifications extends Model
                         "amount":"'.$collect['amount'].'",
                          "notiType":"1"
                        },
+                    "aps":{
+                        "alert" : {
+                            "title" : "title",
+                            "body" : "Your message Here"
+                            },
+                            "mutable-content" : "1",
+                            "category" : "user_request"
+                       },
                     "notification": {
                         "body":"User looking for hotel",
                         "user_id":"'.$collect['user_id'].'",
@@ -116,7 +124,7 @@ class Notifications extends Model
                         "reference_id":"'.$collect['reference_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
                         "amount":"'.$collect['amount'].'",
-                         "notiType":"0"
+                         "category":"user_request"
                        }
                 }';
             }
