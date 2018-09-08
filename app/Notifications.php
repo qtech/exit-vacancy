@@ -117,6 +117,7 @@ class Notifications extends Model
                        },
                     "notification": {
                         "body":"User looking for hotel",
+                        "sound":"default",
                         "user_id":"'.$collect['user_id'].'",
                         "user_name":"'.$collect['name'].'",
                         "user_email":"'.$collect['email'].'",
@@ -124,7 +125,7 @@ class Notifications extends Model
                         "reference_id":"'.$collect['reference_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
                         "amount":"'.$collect['amount'].'",
-                         "category":"user_request"
+                         "click_action":"user_request"
                        }
                 }';
             }
