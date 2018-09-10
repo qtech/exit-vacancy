@@ -185,6 +185,8 @@ class Notifications extends Model
                         "hotel_owner_id":"'.$collect['hotel_owner_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
                         "ref_id":"'.$collect['ref_id'].'",
+                        "latitude":"'.$collect['latitude'].'",
+                        "longitude":"'.$collect['longitude'].'",
                          "notiType":"2"
                        }
                 }';
@@ -200,6 +202,8 @@ class Notifications extends Model
                         "hotel_owner_id":"'.$collect['hotel_owner_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
                         "ref_id":"'.$collect['ref_id'].'",
+                        "latitude":"'.$collect['latitude'].'",
+                        "longitude":"'.$collect['longitude'].'",
                          "notiType":"2"
                        },
                     "notification": {
@@ -208,6 +212,8 @@ class Notifications extends Model
                         "hotel_owner_id":"'.$collect['hotel_owner_id'].'",
                         "roomtype":"'.$collect['roomtype'].'",
                         "ref_id":"'.$collect['ref_id'].'",
+                        "latitude":"'.$collect['latitude'].'",
+                        "longitude":"'.$collect['longitude'].'",
                          "notiType":"2"
                        }
                 }';       

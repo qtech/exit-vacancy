@@ -99,7 +99,6 @@ class AppuserController extends Controller
                 'hotel_name' => 'required',
                 'building' => 'required',
                 'street' => 'required',
-                'landmark' => 'required',
                 'city' => 'required',
                 'state' => 'required',
                 'country' => 'required',
@@ -139,7 +138,6 @@ class AppuserController extends Controller
                     $hotel->user_id = $user->user_id;
                     $hotel->building = $request->building;
                     $hotel->street = $request->street;
-                    $hotel->landmark = $request->landmark;
                     $hotel->city = $request->city;
                     $hotel->state = $request->state;
                     $hotel->country = $request->country;
@@ -384,6 +382,11 @@ class AppuserController extends Controller
                 $u['image'] = $hotel->image == NULL ? "" : url('/')."/storage/uploads/".$hotel->image;
                 $u['role'] = $hotel->role;
                 $u['number'] = $hotel->hotel->number;
+                $u['address_line_1'] = $hotel->hotel->building;
+                $u['address_line_2'] = $hotel->hotel->street;
+                $u['city'] = $hotel->hotel->city;
+                $u['state'] = $hotel->hotel->state;
+
 
                 $response = [
                     'msg' => 'Hotel User details',
@@ -520,7 +523,7 @@ class AppuserController extends Controller
                 {
                     $hotel->fname = $request->fname;
                     $hotel->lname = $request->lname;
-                    
+
                     if($hotel->image != NULL)
                     {
                         Storage::delete(getenv('IMG_UPLOAD').$hotel->image);
