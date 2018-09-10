@@ -34,7 +34,7 @@
 
     {{-- SELECT 2 --}}
     <link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/bootstrap-select/bootstrap-select.min.css')}}">
-	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/select2.min.css')}}">
+	<link rel="stylesheet" href="{{asset('/n-asset/css/separate/vendor/select2.min.css')}}" type="text/css">
 
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/font-awesome/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('/n-asset/css/lib/bootstrap/bootstrap.min.css')}}">
@@ -78,7 +78,8 @@
 
     {{-- SELECT 2 --}}
     <script src="{{asset('/n-asset/js/lib/bootstrap-select/bootstrap-select.min.js')}}"></script>
-	<script src="{{asset('/n-asset/js/lib/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('/n-asset/js/lib/select2/select2.full.min.js')}}"></script>
+	
 
 	{{-- DATATABLE --}}
 	<script src="{{asset('/n-asset/js/lib/datatables-net/datatables.min.js')}}"></script>
@@ -94,7 +95,7 @@
 
 	{{-- CHARTS --}}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-    
+
 <script src="{{asset('/n-asset/js/app.js')}}"></script>
 <script src="{{asset('/n-asset/js/nprogress.js')}}"></script>
 

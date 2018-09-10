@@ -9,5 +9,5 @@ class Commission extends Model
     public $table = "commission";
     protected $primaryKey = "id";
 
-    protected $fillable = ['commission_percentage'];
+    protected $fillable = ['commission_type','commission'];
 }

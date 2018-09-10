@@ -219,14 +219,14 @@ $(document).ready(function(){
 	Select
 	========================================================================== */
 
-	if ($('.bootstrap-select').length) {
-		// Bootstrap-select
-		$('.bootstrap-select').selectpicker({
-			style: '',
-			width: '100%',
-			size: 8
-		});
-	}
+	// if ($('.bootstrap-select').length) {
+	// 	// Bootstrap-select
+	// 	$('.bootstrap-select').selectpicker({
+	// 		style: '',
+	// 		width: '100%',
+	// 		size: 8
+	// 	});
+	// }
 
 	if ($('.select2').length) {
 		// Select2

@@ -26,7 +26,11 @@ class AdmincommissionController extends Controller
         try
         {
             $validator = Validator::make($request->all(),[
-                'rate' => 'required'
+                'rate' => 'required',
+                'bookings' => 'required',
+                'commission_type' => 'required',
+                'default_rate' => 'required',
+                'default_commission_type' => 'required'
             ]);
 
             if($validator->fails())
@@ -39,13 +43,17 @@ class AdmincommissionController extends Controller
             else
             {
                 $admin = Commission::find(1);
-                $admin->commission_percentage = $request->rate;
+                $admin->bookings = $request->bookings;
+                $admin->commission_type = $request->commission_type;
+                $admin->commission = $request->rate;
+                $admin->default_commission_type = $request->default_commission_type;
+                $admin->default_commission = $request->default_rate;
                 $admin->save();
 
                 $admin = Commission::find(1);
 
                 $response = [
-                    'msg' => 'Commission percentage updated',
+                    'msg' => 'Commission updated',
                     'status' => 1,
                     'data' => $admin
                 ];
