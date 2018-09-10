@@ -5,19 +5,21 @@
     <h4 class="m-t-lg with-border">Admin Commission</h4>
     <form id="myform" method="POST">
         <div class="form-group">
-            <div class="col-lg-12">
+            <div class="col-lg-9">
                 <fieldset class="form-group">
-                    <label class="form-label semibold" for="bookings">Number of Bookings</label>
+                    <label class="form-label semibold" for="bookings">Set number of Bookings</label>
                     <input type="number" class="form-control" name="bookings" id="bookings" value="{{$admin->bookings}}">
-                    <small class="text-muted">Set your commission for this specific number of bookings</small>
+                    <small class="text-muted"><b>Initial commission</b> will be applied in payments for specific number of bookings you set. After this specific number of bookings accepted by hotels, <b>Default commission</b> will be applied in payments.</small>
                 </fieldset>
             </div>
-            <br>
+            <br><br>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <div class="col-lg-10">
+                        <h3><u>Initial Commission</u></h3>
+                        <br>
                         <fieldset class="form-group">
-                            <label class="form-label semibold" for="commission_type">Commission Type</label> 
+                            <label class="form-label semibold" for="commission_type">Select Type</label> 
                                 <select class="custom-select" id="commission_type" name="commission_type">
                                     <option @if($admin->commission_type == 1) selected @endif value="1">Amount</option>
                                     <option @if($admin->commission_type == 2) selected @endif value="2">Percentage</option>
@@ -27,17 +29,19 @@
                     <br>
                     <div class="col-lg-10">
                         <fieldset class="form-group">
-                            <label class="form-label semibold" for="rate">Commission</label>
+                            <label class="form-label semibold" for="rate">Amount / Percentage</label>
                             <input type="number" class="form-control" name="rate" id="rate" value="{{$admin->commission}}">
-                            <small class="text-muted">Set your commission in payments</small>
+                            <small class="text-muted">Set your <b>INITIAL</b> commission in payments</small>
                         </fieldset>
                     </div>
                 </div>
-
-                <div class="col-lg-6">
+                <div style="border-left: 3px solid #00857B; height: 280px; margin-left:50px; margin-right:20px;"></div>
+                <div class="col-lg-5">
                     <div class="col-lg-10">
+                        <h3><u>Default Commission</u></h3>
+                        <br>
                         <fieldset class="form-group">
-                            <label class="form-label semibold" for="default_commission_type">Default Commission Type</label>
+                            <label class="form-label semibold" for="default_commission_type">Select Type</label>
                             <select class="custom-select" id="default_commission_type" name="default_commission_type">
                                 <option @if($admin->default_commission_type == 1) selected @endif value="1">Amount</option>
                                 <option @if($admin->default_commission_type == 2) selected @endif value="2">Percentage</option>
@@ -47,7 +51,7 @@
                     <br>
                     <div class="col-lg-10">
                         <fieldset class="form-group">
-                            <label class="form-label semibold" for="default_rate">Default Commission</label>
+                            <label class="form-label semibold" for="default_rate">Amount / Percentage</label>
                             <input type="number" class="form-control" name="default_rate" id="default_rate" value="{{$admin->default_commission}}">
                             <small class="text-muted">Set your <b>DEFAULT</b> commission in payments</small>
                         </fieldset>
@@ -55,6 +59,7 @@
                 </div>
             </div>
         </div>
+        <br>
         <div class="form-group">
             <div class="col-lg-12">
                 <fieldset class="form-group">
