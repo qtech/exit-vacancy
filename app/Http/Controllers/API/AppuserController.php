@@ -238,73 +238,88 @@ class AppuserController extends Controller
     {
         try
         {
-            $change = User::find($request->user_id);
+            $validator = Validator::make($request->all(),[
+                'number' => 'required',
+                'role' => 'required'
+            ]);
 
-            if($change)
+            if($validator->fails())
             {
-                if($change->is_mobile_verfiy == 0)
-                {
-                    if($request->role == 2)
-                    {
-                        $checknumber = Customer::where(['number' => $request->number])->first();
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
+            }
+            else
+            {
+                $change = User::find($request->user_id);
 
-                        if($checknumber)
+                if($change)
+                {
+                    if($change->is_mobile_verfiy == 0)
+                    {
+                        if($request->role == 2)
                         {
-                            $response = [
-                                'msg' => 'This Number is already registered by other user. Please try some other number.',
-                                'status' => 0
-                            ];
+                            $checknumber = Customer::where(['number' => $request->number])->first();
+    
+                            if($checknumber)
+                            {
+                                $response = [
+                                    'msg' => 'This Number is already registered by other user. Please try some other number.',
+                                    'status' => 0
+                                ];
+                            }
+                            else
+                            {
+                                $number = Customer::where(['user_id' => $request->user_id])->first();
+                                $number->number = $request->number;
+                                $number->save();
+            
+                                $response = [
+                                    'msg' => 'Mobile number updated successfully',
+                                    'status' => 1
+                                ]; 
+                            }
                         }
-                        else
+                        if($request->role == 3)
                         {
-                            $number = Customer::where(['user_id' => $request->user_id])->first();
-                            $number->number = $request->number;
-                            $number->save();
-        
-                            $response = [
-                                'msg' => 'Mobile number updated successfully',
-                                'status' => 1
-                            ]; 
+                            $checkphone = Hoteldata::where(['number' => $request->number])->first();
+    
+                            if($checkphone)
+                            {
+                                $response = [
+                                    'msg' => 'This Number is already registered by other hoteluser. Please try some other number.',
+                                    'status' => 0
+                                ]; 
+                            }
+                            else
+                            {
+                                $phone = Hoteldata::where(['user_id' => $request->user_id])->first();
+                                $phone->number = $request->number;
+                                $phone->save();
+            
+                                $response = [
+                                    'msg' => 'Mobile number updated successfully',
+                                    'status' => 1
+                                ];  
+                            }
                         }
                     }
                     else
                     {
-                        $checkphone = Hoteldata::where(['number' => $request->number])->first();
-
-                        if($checkphone)
-                        {
-                            $response = [
-                                'msg' => 'This Number is already registered by other user. Please try some other number.',
-                                'status' => 0
-                            ]; 
-                        }
-                        else
-                        {
-                            $phone = Hoteldata::where(['user_id' => $request->user_id])->first();
-                            $phone->number = $request->number;
-                            $phone->save();
-        
-                            $response = [
-                                'msg' => 'Mobile number updated successfully',
-                                'status' => 1
-                            ];  
-                        }
+                        $response = [
+                            'msg' => 'Sorry, your number is already registered. You can\'t change it now',
+                            'status' => 0
+                        ];
                     }
                 }
                 else
                 {
                     $response = [
-                        'msg' => 'Sorry, your number is already registered. You can\'t change it now',
+                        'msg' => 'Invalid Parameters',
                         'status' => 0
                     ];
                 }
-            }
-            else
-            {
-                $response = [
-                    'msg' => 'Invalid Parameters',
-                    'status' => 0
-                ];
             }
         }
         catch(\Exception $e)
@@ -429,15 +444,11 @@ class AppuserController extends Controller
                         Storage::delete(getenv('IMG_UPLOAD').$user->image);
                         $user->image = $request->image;
                     }
-                    else
-                    {
-                        $user->image = $request->image;
-                    }
 
                     $user->save();
 
                     $profile = Customer::where(['user_id' => $user->user_id])->first();
-                    if($profile)
+                    if($profile->number != $request->number)
                     {
                         $profile->number = $request->number;
                         $profile->save();
@@ -452,9 +463,12 @@ class AppuserController extends Controller
                     }
                     else
                     {
+                        $profile->number = $request->number;
+                        $profile->save();
+                        
                         $response = [
-                            'msg' => 'No profile details found for this user',
-                            'status' => 0
+                            'msg' => 'User profile successfully updated',
+                            'status' => 1
                         ];
                     }
                 }
@@ -506,48 +520,35 @@ class AppuserController extends Controller
                 {
                     $hotel->fname = $request->fname;
                     $hotel->lname = $request->lname;
+                    
                     if($hotel->image != NULL)
                     {
                         Storage::delete(getenv('IMG_UPLOAD').$hotel->image);
-                        $hotel->image = $request->image;
-                    }
-                    else
-                    {
                         $hotel->image = $request->image;
                     }
 
                     $hotel->save();
 
                     $profile = Hoteldata::where(['user_id' => $hotel->user_id])->first();
-                    if($profile)
+                    
+                    if($profile->number != $request->number)
                     {
-                        if($profile->number != $request->number)
-                        {
-                            $profile->number = $request->number;
-                            $profile->save();
-    
-                            $hotel->is_mobile_verify == 0;
-                            $hotel->save();
-                        }
-                        else
-                        {
-                            $profile->number = $request->number;
-                            $profile->save();
-                        }
-                        
+                        $profile->number = $request->number;
+                        $profile->save();
 
-                        $response = [
-                            'msg' => 'Hotel profile successfully updated',
-                            'status' => 1
-                        ];
+                        $hotel->is_mobile_verify == 0;
+                        $hotel->save();
                     }
                     else
                     {
-                        $response = [
-                            'msg' => 'No profile details found for this hotel',
-                            'status' => 0
-                        ];
+                        $profile->number = $request->number;
+                        $profile->save();
                     }
+
+                    $response = [
+                        'msg' => 'Hotel profile successfully updated',
+                        'status' => 1
+                    ];
                 }
                 else
                 {

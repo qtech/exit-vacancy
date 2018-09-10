@@ -101,54 +101,76 @@ class verificationController extends Controller
             // $client = new \Nexmo\Client($basic);
             if($request->type == 2)
             {
-                $addnumber = Customer::where(['user_id' => $request->user_id])->first();
-                $addnumber->number = $request->phone;
-                $addnumber->save();
-
-                $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
-                $token  = "580e851b75fad321439473c84ccd0145";
-                $twilio = new Client($sid, $token);
+                $check = Customer::where(['number' => $request->phone])->first();
+                if($check)
+                {
+                    $response = [
+                        'msg' => 'This number is already registered by other user',
+                        'status' => 0
+                    ];
+                }
+                else
+                {
+                    $addnumber = Customer::where(['user_id' => $request->user_id])->first();
+                    $addnumber->number = $request->phone;
+                    $addnumber->save();
     
-                $otp = mt_rand(999,9999);
-    
-                $message = $twilio->messages->create('+'.$request->phone, // to
-                    [
-                        "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
-                        "from" => "+16072149834"
-                    ]
-                );
+                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                    $token  = "580e851b75fad321439473c84ccd0145";
+                    $twilio = new Client($sid, $token);
+        
+                    $otp = mt_rand(999,9999);
+        
+                    $message = $twilio->messages->create('+'.$request->phone, // to
+                        [
+                            "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                            "from" => "+16072149834"
+                        ]
+                    );
 
-                $response = [
-                    'msg' => 'OTP sent to the user',
-                    'status' => 1,
-                    'OTP' => $otp
-                ];
+                    $response = [
+                        'msg' => 'OTP sent to the user',
+                        'status' => 1,
+                        'OTP' => $otp
+                    ];
+                }
             }
 
             if($request->type == 3)
             {
-                $addnumber = Hoteldata::where(['user_id' => $request->user_id])->first();
-                $addnumber->number = $request->phone;
-                $addnumber->save();
-
-                $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
-                $token  = "580e851b75fad321439473c84ccd0145";
-                $twilio = new Client($sid, $token);
+                $check = Hoteldata::where(['number' => $request->phone])->first();
+                if($check)
+                {
+                    $response = [
+                        'msg' => 'This number is already registered by other user',
+                        'status' => 0
+                    ];
+                }
+                else
+                {
+                    $addnumber = Hoteldata::where(['user_id' => $request->user_id])->first();
+                    $addnumber->number = $request->phone;
+                    $addnumber->save();
     
-                $otp = mt_rand(999,9999);
+                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                    $token  = "580e851b75fad321439473c84ccd0145";
+                    $twilio = new Client($sid, $token);
+        
+                    $otp = mt_rand(999,9999);
+        
+                    $message = $twilio->messages->create('+'.$request->phone, // to
+                        [
+                            "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                            "from" => "+16072149834"
+                        ]
+                    );
     
-                $message = $twilio->messages->create('+'.$request->phone, // to
-                    [
-                        "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
-                        "from" => "+16072149834"
-                    ]
-                );
-
-                $response = [
-                    'msg' => 'OTP sent to the user',
-                    'status' => 1,
-                    'OTP' => $otp
-                ];
+                    $response = [
+                        'msg' => 'OTP sent to the user',
+                        'status' => 1,
+                        'OTP' => $otp
+                    ];
+                }
             }
             
             // $message = $client->message()->send([

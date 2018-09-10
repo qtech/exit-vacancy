@@ -57,7 +57,7 @@ class loginController extends Controller
                                         $data = [
                                             'user_id' => $check_login->user_id,
                                             'fname' => $check_login->fname,
-                                            'lname' => $check_login->lname,
+                                            'lname' => ($check_login->lname == NULL) ? "" : $check_login->lname,
                                             'role' => $check_login->role,
                                             'number' => $customer->number,
                                             'card_status' => ($check_login->customer_id != NULL) ? 1 : 0,
@@ -80,7 +80,7 @@ class loginController extends Controller
                                             'hotel_user_id' => $check_login->user_id,
                                             'hotel_id' => $hotel->hotel_data_id,
                                             'fname' => $check_login->fname,
-                                            'lname' => $check_login->lname,
+                                            'lname' => ($check_login->lname == NULL) ? "" : $check_login->lname,
                                             'bank_status' => $check_login->bank_status,
                                             'king_room_status' => $hotel->king_room_status,
                                             'queen_room_status' => $hotel->queen_room_status,
