@@ -60,7 +60,7 @@
                 <tr>
                     <td>{{$loop->index+1}}</td>
                     <td>{{$value->created_at}}</td>
-                    <td>{{$value->user->fname}} {{$value->user->lname}}</td>
+                    <td>{{$value->user->fname}}</td>
                     <td>{{$value->hotel->hotel_name}}</td>
                     <td>{{$value->roomtype}}</td>
                     <td>${{$value->total_amount}}</td>

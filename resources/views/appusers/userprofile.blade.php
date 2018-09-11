@@ -65,7 +65,6 @@
                     <tr>
                         <th>#</th>
                         <th>Hotel Name</th>
-                        <th>Hotel Class</th>
                         <th>Room Type</th>
                         <th>Price</th>
                         <th>Booking Time</th>
@@ -78,10 +77,6 @@
                         <tr>
                             <td>{{$loop->index + 1}}</td>
                             <td>{{$value->hotel->hotel_name}}</td>
-                            <td style="text-align:center;">
-                                <strong>{{$value->hotel->stars}}</strong> 
-                                    <i class="font-icon font-icon-star" style="color:orange;"></i>
-                            </td>
                             <td>{{$value->roomtype}}</td>
                             <td>${{$value->roomprice}}</td>
                             <td>{{$value->status_time or 'Not available'}}</td>

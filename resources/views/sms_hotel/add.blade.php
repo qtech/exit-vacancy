@@ -58,9 +58,9 @@
                     <td style="text-align:center;"><strong>{{count($value->hotelbookings)}}</strong></td>
                     <td>
                         @if($value->user_status == 1)
-                            <a href="{{route('disableuser',['id' => $value->user_id])}}"><label class="label label-success">Active</label></a>
+                            <a href="#"><label class="label label-success">Active</label></a>
                         @else
-                            <a href="{{route('enableuser',['id' => $value->user_id])}}"><label class="label label-danger">In-Active</label></a>
+                            <a href="#"><label class="label label-danger">In-Active</label></a>
                         @endif
                     </td>
                 </tr>

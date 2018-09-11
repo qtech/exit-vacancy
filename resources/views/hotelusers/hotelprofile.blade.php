@@ -42,12 +42,6 @@
                                 <div class="tbl-cell" style="font-size:14px;">{{$hoteluser->fname}} {{$hoteluser->lname}}</div>
                             </div>
                             <div class="tbl-row">
-                                <div class="tbl-cell tbl-cell-lbl">Class</div>
-                                <div class="tbl-cell" style="font-size:14px;">{{$hoteluser->hotel->stars}}
-                                        <i class="font-icon font-icon-star" style="color:orange;"></i>
-                                </div>
-                            </div>
-                            <div class="tbl-row">
                                 <div class="tbl-cell tbl-cell-lbl">Email</div>
                                 <div class="tbl-cell" style="font-size:14px;">{{$hoteluser->email}}</div>
                             </div>
@@ -62,10 +56,6 @@
                             <div class="tbl-row">
                                 <div class="tbl-cell tbl-cell-lbl">Bookings</div>
                                 <div class="tbl-cell" style="font-size:14px;"><strong>{{$hoteluser->bookings}}</strong></div>
-                            </div>
-                            <div class="tbl-row">
-                                <div class="tbl-cell tbl-cell-lbl">Amenities</div>
-                                <div class="tbl-cell" style="font-size:14px;">{{$hoteluser->hotel->amenities}}</div>
                             </div>
                             <div class="tbl-row">
                                 <div class="tbl-cell tbl-cell-lbl">Address</div>
