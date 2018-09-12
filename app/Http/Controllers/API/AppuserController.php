@@ -443,10 +443,17 @@ class AppuserController extends Controller
                     $user->fname = $request->fname;
                     $user->lname = $request->lname;
                     
-                    if($user->image != NULL)
+                    if($request->image != NULL)
                     {
-                        Storage::delete(getenv('IMG_UPLOAD').$user->image);
-                        $user->image = $request->image;
+                        if($user->image != NULL)
+                        {
+                            Storage::delete(getenv('IMG_UPLOAD').$user->image);
+                            $user->image = $request->image;
+                        }
+                        else
+                        {
+                            $user->image = $request->image;
+                        }
                     }
 
                     $user->save();
@@ -525,10 +532,17 @@ class AppuserController extends Controller
                     $hotel->fname = $request->fname;
                     $hotel->lname = $request->lname;
 
-                    if($hotel->image != NULL)
+                    if($request->image != NULL)
                     {
-                        Storage::delete(getenv('IMG_UPLOAD').$hotel->image);
-                        $hotel->image = $request->image;
+                        if($hotel->image != NULL)
+                        {
+                            Storage::delete(getenv('IMG_UPLOAD').$hotel->image);
+                            $hotel->image = $request->image;
+                        }
+                        else
+                        {
+                            $hotel->image = $request->image;
+                        }
                     }
 
                     $hotel->save();
