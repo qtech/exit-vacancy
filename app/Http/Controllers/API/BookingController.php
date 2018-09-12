@@ -124,12 +124,16 @@ class BookingController extends Controller
                                 $amount = $request->amount * 100;
                                 $hotel_part = ($request->amount - $commission->commission);
                                 $hotel_payment = $hotel_part * 100;
+                                $commission = $commission->commission;
+                                $type = 1;
                             }
                             else
                             {
                                 $amount = $request->amount * 100;
                                 $hotel_percentage = (100 - $commission->commission);
-                                $hotel_payment = ($hotel_percentage / 100) * $amount;   
+                                $hotel_payment = ($hotel_percentage / 100) * $amount;  
+                                $commission = $commission->commission; 
+                                $type = 2;
                             }
                         }
                         else
@@ -139,12 +143,16 @@ class BookingController extends Controller
                                 $amount = $request->amount * 100;
                                 $hotel_part = ($request->amount - $commission->default_commission);
                                 $hotel_payment = $hotel_part * 100;
+                                $commission = $commission->default_commission;
+                                $type = 1;
                             }
                             else
                             {
                                 $amount = $request->amount * 100;
                                 $hotel_percentage = (100 - $commission->default_commission);
                                 $hotel_payment = ($hotel_percentage / 100) * $amount;
+                                $commission = $commission->default_commission;
+                                $type = 2;
                             }
                         }
                         
@@ -153,7 +161,8 @@ class BookingController extends Controller
                         if($booking_payment)
                         {
                             $booking_payment->total_amount = $request->amount;
-                            $booking_payment->admin_commission = $commission->commission_percentage;
+                            $booking_payment->commission_type = $type;
+                            $booking_payment->admin_commission = $commission;
                             $booking_payment->hotel_payment = ($hotel_payment/100);
                             $booking_payment->payment_status = 1;
                             $booking_payment->save();

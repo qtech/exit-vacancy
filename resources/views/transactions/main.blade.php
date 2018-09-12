@@ -51,6 +51,7 @@
                 <th>Hotel Name</th>
                 <th>Room Type</th>
                 <th>Total Amount</th>
+                <th>Commission Type</th>
                 <th>Commission</th>
                 <th>Hotel Payment</th>
             </tr>
@@ -64,7 +65,22 @@
                     <td>{{$value->hotel->hotel_name}}</td>
                     <td>{{$value->roomtype}}</td>
                     <td>${{$value->total_amount}}</td>
-                    <td>{{$value->admin_commission}}%</td>
+                    <td>
+                        @if($value->commission_type == 1)
+                            <label class="label label-warning">Amount</label>
+                        @endif
+                        @if($value->commission_type == 2)
+                            <label class="label label-info">Percentage</label>
+                        @endif
+                    </td>
+                    <td>
+                        @if($value->commission_type == 1)
+                            ${{$value->admin_commission}}
+                        @endif
+                        @if($value->commission_type == 2)
+                            {{$value->admin_commission}}%
+                        @endif
+                    </td>
                     <td>${{$value->hotel_payment}}</td>
                 </tr>
                 @endforeach
