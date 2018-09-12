@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Mail;
 use App\Mail\emailverify;
 use App\User;
+use Validator;
 use App\randomPassword;
 use Twilio\Rest\Client;
 use App\Hoteldata;
