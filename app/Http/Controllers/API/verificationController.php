@@ -97,87 +97,102 @@ class verificationController extends Controller
     {
         try
         {
-            // $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
-            // $client = new \Nexmo\Client($basic);
-            if($request->type == 2)
-            {
-                $check = Customer::where(['number' => $request->phone])->first();
-                if($check)
-                {
-                    $response = [
-                        'msg' => 'This number is already registered by other user',
-                        'status' => 0
-                    ];
-                }
-                else
-                {
-                    $addnumber = Customer::where(['user_id' => $request->user_id])->first();
-                    $addnumber->number = $request->phone;
-                    $addnumber->save();
-    
-                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
-                    $token  = "580e851b75fad321439473c84ccd0145";
-                    $twilio = new Client($sid, $token);
-        
-                    $otp = mt_rand(999,9999);
-        
-                    $message = $twilio->messages->create('+'.$request->phone, // to
-                        [
-                            "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
-                            "from" => "+16072149834"
-                        ]
-                    );
+            $validator = Validator::make($request->all(),[
+                'phone' => 'required',
+                'user_id' => 'required'
+            ]);
 
-                    $response = [
-                        'msg' => 'OTP sent to the user',
-                        'status' => 1,
-                        'OTP' => $otp
-                    ];
-                }
-            }
-
-            if($request->type == 3)
+            if($validator->fails())
             {
-                $check = Hoteldata::where(['number' => $request->phone])->first();
-                if($check)
-                {
-                    $response = [
-                        'msg' => 'This number is already registered by other user',
-                        'status' => 0
-                    ];
-                }
-                else
-                {
-                    $addnumber = Hoteldata::where(['user_id' => $request->user_id])->first();
-                    $addnumber->number = $request->phone;
-                    $addnumber->save();
-    
-                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
-                    $token  = "580e851b75fad321439473c84ccd0145";
-                    $twilio = new Client($sid, $token);
-        
-                    $otp = mt_rand(999,9999);
-        
-                    $message = $twilio->messages->create('+'.$request->phone, // to
-                        [
-                            "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
-                            "from" => "+16072149834"
-                        ]
-                    );
-    
-                    $response = [
-                        'msg' => 'OTP sent to the user',
-                        'status' => 1,
-                        'OTP' => $otp
-                    ];
-                }
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
             }
+            else
+            {
+                    // $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
+                    // $client = new \Nexmo\Client($basic);
+                    if($request->type == 2)
+                    {
+                        $check = Customer::where(['number' => $request->phone])->first();
+                        if($check)
+                        {
+                            $response = [
+                                'msg' => 'This number is already registered by other user',
+                                'status' => 0
+                            ];
+                        }
+                        else
+                        {
+                            $addnumber = Customer::where(['user_id' => $request->user_id])->first();
+                            $addnumber->number = $request->phone;
+                            $addnumber->save();
             
-            // $message = $client->message()->send([
-            //     'to' => $request->phone,
-            //     'from' => '+919727959595',
-            //     'text' => "Your OTP for ExitVacancy App is ".$otp
-            // ]);
+                            $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                            $token  = "580e851b75fad321439473c84ccd0145";
+                            $twilio = new Client($sid, $token);
+                
+                            $otp = mt_rand(999,9999);
+                
+                            $message = $twilio->messages->create('+'.$request->phone, // to
+                                [
+                                    "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                                    "from" => "+16072149834"
+                                ]
+                            );
+        
+                            $response = [
+                                'msg' => 'OTP sent to the user',
+                                'status' => 1,
+                                'OTP' => $otp
+                            ];
+                        }
+                    }
+        
+                    if($request->type == 3)
+                    {
+                        $check = Hoteldata::where(['number' => $request->phone])->first();
+                        if($check)
+                        {
+                            $response = [
+                                'msg' => 'This number is already registered by other user',
+                                'status' => 0
+                            ];
+                        }
+                        else
+                        {
+                            $addnumber = Hoteldata::where(['user_id' => $request->user_id])->first();
+                            $addnumber->number = $request->phone;
+                            $addnumber->save();
+            
+                            $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                            $token  = "580e851b75fad321439473c84ccd0145";
+                            $twilio = new Client($sid, $token);
+                
+                            $otp = mt_rand(999,9999);
+                
+                            $message = $twilio->messages->create('+'.$request->phone, // to
+                                [
+                                    "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                                    "from" => "+16072149834"
+                                ]
+                            );
+            
+                            $response = [
+                                'msg' => 'OTP sent to the user',
+                                'status' => 1,
+                                'OTP' => $otp
+                            ];
+                        }
+                    }
+                    
+                    // $message = $client->message()->send([
+                    //     'to' => $request->phone,
+                    //     'from' => '+919727959595',
+                    //     'text' => "Your OTP for ExitVacancy App is ".$otp
+                    // ]);
+            }
         }
         catch(\Exception $e)
         {
@@ -194,82 +209,97 @@ class verificationController extends Controller
     {
         try
         {
-            // $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
-            // $client = new \Nexmo\Client($basic);
+            $validator = Validator::make($request->all(),[
+                'user_id' => 'required',
+                'phone' => 'required'
+            ]);
 
-            if($request->type == 2)
+            if($validator->fails())
             {
-                $checknumber = Customer::where(['user_id' => $request->user_id,'number' => $request->phone])->first();
-
-                if($checknumber)
-                {
-                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
-                    $token  = "580e851b75fad321439473c84ccd0145";
-                    $twilio = new Client($sid, $token);
-        
-                    $otp = mt_rand(999,9999);
-        
-                    $message = $twilio->messages->create('+'.$request->phone, // to
-                        [
-                            "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
-                            "from" => "+16072149834"
-                        ]
-                    );
-
-                    $response = [
-                        'msg' => 'OTP sent to the user',
-                        'status' => 1,
-                        'OTP' => $otp
-                    ];
-                }
-                else
-                {
-                    $response = [
-                        'msg' => 'Please enter the registered number.',
-                        'status' => 0
-                    ];
-                }
+                $response = [
+                    'msg' => $validator->errors()->all(),
+                    'status' => 0
+                ];
             }
-
-            if($request->type == 3)
+            else
             {
-                $checknumber = Hoteldata::where(['user_id' => $request->user_id,'number' => $request->phone])->first();
+                // $basic  = new \Nexmo\Client\Credentials\Basic(config('services.nexmo.key'), config('services.nexmo.secret'));
+                // $client = new \Nexmo\Client($basic);
 
-                if($checknumber)
+                if($request->type == 2)
                 {
-                    $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
-                    $token  = "580e851b75fad321439473c84ccd0145";
-                    $twilio = new Client($sid, $token);
-        
-                    $otp = mt_rand(999,9999);
-        
-                    $message = $twilio->messages->create('+'.$request->phone, // to
-                        [
-                            "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
-                            "from" => "+16072149834"
-                        ]
-                    );
+                    $checknumber = Customer::where(['user_id' => $request->user_id,'number' => $request->phone])->first();
 
-                    $response = [
-                        'msg' => 'OTP sent to the user',
-                        'status' => 1,
-                        'OTP' => $otp
-                    ];
-                }
-                else
-                {
-                    $response = [
-                        'msg' => 'Please enter the registered number.',
-                        'status' => 0
-                    ];
-                }
-            }
+                    if($checknumber)
+                    {
+                        $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                        $token  = "580e851b75fad321439473c84ccd0145";
+                        $twilio = new Client($sid, $token);
             
-            // $message = $client->message()->send([
-            //     'to' => $request->phone,
-            //     'from' => '+919727959595',
-            //     'text' => "Your OTP for ExitVacancy App is ".$otp
-            // ]);
+                        $otp = mt_rand(999,9999);
+            
+                        $message = $twilio->messages->create('+'.$request->phone, // to
+                            [
+                                "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                                "from" => "+16072149834"
+                            ]
+                        );
+
+                        $response = [
+                            'msg' => 'OTP sent to the user',
+                            'status' => 1,
+                            'OTP' => $otp
+                        ];
+                    }
+                    else
+                    {
+                        $response = [
+                            'msg' => 'Please enter the registered number.',
+                            'status' => 0
+                        ];
+                    }
+                }
+
+                if($request->type == 3)
+                {
+                    $checknumber = Hoteldata::where(['user_id' => $request->user_id,'number' => $request->phone])->first();
+
+                    if($checknumber)
+                    {
+                        $sid    = "AC852b54edaeb4579705126eb308c0c6e6";
+                        $token  = "580e851b75fad321439473c84ccd0145";
+                        $twilio = new Client($sid, $token);
+            
+                        $otp = mt_rand(999,9999);
+            
+                        $message = $twilio->messages->create('+'.$request->phone, // to
+                            [
+                                "body" => "Welcome to Exitvacancy! Your OTP is ".$otp,
+                                "from" => "+16072149834"
+                            ]
+                        );
+
+                        $response = [
+                            'msg' => 'OTP sent to the user',
+                            'status' => 1,
+                            'OTP' => $otp
+                        ];
+                    }
+                    else
+                    {
+                        $response = [
+                            'msg' => 'Please enter the registered number.',
+                            'status' => 0
+                        ];
+                    }
+                }
+                
+                // $message = $client->message()->send([
+                //     'to' => $request->phone,
+                //     'from' => '+919727959595',
+                //     'text' => "Your OTP for ExitVacancy App is ".$otp
+                // ]);
+            }
         }
         catch(\Exception $e)
         {

@@ -232,104 +232,105 @@ class AppuserController extends Controller
         return response()->json($response);
     }
 
-    public function change_number(Request $request)
-    {
-        try
-        {
-            $validator = Validator::make($request->all(),[
-                'number' => 'required',
-                'role' => 'required'
-            ]);
+    // public function change_number(Request $request)
+    // {
+    //     try
+    //     {
+    //         $validator = Validator::make($request->all(),[
+    //             'user_id' => 'required',
+    //             'number' => 'required',
+    //             'role' => 'required'
+    //         ]);
 
-            if($validator->fails())
-            {
-                $response = [
-                    'msg' => $validator->errors()->all(),
-                    'status' => 0
-                ];
-            }
-            else
-            {
-                $change = User::find($request->user_id);
+    //         if($validator->fails())
+    //         {
+    //             $response = [
+    //                 'msg' => $validator->errors()->all(),
+    //                 'status' => 0
+    //             ];
+    //         }
+    //         else
+    //         {
+    //             $change = User::find($request->user_id);
 
-                if($change)
-                {
-                    if($change->is_mobile_verfiy == 0)
-                    {
-                        if($request->role == 2)
-                        {
-                            $checknumber = Customer::where(['number' => $request->number])->first();
+    //             if($change)
+    //             {
+    //                 if($change->is_mobile_verfiy == 0)
+    //                 {
+    //                     if($request->role == 2)
+    //                     {
+    //                         $checknumber = Customer::where(['number' => $request->number])->first();
     
-                            if($checknumber)
-                            {
-                                $response = [
-                                    'msg' => 'This Number is already registered by other user. Please try some other number.',
-                                    'status' => 0
-                                ];
-                            }
-                            else
-                            {
-                                $number = Customer::where(['user_id' => $request->user_id])->first();
-                                $number->number = $request->number;
-                                $number->save();
+    //                         if($checknumber)
+    //                         {
+    //                             $response = [
+    //                                 'msg' => 'This Number is already registered by other user. Please try some other number.',
+    //                                 'status' => 0
+    //                             ];
+    //                         }
+    //                         else
+    //                         {
+    //                             $number = Customer::where(['user_id' => $request->user_id])->first();
+    //                             $number->number = $request->number;
+    //                             $number->save();
             
-                                $response = [
-                                    'msg' => 'Mobile number updated successfully',
-                                    'status' => 1
-                                ]; 
-                            }
-                        }
-                        if($request->role == 3)
-                        {
-                            $checkphone = Hoteldata::where(['number' => $request->number])->first();
+    //                             $response = [
+    //                                 'msg' => 'Mobile number updated successfully',
+    //                                 'status' => 1
+    //                             ]; 
+    //                         }
+    //                     }
+    //                     if($request->role == 3)
+    //                     {
+    //                         $checkphone = Hoteldata::where(['number' => $request->number])->first();
     
-                            if($checkphone)
-                            {
-                                $response = [
-                                    'msg' => 'This Number is already registered by other hoteluser. Please try some other number.',
-                                    'status' => 0
-                                ]; 
-                            }
-                            else
-                            {
-                                $phone = Hoteldata::where(['user_id' => $request->user_id])->first();
-                                $phone->number = $request->number;
-                                $phone->save();
+    //                         if($checkphone)
+    //                         {
+    //                             $response = [
+    //                                 'msg' => 'This Number is already registered by other hoteluser. Please try some other number.',
+    //                                 'status' => 0
+    //                             ]; 
+    //                         }
+    //                         else
+    //                         {
+    //                             $phone = Hoteldata::where(['user_id' => $request->user_id])->first();
+    //                             $phone->number = $request->number;
+    //                             $phone->save();
             
-                                $response = [
-                                    'msg' => 'Mobile number updated successfully',
-                                    'status' => 1
-                                ];  
-                            }
-                        }
-                    }
-                    else
-                    {
-                        $response = [
-                            'msg' => 'Sorry, your number is already registered. You can\'t change it now',
-                            'status' => 0
-                        ];
-                    }
-                }
-                else
-                {
-                    $response = [
-                        'msg' => 'Invalid Parameters',
-                        'status' => 0
-                    ];
-                }
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
-                'status' => 0
-            ];
-        }
+    //                             $response = [
+    //                                 'msg' => 'Mobile number updated successfully',
+    //                                 'status' => 1
+    //                             ];  
+    //                         }
+    //                     }
+    //                 }
+    //                 else
+    //                 {
+    //                     $response = [
+    //                         'msg' => 'Sorry, your number is already registered. You can\'t change it now',
+    //                         'status' => 0
+    //                     ];
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 $response = [
+    //                     'msg' => 'Invalid Parameters',
+    //                     'status' => 0
+    //                 ];
+    //             }
+    //         }
+    //     }
+    //     catch(\Exception $e)
+    //     {
+    //         $response = [
+    //             'msg' => $e->getMessage()." ".$e->getFile()." ".$e->getLine(),
+    //             'status' => 0
+    //         ];
+    //     }
 
-        return response()->json($response);
-    }
+    //     return response()->json($response);
+    // }
 
     public function get_user_details(Request $request)
     {

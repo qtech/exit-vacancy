@@ -29,7 +29,7 @@ Route::prefix('v1')->group(function(){
     Route::post('/emailchange', 'API\AppuserController@change_email');
 
     // CHANGE NUMBER
-    Route::post('/numberchange', 'API\AppuserController@change_number');
+    // Route::post('/numberchange', 'API\AppuserController@change_number');
 
     // RESET PASSWORD
     Route::post('/resetpass', 'API\resetpassController@resetpass');
