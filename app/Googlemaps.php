@@ -20,6 +20,7 @@ class Googlemaps extends Model
         curl_close($ch);
         $response_a = json_decode($response, true);
         //$dist = $response_a['rows'][0]['elements'][0]['distance']['text'];
+        return $response_a;
         $time = $response_a['rows'][0]['elements'][0]['duration']['text'];
 
         return $time;
