@@ -109,7 +109,7 @@ class BookingController extends Controller
                             $del->delete();
                         }
 
-                        \Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
+                        \Stripe\Stripe::setApiKey("sk_test_DXQcyS70opSqafZXaHSIslNz");
                         $check_user = User::find($request->user_id);
                         $commission = Commission::find(1);
                         

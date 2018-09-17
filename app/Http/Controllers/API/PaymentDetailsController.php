@@ -59,7 +59,7 @@ class PaymentDetailsController extends Controller
 	{
 		try
 		{
-			\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
+			\Stripe\Stripe::setApiKey("sk_test_DXQcyS70opSqafZXaHSIslNz");
 			$user = User::where(['user_id' => $request->hotel_owner_id, 'bank_status' => 1])->first();
             
 			if($user)
@@ -261,7 +261,7 @@ class PaymentDetailsController extends Controller
 	{
 		try
 		{
-			\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
+			\Stripe\Stripe::setApiKey("sk_test_DXQcyS70opSqafZXaHSIslNz");
 
 			$storecard = User::find($request->user_id);
             
@@ -312,7 +312,7 @@ class PaymentDetailsController extends Controller
 	{
 		try
 		{
-			\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
+			\Stripe\Stripe::setApiKey("sk_test_DXQcyS70opSqafZXaHSIslNz");
 
 			$getcard = User::find($request->user_id);
 
@@ -357,7 +357,7 @@ class PaymentDetailsController extends Controller
 	// {
 	// 	try
     // 	{	
-    // 		\Stripe\Stripe::setApiKey("sk_test_KEUSUQH902gEBJ5ETpswMMjE");
+    // 		\Stripe\Stripe::setApiKey("sk_test_DXQcyS70opSqafZXaHSIslNz");
     //         $check_user = User::find($request->user_id);
     //         $commission = Commission::find(1);
     		
